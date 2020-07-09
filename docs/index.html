@@ -1,0 +1,503 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="documentationStyles.css">
+
+        <style>
+            .sixIcons td {
+                text-align: center;
+                padding-bottom: 20px;
+                border: none;
+            }
+
+        </style>
+    </head>
+
+
+    <body>
+        <div class="sidenav" id="menu">
+            <h1 id="h.aqvdwxcpbumt">
+                <img class="navigationLogo" alt="logo-MTender" title="logo-MTender" src="images/logo-MTender.png" />
+            </h1>
+            <a href="/MTender-Documentation/"><button class="accordion active">Introduction &#11206; </button></a>
+            <div class="panel" style="display: block;">
+                <p class="navLevel2"><a href="/MTender-Documentation/#h.backInfo">Background information</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/#h.genApproach">General approach</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/#h.procMethodsCovered">Procurement methods covered</a></p>
+            </div>
+            <a href="/MTender-Documentation/developmentPrinciples/"><button class="accordion">Design and development
+                    principles &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/developmentPrinciples#architectApproach">Architectural
+                        approach</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/developmentPrinciples#h.patterns">Used patterns</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/developmentPrinciples#h.techs">Technologies</a></p>
+            </div>
+            <a href="/MTender-Documentation/eProcSolArch"><button class="accordion">Hi-level eProcurement solution
+                    architecture &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/eProcSolArch#buildBlocks">Building blocks</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/eProcSolArch#h.archDiagram">Architecture diagram</a></p>
+            </div>
+            <a href="/MTender-Documentation/dataStandard"><button class="accordion">Data Standard &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/dataStandard/">Open contracting Data Standard 1.1+</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/dataStandard#h.Definitions">Procurement Process
+                        Stages</a></p>
+            </div>
+            <a href="/MTender-Documentation/components"><button class="accordion">Components' management &#11206;
+                </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eBudget">eBudget</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.ePlanning">ePlanning</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eAccess">eAccess</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eClarification">eClarification</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eSubmission">eSubmission</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eQualification">eQualification</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eAuction">eAuction</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eAwarding">eAwarding</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eContracting">eContracting</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/components#h.eNotice">eNotice</a></p>
+            </div>
+            <a href="/MTender-Documentation/BPE"><button class="accordion">Business Process Engine &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/BPE#h.architecture">Architecture</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/BPE#h.components">Components</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/BPE#h.environment">Environment</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/BPE#h.externalEnvironment">External Environment</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/BPE#h.sequenceDiagrams">Sequence Diagrams</a></p>
+            </div>
+            <a href="/MTender-Documentation/API"><button class="accordion">Public API &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/API#h.CQRS">CQRS approach</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/API#h.command">Command API</a></p>
+            </div>
+            <a href="/MTender-Documentation/services"><button class="accordion">Services &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/services#h.infrastructure">Infrastructure Services</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/services#h.business">Business Services</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/services#h.enterprise">Enterprise Services</a></p>
+            </div>
+            <a href="/MTender-Documentation/Tutorial"><button class="accordion">Tutorial &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial/">Operating Entities: CAs and EOs</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial#h.ESPDMTender">ESPD in MTender</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial#h.DocBid">Documents of ‘bid’:
+                        what “envelopes” mean</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial#h.BackFunc">Background
+                        functionality</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial#h.BriefProc">Brief processes
+                        overview</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/Tutorial#h.GettingStarted">Getting Started</a></p>
+            </div>
+            <a href="/MTender-Documentation/letsGo"><button class="accordion">Let's go! &#11206; </button></a>
+            <div class="panel">
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.EIs">01. Expenditure Items
+                        (EIs)</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.FS">02. Funding Source
+                        (FS)</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.PMPINCN">03. Scheduled or
+                        announced Tenders: PN, PIN, CN</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.Clarification">04. Clarification</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.Submission">05. Submission</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.ElecAuc">06. Electronic
+                        Auction</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.QaE">07. Qualification and
+                        evaluation</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.Contracting">08. Contracting</a></p>
+                <p class="navLevel2"><a href="/MTender-Documentation/letsGo#h.TenderLot">09. Tender/lot
+                        cancellation</a></p>
+            </div>
+        </div>
+        <div class="main">
+
+            <h1 class="c34">
+                <span class="c15">Introduction</span></h1>
+            <hr>
+
+            <p class="c0" id="h.30j0zll"><span>MTender is an electronic procurement system designed for end-to-end digital service supporting the entire public procurement process, from demand planning to payment. It is a prototype developed by the EBRD UNCITRAL Initiative, a technical cooperation between the European Bank for Reconstruction and Development (EBRD) and the United Nations Commission for International Trade Law (UNCITRAL). The MTender pilot was initiated by the Ministry of Finance of Moldova in November 2016, and has been used since October 2018 by the majority of public sector contracting authorities (CAs) in Moldova.</span></p>
+
+            <p class="c0" id="h.30j0zll"><span>This document contains the MTender technical documentation that
+                    describes the implementation of architecture, data models, data standard and environment of the
+                    Architecture of the OCDS Open Source Central Unit of the electronic public procurement system for
+                    the MTender. </span></p>
+
+            <p class="c0">The document explains in detail:</p>
+            <ol class="c6 lst-kix_list_12-2 ">
+                <li class="c21">The design and development principles that guide the system implementation;</li>
+                <li class="c21">The system architecture, data standard, modules and components;</li>
+                <li class="c21">The business process engine that acts as logical layer for identifying an event, and
+                    then selecting and executing the appropriate reaction; </li>
+                <li class="c21">The system API and the processes to consume information from the system; description of
+                    system features to allow its use from endpoints (retrieving information, creating objects, updating
+                    information, etc.).</li>
+            </ol>
+
+
+
+            <h1 class="c34" id="h.backInfo">
+                <span class="c15">Background Information </span></h1>
+            <p class="c0" id="h.30j0zll"><span>MTender consists of an open source government-owned central unit, a web portal, and several networking e-commerce platforms (NEPPs), and it uses an Open Contracting Data Standard (OCDS) and open source distributed architecture. It is the second electronic procurement system using an OCDS, after Prozorro in Ukraine. MTender resembles blockchain, but without a blockchain price tag. Instead of blockchain technology, it uses open data in the format of the OCDS to guarantee data standardisation and ensure user trust in data exchange accuracy. </span></p>
+            <p class="c0"><span>MTender provides digital procurement services to end users – contracting authorities and economic operators (EOs) – through the NEPPs, which collaborate with e-government services. The central unit serves as an interoperable online OCDS data exchange and a transaction repository for linked NEPPs. Data collected by the central unit is displayed in real time in the MTender web portal, which is accessible, searchable, government-run and open source. This web portal serves as a single point of access to all ‘collected at source’ procurement information, including electronic bidding. It is automatically synchronised in real time between all network members – the central unit, web portal, NEPPs, and e-government services and digital registers, when available..</span></p>
+            <p class="c0"><span>MTender offers an end-to-end electronic procurement system with the three main characteristics of (i) modularity, which enables flexibility, self-executability and high levels of data resilience; (ii) networked interoperability of the digital procurement solution, which allows for its open multi-platform implementation; and (iii) a transparent and comprehensive digital solution with structured transactional data, which allows for further public procurement process analyses.</span></p>
+            <p class="c0"><span>For additional information on the MTender concept, see: <span><a href="https://github.com/MTendereProcurementSystem/MTender-Description/wiki">https://github.com/MTendereProcurementSystem/MTender-Description/wiki</a>  </span></p>
+
+            <p class="c0 c1"><span class="c4"></span></p>
+            <h1 class="c34" id="h.genApproach"><span class="c15">General approach</span></h1>
+            <p class="c0"><span class="c4">To ensure the attainment of the objectives set for the IT System, the
+                    following principles shall be considered while designing, developing and implementing the
+                    Architecture of the OCDS open source central unit of the electronic public procurement system.</span></p>
+            <h3 id="h.2bn6wsx" style="display:inline"><span class="c46">Multi-platform networking model</span></h3>
+            <p class="c0"><span class="c4">Any system based on this architecture will consists of a CDU that
+                    communicates in real time with several NEPPs and external information systems (eGov services) that
+                    ensure complete digitization of public procurement procedures. CDU consolidates and distributes all
+                    data entered and generated by NEPPs, and performs all transactions, processes and functionalities
+                    of the lifecycle and the NEPPs are serve as a user-interface - frolm registration of user account,
+                    through UI for all transactions processes and functionalities of lifecycle, up to ability of
+                    end-users to use needed eGov Services.</span></p>
+            <h5 id="h.qsh70q" style="display:inline"><span class="c30 c18">End-to-end public procurement
+                    processes</span></h5>
+            <p class="c0"><span class="c4">The functionalities of the system based on this architecture from CDU
+                    perspective will cover the entire procurement process, from procurement planning to billing and
+                    public procurement payments. Online tools will make the system easier for all end-users and will
+                    generate process improvements and significant benefits.</span></p>
+            <h5 id="h.3as4poj" style="display:inline"><span class="c30 c18">Interoperability with eGov Services</span></h5>
+            <p class="c0"><span class="c4">This architecture designed to ensure interoperability with existing and
+                    future eGovernment services and local national public registers. This approach guarantees a modern
+                    and advanced eProcurement system with comprehensive functionalities, but without presenting huge
+                    risk or expense since eGovernment services have already been significantly developed in most
+                    countries.</span></p>
+            <h5 id="h.1pxezwc" style="display:inline"><span class="c18 c30">Open source, open data and open
+                    contracting data standards. </span></h5>
+            <p class="c0"><span class="c4">This architecture designed for a stack of open-source technologies to foster
+                    transparency and accountability of public procurement by incorporating open data concept and
+                    <span><a href="http://standard.open-contracting.org/latest/en/">Open Contracting Data Standard</a>. Openness of data shall help building citizens&rsquo; and
+                    economic operators&rsquo; trust in the Government, in efficiency of public procurement management
+                    and discourage any corrupt practices. </span></p>
+            <h5 id="h.49x2ik5" style="display:inline"><span class="c30 c18">Split-level architecture</span></h5>
+            <p class="c0"><span class="c4">Involves independent design of systems&rsquo; components in compliance with
+                    interface standards between levels, which facilitates future incorporation of new services,
+                    evolution of the different functionalities and, in general, scalability of the system.</span></p>
+            <h5 id="h.2p2csry" style="display:inline"><span class="c30 c18">Reliable data</span></h5>
+            <p class="c0"><span class="c4">Any data shall be entered into the system through authorised and
+                    authenticated channels only.</span></p>
+            <h5 id="h.147n2zr" style="display:inline"><span class="c30 c18">Extensibility</span></h5>
+            <p class="c0" id="h.3o7alnk"><span class="c4">Possibility to expand and supplement the system based on this
+                    Architecture with new functions or improve the existing ones.</span></p>
+            <h5 id="h.23ckvvd" style="display:inline"><span class="c30 c18">Additional features</span></h5>
+            <p class="c0"><span class="c4">The following key features are applied for the development of the
+                    architecture of an Open Source Central Unit. These ensure that the architecture can be reusable in
+                    other context and implementing different technologies while guaranteeing the interoperability with
+                    other systems and being compliant with main standard regulations in public procurement.</span></p>
+            <p class="c0 c1"><span class="c4"></span></p><a id="t.10ff577c1a000d867439ccfee9982d6b3a5a0017"></a><a id="t.0"></a>
+            <table class="c55 sixIcons">
+                <tbody>
+                    <tr class="c73">
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 100.11px; height: 93.50px;"><img
+                                        alt="" src="images/introduction5.png" style="width: 100.11px; height: 93.50px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 90.50px; height: 90.50px;"><img
+                                        alt="" src="images/introduction4.png" style="width: 90.50px; height: 90.50px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 100.12px; height: 85.50px;"><img
+                                        alt="" src="images/introduction2.png" style="width: 100.12px; height: 85.50px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 97.50px; height: 91.81px;"><img
+                                        alt="" src="images/introduction13.png" style="width: 97.50px; height: 91.81px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                    </tr>
+                    <tr class="c35">
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Based on United Nations Commission on International Trade
+                                    Law on Public Procurement (<span><a href="http://www.uncitral.org/pdf/english/texts/procurem/ml-procurement-2011/2011-Model-Law-on-Public-Procurement-e.pdf">UNCTIRAL Model Law (2011))</a></span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Complies with the European legislation on Public
+                                    Procurement (e.g. &nbsp;2004/17/EC, 2004/18/EC and their amendments)</span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Interoperable with existing official resources constituting
+                                    the EU Single Market of Public Procurement</span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c7"><span class="c2">Maximum standardization of data according to international
+                                    and EU standards: ISO, OCDS, EDI, CEN, etc</span></p>
+                            <p class="c7"><span class="c2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+                        </td>
+                    </tr>
+                    <tr class="c32">
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 70.73px; height: 94.00px;"><img
+                                        alt="" src="images/introduction3.png" style="width: 70.73px; height: 94.00px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c0"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 88.27px; height: 91.00px;"><img
+                                        alt="" src="images/introduction6.png" style="width: 88.27px; height: 91.00px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c7"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 110.50px; height: 74.20px;"><img
+                                        alt="" src="images/introduction7.png" style="width: 110.50px; height: 74.20px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                        <td class="c48" colspan="1" rowspan="1">
+                            <p class="c0"><span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 88.00px; height: 88.00px;"><img
+                                        alt="" src="images/introduction8.png" style="width: 88.00px; height: 88.00px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                                        title=""></span></p>
+                        </td>
+                    </tr>
+                    <tr class="c25">
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Fully open-sourced stack of frameworks of
+                                    multi-paradigmatic development tools and databases services, </span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Complete independence from the hardware platforms and/or
+                                    structures of data-centers or virtual clouds</span></p>
+                            <p class="c37 c1"><span class="c2"></span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c37"><span class="c2">Business-processes and workflows that are configured from
+                                    independent parameterized blocks</span></p>
+                        </td>
+                        <td class="c16" colspan="1" rowspan="1">
+                            <p class="c7"><span class="c2">Reconfigurable in attend to the needs of CAs in a flexible,
+                                    efficient and customised manner for local or international level</span></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 id="h.ihv636" style="display:inline"><span class="c5">eProcurement.Systems API</span></h3>
+            <p class="c0"><span class="c4">The eProcurement.Systems API is the only interface to Central Business
+                    Process Engine that is core unit of eProcurement.Systems infrastructure. The eProcurement.Systems
+                    API is a CQRS interface that provides programmatic access to BPE of the systems. It provides
+                    predictable URLs for accessing resources, and uses built-in HTTP features to receive commands and
+                    return responses. This makes it easy to communicate with. </span></p>
+            <p class="c0"><span class="c4">The API accepts JSON or form-encoded content in requests. It returns JSON
+                    content in all of its responses, including errors. Only the UTF-8 character encoding is supported
+                    for both requests and responses.</span></p>
+            <p class="c0 c1"><span class="c4"></span></p>
+            <h1 class="c34" id="h.procMethodsCovered"><span class="c15">Procurement methods
+                    covered</span></h1>
+            <p class="c0"><span class="c4">This section provides a complete overview of all the procurement methods
+                    that covered under this eProcurement system architecture. A general overview of the workflows is
+                    provided within this section. The complete BPMN for the procurement methods prescribed shall be
+                    accessed through the links indicated in the following subsections.</span></p>
+            <p class="c0 c1"><span class="c4"></span></p>
+
+            <h3 id="h.3rdcrjn" style="display:inline"><span class="c46">Single-stage competitive procedure
+                </span></h3>
+
+            <ul class="c6 lst-kix_list_10-0">
+                <li class="c13"><span class="c4">Small value procedure (simplified open tender)</span></li>
+                <li class="c13"><span class="c4">EU GPA Open Tender</span></li>
+                <li class="c13"><span class="c4">Price Quotation without eCatalogue</span></li>
+            </ul><a id="t.56472e841ba4506a76a60018b402186fa667913c"></a><a id="t.1"></a>
+
+            <p class="c59"><span class="c43">&quot;procurementMethod&quot;</span><span class="c23">:
+                </span><span class="c8">&quot;open&quot;</span><span class="c23"><br></span><span class="c43">&quot;procurementMethodDetails&quot;</span><span
+                    class="c23">: </span><span class="c8">&quot;microValue&quot;</span><span class="c23">,
+                </span><span class="c8">&quot;smallValue&quot;</span><span class="c23">, </span><span class="c8">&quot;rfq&quot;,
+                    &quot;openTender&quot; </span></p>
+
+            <h5 id="h.26in1rg" style="display:inline"><span class="c30 c56">Sequential Type</span></h5>
+
+            <p class="c12"><span class="c4">The procurement process is carried out in the following sequence:</span></p>
+            <img alt="" src="images/introduction9.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p><span class="c14">Business Process Diagram (go to </span><span class="c14 c27"><a class="c19" href="https://www.google.com/url?q=http://bit.ly/2J13Vf6&amp;sa=D&amp;ust=1583229043770000">http://bit.ly/2J13Vf6</a></span><span
+                    class="c39 c14">)</span></p>
+            <h5 id="h.lnxbz9" style="display:inline"><span class="c30 c56">Parallel Type</span></h5>
+
+            <p class="c12"><span class="c4">The procurement process is carried out in the following sequence:</span></p>
+            <img alt="" src="images/introduction12.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p class="c7"><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19"
+                        href="https://www.google.com/url?q=http://bit.ly/2Y5Hclj&amp;sa=D&amp;ust=1583229043771000">http://bit.ly/2Y5Hclj</a></span><span
+                    class="c14">)</span></p>
+
+            <h3 id="h.35nkun2" style="display:inline"><span class="c46">Single-stage non-competitive procedure</span></h3>
+
+            <ul class="c6 lst-kix_list_10-0">
+                <li class="c13"><span class="c4">Negotiated procedures</span></li>
+                <li class="c13"><span class="c4">Direct awards</span></li>
+            </ul><a id="t.6085e9e9ceb00539c6fd843bbac8a3f9522738b9"></a><a id="t.2"></a>
+
+            <p class="c59"><span class="c23">&ldquo;procurementMethod&rdquo;: </span><span class="c8">&quot;selective&quot;</span><span
+                    class="c23"><br>&ldquo;procurementMethodDetails&rdquo;: </span><span class="c8">&quot;negotiatedProcedure&quot;</span><span
+                    class="c23">, </span><span class="c8">&quot;directAward&quot;</span></p>
+
+            <p class="c40"><span class="c4">The procurement process is carried out in the following sequence:</span></p>
+            <img alt="" src="images/introduction11.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p class="c7"><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19"
+                        href="https://www.google.com/url?q=http://bit.ly/2ZWVwOR&amp;sa=D&amp;ust=1583229043773000">http://bit.ly/2ZWVwOR</a></span><span
+                    class="c39 c14">)</span></p>
+            <p class="c0 c1"><span class="c4"></span></p>
+
+            <h3 id="h.1ksv4uv" style="display:inline"><span class="c46">Multi-stage competitive procedures</span></h3>
+
+            <ul class="c6 lst-kix_list_10-0">
+                <li class="c13"><span class="c4">Restricted Tender</span></li>
+                <li class="c13"><span class="c4">Design Contest</span></li>
+                <li class="c13"><span class="c4">Competitive Dialog</span></li>
+            </ul><a id="t.d541a145fcfa84158863cfa59d8e83eec404889f"></a><a id="t.3"></a>
+
+            <p class="c59"><span class="c43">&quot;procurementMethod&quot;</span><span class="c23">:
+                </span><span class="c8">&quot;open&quot;</span><span class="c23"><br></span><span class="c43">&quot;procurementMethodDetails&quot;</span><span
+                    class="c23">: </span><span class="c8">&quot;restrictedTender&quot;</span><span class="c23">, </span><span
+                    class="c8">&quot;designContest&quot;</span><span class="c23">,
+                </span><span class="c8">&quot;competitiveDialog&quot; </span></p>
+
+            <p class="c42"><span class="c2">The procurement process is carried out in the following sequence:</span></p>
+            <img alt="" src="images/introduction15.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p class="c7" id="h.44sinio"><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a
+                        class="c19" href="https://www.google.com/url?q=http://bit.ly/2ZZqJB9&amp;sa=D&amp;ust=1583229043774000">http://bit.ly/2ZZqJB9</a></span><span
+                    class="c39 c14">)</span></p>
+            <hr style="page-break-before:always;display:none;">
+            <p class="c7 c1"><span class="c39 c14"></span></p>
+
+            <h3 id="h.2jxsxqh" style="display:inline"><span class="c46">Multi-stage repetitive procedures</span></h3>
+
+            <p class="c70"><span class="c4">Multi-stage repetitive procedure - Framework agreements set out the general
+                    terms under which specific purchases (&ldquo;call offs&rdquo;) can be made under the agreement. The
+                    purpose of using a framework is to enable contracting authorities to award individual contracts
+                    without going through a full EU procurement process each time. &nbsp;</span></p><a id="t.63d5efd7fff2452b14f11967d8a2a5f8c93eed03"></a><a
+                id="t.4"></a>
+
+            <p class="c59"><span class="c43">&quot;procurementMethod&quot;</span><span class="c23">:
+                </span><span class="c8">&quot;open&quot;</span><span class="c23"><br></span><span class="c43">&quot;procurementMethodDetails&quot;</span><span
+                    class="c23">: </span><span class="c8">&quot;frameworkAgreement&quot;</span><span class="c23">,
+                </span><span class="c8">&quot;dynamicPurchasingSystem&quot; </span></p>
+
+            <p class="c40"><span class="c4">The procurement process is splitted into (at least) two stages: </span></p>
+            <ol class="c6 lst-kix_list_9-0 ">
+                <li class="c13"><span class="c4">Framework establishment</span></li>
+                <li class="c13"><span class="c4">Framework execution </span></li>
+            </ol>
+
+            <h5 id="h.z337ya" style="display:inline"><span class="c30 c56">Establishment </span></h5>
+
+            <p class="c0"><span class="c4">Part for isolated establishment (focused only on selection of participants
+                    for FA execution) is carried out in the following sequence:</span></p>
+            <img alt="" src="images/introduction14.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p class="c7"><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19"
+                        href="https://www.google.com/url?q=https://bit.ly/2Vz3afM&amp;sa=D&amp;ust=1583229043776000">https://bit.ly/2Vz3afM</a></span><span
+                    class="c39 c14">)</span></p>
+            <h5 id="h.3j2qqm3" style="display:inline"><span class="c30 c56">Execution</span></h5>
+
+            <p class="c0"><span class="c4">A framework agreement may be established with one provider (&ldquo;single
+                    sulier frameworks&rdquo;) or with more than one (&ldquo;multiple suppliers frameworks&rdquo;).
+                    &nbsp;Therefore there are four combinations of process available: </span></p>
+            <ul class="c6 lst-kix_list_10-0">
+                <li class="c17"><span class="c4">Framework Agreement / Single supplier with direct call-offs</span></li>
+                <li class="c17"><span class="c4">Framework Agreement / Multiple suppliers with direct call offs</span></li>
+                <li class="c17"><span class="c4">Framework Agreement / Multiple suppliers with mini-competitions for
+                        call-offs</span></li>
+                <li class="c17"><span class="c4">Framework Agreement / Multiple suppliers with second-stage
+                        competitions</span></li>
+            </ul>
+            <p class="c0"><span class="c4">As shown above, where the framework is a multiple suppliers framework, the
+                    contracting authority has several options when awarding call off contracts:</span></p>
+            <ul class="c6 lst-kix_list_11-0 ">
+                <li class="c13"><span class="c4">Where the terms of the framework are sufficiently precise to cover the
+                        particular call off, the contract may be awarded without reopening competition (i.e. a
+                        &ldquo;direct call off&rdquo;). </span></li>
+                <li class="c13"><span class="c4">Where the terms laid down in the framework are not precise enough or
+                        complete for the particular call off, a further competition (i.e. a &ldquo;mini
+                        competition&rdquo;) should be held with all those suppliers within the frameworks capable of
+                        meeting the particular need.</span></li>
+                <li class="c13"><span class="c4">In addition, there is a third option of calling off a contract via a
+                        combination of both direct award and mini-competition routes. </span></li>
+            </ul>
+            <img alt="" src="images/introduction17.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p></p><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19" href="https://www.google.com/url?q=http://bit.ly/2Gqbloo&amp;sa=D&amp;ust=1583229043777000">http://bit.ly/2Gqbloo</a></span><span
+                class="c14">)</span></p>
+            <p class="c0"><span class="c4">Therefore, depending on CAs strategy as well as the value of the purchase
+                    from FA, execution part is carried out in accordance to one of the following sequences</span></p>
+            <p class="c31" id="h.1y810tw"><span class="c29">Direct award</span></p>
+            <p class="c0"><span class="c4">As set out above, where the terms of the framework are sufficiently precise
+                    to cover the particular call off, a direct call off may be made. If the framework agreement sets
+                    out all the terms governing the provision of the works, services and/or supplies concerned and all
+                    the objective conditions that are required to make a decision for award of the specific contract,
+                    then awarding the contract without reopening competition amongst the parties to the framework
+                    agreement is possible. In this instance, the choice of provider must be based on the objective
+                    criteria laid out in the procurement docs.</span></p>
+            <img alt="" src="images/introduction16.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p class="c7"><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19"
+                        href="https://www.google.com/url?q=http://bit.ly/2UotAiY&amp;sa=D&amp;ust=1583229043778000">http://bit.ly/2UotAiY</a></span><span
+                    class="c14 c39">)</span></p>
+            <p class="c31" id="h.4i7ojhp"><span class="c29">Request for Price Quotation</span></p>
+            <p class="c0"><span class="c4">Where the terms laid down in the framework agreement are not precise or
+                    complete enough for the particular call off, a mini competition should be held with all those
+                    suppliers within the framework arrangements capable of meeting the particular need. This does not
+                    mean that basic terms can be renegotiated or that the specification used in setting up the
+                    framework can be substantively changed. Basic terms can be refined or supplemented to reflect
+                    particular circumstances that apply to the call off where these were not and could not be provided
+                    for when the framework agreement was established. </span></p>
+            <img alt="" src="images/introduction19.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19" href="https://www.google.com/url?q=http://bit.ly/2XuJFFP&amp;sa=D&amp;ust=1583229043779000">http://bit.ly/2XuJFFP</a></span><span
+                    class="c39 c14">)</span></p>
+            <hr style="page-break-before:always;display:none;">
+            <p class="c1 c31" id="h.2xcytpi"><span class="c29"></span></p>
+            <p class="c31" id="h.1ci93xb"><span class="c29">Second-stage competition</span></p>
+            <p class="c0"><span class="c4">Combination of direct award and mini-competition can be can be used provided
+                    that: </span></p>
+            <ul class="c6 lst-kix_list_8-0 ">
+                <li class="c13"><span class="c4">the procurement documents state that this route may be used</span></li>
+                <li class="c13"><span class="c4">the framework sets out all the necessary terms governing provision of
+                        the work/supply/service being procured</span></li>
+                <li class="c13"><span class="c4">objective criteria are set out in the procurement documents for the
+                        framework agreement and are applied to determine whether a particular call off is directly
+                        awarded or goes on to a mini- competition</span></li>
+                <li class="c13"><span class="c4">the procurement documents specify which terms may be subject to the
+                        reopening of competition. The guidance gives this example.</span></li>
+            </ul>
+            <img alt="" src="images/introduction18.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);"
+                title="">
+            <p><span class="c14">Business Process Diagram (go to </span><span class="c27 c14"><a class="c19" href="https://www.google.com/url?q=http://bit.ly/2Vf988A&amp;sa=D&amp;ust=1583229043779000">http://bit.ly/2Vf988A</a></span><span
+                    class="c14">)</span></p>
+            <hr style="page-break-before:always;display:none;">
+            <p class="c0 c1"><span class="c4"></span></p>
+            <p class="c0 c1"><span class="c4"></span></p>
+            <p class="c0 c1"><span class="c4 c71"></span></p>
+            <div>
+                <p class="c7 c1"><span class="c14 c65"></span></p>
+                <p class="c33 c1"><span class="c4"></span></p>
+            </div>
+            <hr class="c58">
+
+            <hr>
+        </div>
+        <script>
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                });
+            }
+        </script>
+    </body>
+
+</html>
