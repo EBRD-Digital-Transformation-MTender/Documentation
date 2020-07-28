@@ -19,7 +19,7 @@
             <h1 id="h.aqvdwxcpbumt">
                 <img class="navigationLogo" alt="logo-MTender" title="logo-MTender" src="images/logo-MTender.png" />
             </h1>
-            <a href="/MTender-Documentation/"><button class="accordion active">Introduction &#11206; </button></a>
+            <a href="/MTender-Documentation/"><button class="accordion active">Introduction... &#11206; </button></a>
             <div class="panel" style="display: block;">
                 <p class="navLevel2"><a href="/MTender-Documentation/#h.backInfo">Background information</a></p>
                 <p class="navLevel2"><a href="/MTender-Documentation/#h.genApproach">General approach</a></p>
@@ -115,7 +115,13 @@
                 <span class="c15">Introduction</span></h1>
             <hr>
 
-            <p class="c0" id="h.30j0zll"><span>MTender is an electronic procurement system designed for end-to-end digital service supporting the entire public procurement process, from demand planning to payment. It is a prototype developed by the EBRD UNCITRAL Initiative, a technical cooperation between the European Bank for Reconstruction and Development (EBRD) and the United Nations Commission for International Trade Law (UNCITRAL). The MTender pilot was initiated by the Ministry of Finance of Moldova in November 2016, and has been used since October 2018 by the majority of public sector contracting authorities (CAs) in Moldova.</span></p>
+            <p class="c0" id="h.30j0zll"><span>MTender is an electronic procurement system designed for end-to-end
+                    digital service supporting the entire public procurement process, from demand planning to payment.
+                    It is a prototype developed by the EBRD UNCITRAL Initiative, a technical cooperation between the
+                    European Bank for Reconstruction and Development (EBRD) and the United Nations Commission for
+                    International Trade Law (UNCITRAL). The MTender pilot was initiated by the Ministry of Finance of
+                    Moldova in November 2016, and has been used since October 2018 by the majority of public sector
+                    contracting authorities (CAs) in Moldova.</span></p>
 
             <p class="c0" id="h.30j0zll"><span>This document contains the MTender technical documentation that
                     describes the implementation of architecture, data models, data standard and environment of the
@@ -137,10 +143,28 @@
 
             <h1 class="c34" id="h.backInfo">
                 <span class="c15">Background Information </span></h1>
-            <p class="c0" id="h.30j0zll"><span>MTender consists of an open source government-owned central unit, a web portal, and several networking e-commerce platforms (NEPPs), and it uses an Open Contracting Data Standard (OCDS) and open source distributed architecture. It is the second electronic procurement system using an OCDS, after Prozorro in Ukraine. MTender resembles blockchain, but without a blockchain price tag. Instead of blockchain technology, it uses open data in the format of the OCDS to guarantee data standardisation and ensure user trust in data exchange accuracy. </span></p>
-            <p class="c0"><span>MTender provides digital procurement services to end users – contracting authorities and economic operators (EOs) – through the NEPPs, which collaborate with e-government services. The central unit serves as an interoperable online OCDS data exchange and a transaction repository for linked NEPPs. Data collected by the central unit is displayed in real time in the MTender web portal, which is accessible, searchable, government-run and open source. This web portal serves as a single point of access to all ‘collected at source’ procurement information, including electronic bidding. It is automatically synchronised in real time between all network members – the central unit, web portal, NEPPs, and e-government services and digital registers, when available..</span></p>
-            <p class="c0"><span>MTender offers an end-to-end electronic procurement system with the three main characteristics of (i) modularity, which enables flexibility, self-executability and high levels of data resilience; (ii) networked interoperability of the digital procurement solution, which allows for its open multi-platform implementation; and (iii) a transparent and comprehensive digital solution with structured transactional data, which allows for further public procurement process analyses.</span></p>
-            <p class="c0"><span>For additional information on the MTender concept, see: <span><a href="https://github.com/MTendereProcurementSystem/MTender-Description/wiki">https://github.com/MTendereProcurementSystem/MTender-Description/wiki</a>  </span></p>
+            <p class="c0" id="h.30j0zll"><span>MTender consists of an open source government-owned central unit, a web
+                    portal, and several networking e-commerce platforms (NEPPs), and it uses an Open Contracting Data
+                    Standard (OCDS) and open source distributed architecture. It is the second electronic procurement
+                    system using an OCDS, after Prozorro in Ukraine. MTender resembles blockchain, but without a
+                    blockchain price tag. Instead of blockchain technology, it uses open data in the format of the OCDS
+                    to guarantee data standardisation and ensure user trust in data exchange accuracy. </span></p>
+            <p class="c0"><span>MTender provides digital procurement services to end users – contracting authorities
+                    and economic operators (EOs) – through the NEPPs, which collaborate with e-government services. The
+                    central unit serves as an interoperable online OCDS data exchange and a transaction repository for
+                    linked NEPPs. Data collected by the central unit is displayed in real time in the MTender web
+                    portal, which is accessible, searchable, government-run and open source. This web portal serves as
+                    a single point of access to all ‘collected at source’ procurement information, including electronic
+                    bidding. It is automatically synchronised in real time between all network members – the central
+                    unit, web portal, NEPPs, and e-government services and digital registers, when available..</span></p>
+            <p class="c0"><span>MTender offers an end-to-end electronic procurement system with the three main
+                    characteristics of (i) modularity, which enables flexibility, self-executability and high levels of
+                    data resilience; (ii) networked interoperability of the digital procurement solution, which allows
+                    for its open multi-platform implementation; and (iii) a transparent and comprehensive digital
+                    solution with structured transactional data, which allows for further public procurement process
+                    analyses.</span></p>
+            <p class="c0"><span>For additional information on the MTender concept, see: <span><a href="https://github.com/MTendereProcurementSystem/MTender-Description/wiki">https://github.com/MTendereProcurementSystem/MTender-Description/wiki</a>
+                    </span></p>
 
             <p class="c0 c1"><span class="c4"></span></p>
             <h1 class="c34" id="h.genApproach"><span class="c15">General approach</span></h1>
@@ -171,9 +195,11 @@
                     contracting data standards. </span></h5>
             <p class="c0"><span class="c4">This architecture designed for a stack of open-source technologies to foster
                     transparency and accountability of public procurement by incorporating open data concept and
-                    <span><a href="http://standard.open-contracting.org/latest/en/">Open Contracting Data Standard</a>. Openness of data shall help building citizens&rsquo; and
-                    economic operators&rsquo; trust in the Government, in efficiency of public procurement management
-                    and discourage any corrupt practices. </span></p>
+                    <span><a href="http://standard.open-contracting.org/latest/en/">Open Contracting Data Standard</a>.
+                        Openness of data shall help building citizens&rsquo; and
+                        economic operators&rsquo; trust in the Government, in efficiency of public procurement
+                        management
+                        and discourage any corrupt practices. </span></p>
             <h5 id="h.49x2ik5" style="display:inline"><span class="c30 c18">Split-level architecture</span></h5>
             <p class="c0"><span class="c4">Involves independent design of systems&rsquo; components in compliance with
                     interface standards between levels, which facilitates future incorporation of new services,
@@ -217,7 +243,8 @@
                     <tr class="c35">
                         <td class="c16" colspan="1" rowspan="1">
                             <p class="c37"><span class="c2">Based on United Nations Commission on International Trade
-                                    Law on Public Procurement (<span><a href="http://www.uncitral.org/pdf/english/texts/procurem/ml-procurement-2011/2011-Model-Law-on-Public-Procurement-e.pdf">UNCTIRAL Model Law (2011))</a></span></p>
+                                    Law on Public Procurement (<span><a href="http://www.uncitral.org/pdf/english/texts/procurem/ml-procurement-2011/2011-Model-Law-on-Public-Procurement-e.pdf">UNCTIRAL
+                                            Model Law (2011))</a></span></p>
                         </td>
                         <td class="c16" colspan="1" rowspan="1">
                             <p class="c37"><span class="c2">Complies with the European legislation on Public
