@@ -6,7 +6,7 @@ permalink: /components/
 <html>
 
     <head>
-        <link rel="stylesheet" type="text/css" href="./../documentationStyles.css">
+        <link rel="stylesheet" type="text/css" href="./documentationStyles.css">
 
         <style>
             .c1 {
@@ -62,6 +62,7 @@ permalink: /components/
                 <p class="navLevel2"><a href="/Documentation/components#h.eContracting">eContracting</a></p>
                 <p class="navLevel2"><a href="/Documentation/components#h.eNotice">eNotice</a></p>
                 <p class="navLevel2"><a href="/Documentation/components#h.8phqnmoj6fxy">eEvaluation</a></p>
+                <p class="navLevel2"><a href="/Documentation/components#h.DocumentManager">Document Manager</a></p>
             </div>
             <a href="/Documentation/BPE"><button class="accordion">Business Process Engine &#11206; </button></a>
             <div class="panel">
@@ -14150,6 +14151,862 @@ permalink: /components/
                     Procurement Officer, based on hard-copy reports duly prepared and signed upon completing
                     qualification or
                     evaluation procedures by the Procurement Officer/Evaluation Staff.</span></p>
+
+            <h2 class="c77 c55" id="h.DocumentManager"><span class="c32 c118 c130">Document Workflow Manager</span></h2>
+            <p class="c93 c55"><span>This module provides the approach for the Document Workflow Manager (DWM),
+                    which is a tool within the Open Contracting Digital Procurement System (OCDPS) which will allow the
+                    management of the workflows aimed at the confirmation or approval of documents.</p>
+            <h3 class="c55 c74" id=""><span class="c174 c32 c118">Description</span></h3>
+            <p> Most administrative processes contain steps and tasks that require some sort of confirmation in order
+                to move forward to the next step or action of the process.</p>
+            <p>For example, the following situations are identified within the public procurement process where
+                confirmation is required to the parties involved in the process:</p>
+            <p>1. Direct obligations (initiated by the process)</p>
+            <ul>
+                <li>1.1. Any significant changes to the tender documents or Contract Notice (CN) itself (to be
+                    confirmed by the Contracting Authority (CA)) </li>
+                <li>1.2. Cancellation request initiated after publication of CN (to be confirmed by the CA)</li>
+                <li>1.3. Qualification/evaluation decision or protocol to be confirmed by the Contracting Authority
+                    (CA)</li>
+                <li>1.4. Bid withdraw initiated after submission of bid (to be confirmed by the Economic Operator (EO))</li>
+                <li>1.5. Contract Award Notice issued according to the outcomes of the tendering procedure (to be
+                    confirmed by the CA)</li>
+                <li>1.6. Contract Award Notice (CAN) cancellation request initiated by either the CA or the Review Body
+                    (to be confirmed by the CA)</li>
+            </ul>
+
+            <p>2. Requested obligations (initiated by Parties)</p>
+            <ul>
+                <li>2.1. Any parts of the future contracts’ conditions requested by the CA to be confirmed by the EO
+                    within submission of bid</li>
+                <li>2.2. Any clarification (either data or document) requested by the CA to be confirmed by the EO
+                    during evaluation of his offer</li>
+                <li>2.3. Awarded contract to be confirmed by all involved parties according to their role </li>
+                <li>2.4. Any contract annex requested by the CA to be signed by the EO during contract preparation
+                    phase</li>
+                <li>2.5. Any purchase orders issued according to the CA request (to be confirmed by the CA)</li>
+                <li>2.6. Any invoices issued according to EO request (to be confirmed by the EO and signed off by the
+                    CA)</li>
+                <li>2.7. Termination request against concluded contract initiated by the CA (to be confirmed by the CA)</li>
+            </ul>
+            <p>In order to provide coverage to the aforementioned situations, a specific digital tool responsible for
+                storing, execution and validation of workflows is needed.</p>
+            <p>Under this vision, all the requests described above are considered as documents, and the required
+                action-cases are workflows. Consequently, the tool described in this document is a Document Workflow
+                Manager, which will facilitate the management of the workflows aimed at the confirmation or approval of
+                documents.</p>
+            <h3 class="c55 c74"><span class="c174 c32 c118">Workflow prescription</span></h3>
+            <p>As stated above, each request, either initiated by the system itself or by one of the parties involved
+                in the process, is, in fact, a document. </p>
+            <p>It is possible to describe document workflows through a system structure which includes:</p>
+            <ul>
+                <li>The information in a separate (Open Contracting Data Standard) OCDS data-set related to a
+                    particular document</li>
+                <li>The prescribed requested actions.</li>
+            </ul>
+            <p>For example, as a simplest case, see below the case of a digital contract issued by the system to be
+                signed by parties’ authorities:</p>
+
+            <div class="sourceCode">
+
+                <p>{
+                </p>
+                <p> "contracts": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "", // the document attached to be signed by Parties’ authorities
+                </p>
+                <p> "documents": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "001",
+                </p>
+                <p> "documentType": "contractSigned",
+                </p>
+                <p> "url": ""
+                </p>
+                <p> }
+                </p>
+                <p> ],
+                </p>
+                <p> "confirmationRequests": [ // set of requests associated with the document
+                </p>
+                <p> {
+                </p>
+                <p> "id": "buyer-001", // buyers’ obligations
+                </p>
+                <p> "type": "digitalSignature", // type of request fulfillment
+                </p>
+                <p> "description": "Contract to be signed by CA",
+                </p>
+                <p> "relatesTo": "document",
+                </p>
+                <p> "relatedItem": "001",
+                </p>
+                <p> "source": "buyer",
+                </p>
+                <p> "requestGroups": [ // set of buyers’ authorities whose confirmation required
+                </p>
+                <p> {
+                </p>
+                <p> "id": "buyer-001-buyer.identifier.id",
+                </p>
+                <p> "requests": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "buyer-001-buyer.identifier.id-relatedPerson.id",
+                </p>
+                <p> "title": "parties[role:buyer].persones[role:authority].name"
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> {
+                </p>
+                <p> "id": "tenderer-001", // buyers’ obligations
+                </p>
+                <p> "type": "digitalSignature", // type of request fulfillment
+                </p>
+                <p> "title": "Contract to be signed by EO"
+                </p>
+                <p> "relatesTo": "document",
+                </p>
+                <p> "relatedItem": "001",
+                </p>
+                <p> "source": "tenderer",
+                </p>
+                <p> "requestGroups": [ // set of suppliers’ authorities whose confirmation required
+                </p>
+                <p> {
+                </p>
+                <p> "id": "tenderer-001-tenderer.identifier.id",
+                </p>
+                <p> "requests": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "tenderer-001-tenderer.identifier.id-relatedPerson.id",
+                </p>
+                <p> "title": "parties[role:supplier].persones[role:authority].name"
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+
+            </div>
+
+            <p>In the same way, as shown in the example below, any other body involved in the process can be requested
+                to participate in the approval of a specific document:</p>
+
+            <div class="sourceCode">
+
+                <p>{
+                </p>
+                <p> "contracts": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "",
+                </p>
+                <p> "documents": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "001",
+                </p>
+                <p> "documentType": "contractSigned"
+                </p>
+                <p> "url": ""
+                </p>
+                <p> }
+                </p>
+                <p> ],
+                </p>
+                <p> "confirmationRequests": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "approveBody-001", // Treasury obligations
+                </p>
+                <p> "type": "outsideAction", // type of request fulfillment
+                </p>
+                <p> "description": "Contract to be verified by Treasury",
+                </p>
+                <p> "relatesTo": "document",
+                </p>
+                <p> "relatedItem": "001",
+                </p>
+                <p> "source": "approveBody",
+                </p>
+                <p> "requestGroups": [ // set of Treasury authorities whose confirmation required
+                </p>
+                <p> {
+                </p>
+                <p> "id": "approveBody-001-approveBody.identifier.id",
+                </p>
+                <p> "requests": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "approveBody-001-approveBody.identifier.id",
+                </p>
+                <p> "title": "parties[role:approveBody].name"
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p>}
+                </p>
+
+            </div>
+
+            <h3 class="c55 c74"><span class="c174 c32 c118">Workflow fulfilment</span></h3>
+            <p>Once a request is published, related responses are expected, and the process will not go ahead until all
+                requested confirmations are received. Such responses can be described as a separate OCDS data-set
+                related to a particular requirementRequest: </p>
+
+            <div class="sourceCode">
+
+                <p>{
+                </p>
+                <p> "confirmationResponses": [
+                </p>
+                <p> {
+                </p>
+                <p> "id": "",
+                </p>
+                <p> "value": {
+                </p>
+                <p> "name": "",
+                </p>
+                <p> "id": "",
+                </p>
+                <p> "date": "",
+                </p>
+                <p> "relatedPerson": {
+                </p>
+                <p> "id": "",
+                </p>
+                <p> "name": ""
+                </p>
+                <p> },
+                </p>
+                <p> "verification": [
+                </p>
+                <p> {
+                </p>
+                <p> "type": "",
+                </p>
+                <p> "value": ""
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> "request": ""
+                </p>
+                <p> }
+                </p>
+                <p> ]
+                </p>
+                <p>}
+                </p>
+
+            </div>
+
+            <p>As a result of the proposed approach, all the information describing both a prescribed workflow for a
+                particular document and all expected responses satisfying such workflow, can be published as
+                machine-readable OCDS data-sets. </p>
+            <p>The same approach applies for all data-entities mentioned above:</p>
+            <ul>
+                <li>amendments / terminations;</li>
+                <li>submissions / bids;</li>
+                <li>qualification / evaluation decisions and protocols;</li>
+                <li>contract award notices / contracts;</li>
+                <li>documents;</li>
+                <li>requirements / requirement responses.</li>
+            </ul>
+
+            <h3 class="c55 c74"><span class="c174 c32 c118">Workflow execution</span></h3>
+            <p>The most important part of this vision is the approach to the management and execution of document
+                workflows. The diagram below reflects the proposed solution:</p>
+            <img alt="" src="../images/DocumentWorkflow2.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" />
+            <p>As described in the scheme above, the DWM should consist of several parts:</p>
+            <ul>
+                <li>General logic core: component responsible for the process execution and validation according to the
+                    prescribed (requested) workflow.</li>
+                <li>Workflow DB: database which contains the available workflows. </li>
+                <li>Lifecycles DB: database of the documents’ lifecycles for particular workflows that have already
+                    been launched. </li>
+                <li>Document Registration Agent: component responsible for transfer the document from the DWM to the
+                    external digital sign service.</li>
+                <li>Event Listener: component responsible for receiving an initial proceeding on responses from an
+                    external digital sign service.</li>
+            </ul>
+
+            <h3 class="c55 c74"><span class="c174 c32 c118">Showcase: conclusion of the contract</span></h3>
+            <p>This section provides an example on how the DWM could operate in the conclusion of a contract,
+                retrieving all the information that the contract needs in order to be concluded and all the necessary
+                steps that the system has to run in order to complete the process. </p>
+            <h4>Landscape</h4>
+            <p>The eProcurement system generates digital contracts based on transactional data (starting from a set of
+                initial conditions of the contract, including selected tenderers’ requirement responses and final
+                agreed metrics). </p>
+            <h4>Incomes</h4>
+            <p>Central Database Unit (CDU) extracts all the data related to the parties involved in the contract to be
+                signed (legal information, companies profiles, authorities and other authorized personnel, etc.) and
+                sends this information together with meta-attributes (such as country of jurisdiction, legal basis,
+                procurement category, etc.) to the DWM.</p>
+            <h4>Outcomes</h4>
+            <p>DWM extracts the applicable workflow for the received request and builds the expected life cycle:</p>
+            <img alt="" src="../images/DocumentWorkflow1.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);" />
+            <p>According to this lifecycle, the DWM expects to get:</p>
+            <ul>
+                <li>Confirmations of responsible of the Buyer (e.g. the CA chairman first and CEO second), received as
+                    digital signatures, confirmed by external digital sign service. </li>
+                <li>Confirmation of responsible of the Seller (e.g. just CEO), received as a digital signature,
+                    confirmed by external digital sign service. </li>
+                <li>Confirmation of positive verification from State Treasury (e.g. regular representative), received
+                    as a data-income through a secured transport channel. </li>
+            </ul>
+            Any difference from the prescribed process (e.g. DWM receives proper confirmation but in a wrong sequence)
+            will be translated to the hosted Networking Electronic Procurement Platforms (NEPP) as an exception, and
+            the DWM will continue to wait for the execution of the expected step.
+
+            <h3 class="c55 c74"><span class="c174 c32 c118">OCDS Extension</span></h3>
+            <p> This annex provides information regarding the main OCDS objects used in the Document Workflow
+                Management:</p>
+            <ul>
+                <li>ConfirmationRequest: Separate request for confirmation of the specific action taken or the
+                    data-outcome suggested automatically addresses to particular involved party representatives.</li>
+                <li>RequestGroup: A list of requirements which must all be satisfied for the requirement group to be
+                    met.</li>
+                <li>ConfirmationResponse: An assertion that responds to a single requirement. A requirement response
+                    provides the value for the requirement and may provide the period to which it applies.</li>
+                <li>RequirementReference: Used to cross-reference a requirement.</li>
+                <li>Tender: Information about how a tender will take place, or has taken place.</li>
+                <li>Award: Information on awards made as part of a contracting process.</li>
+                <li>Contract: Information on contracts signed as part of a contracting process.</li>
+            </ul>
+
+            <p>See below the attributes of the aforementioned objects:</p>
+            <div class="sourceCode">
+
+                <p>{
+                </p>
+                <p> "definitions": {
+                </p>
+                <p> "ConfirmationRequest": {
+                </p>
+                <p> "type": "object",
+                </p>
+                <p> "title": "Confirmation request",
+                </p>
+                <p> "description": "Separate request for confirmation of the specific action taken or the data-outcome
+                    suggested automatically addresses to particular involved party representatives",
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "id": {
+                </p>
+                <p> "title": "Identifier",
+                </p>
+                <p> "description": "The identifier for this criterion. It must be unique and cannot change within the
+                    Open Contracting Process it is part of (defined by a single ocid). See the [identifier
+                    guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further
+                    details.",
+                </p>
+                <p> "type": [
+                </p>
+                <p> "string",
+                </p>
+                <p> "integer"
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> "type": "string",
+                </p>
+                <p> "title": {
+                </p>
+                <p> "title": "Title",
+                </p>
+                <p> "description": "A title for this criterion.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "description": {
+                </p>
+                <p> "title": "Description",
+                </p>
+                <p> "description": "A description of this criterion. Structured information should be provided in its
+                    other fields.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "source": {
+                </p>
+                <p> "title": "Source",
+                </p>
+                <p> "description": "Source of response to the requirements specified in the criterion, for example
+                    responses may be submitted by tenderers or by an assessment committee at the procuringEntity.",
+                </p>
+                <p> "type": "string",
+                </p>
+                <p> "enum": [
+                </p>
+                <p> "tenderer",
+                </p>
+                <p> "buyer",
+                </p>
+                <p> "procuringEntity",
+                </p>
+                <p> "approvalBody"
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> "relatesTo": {
+                </p>
+                <p> "title": "Related schema element",
+                </p>
+                <p> "description": "The schema element that the criterion judges, evaluates or assesses. For example
+                    criterion may be defined against items or against bidders.",
+                </p>
+                <p> "type": "string",
+                </p>
+                <p> "enum": [
+                </p>
+                <p> "document",
+                </p>
+                <p> "amendment",
+                </p>
+                <p> "award",
+                </p>
+                <p> "bid",
+                </p>
+                <p> "value",
+                </p>
+                <p> "metric"
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> "relatedItem": {
+                </p>
+                <p> "title": "Related item",
+                </p>
+                <p> "description": "Where relatesTo = \"item\" this field must be populated with the id of the item in
+                    this tender section which the criterion relates to. Where relatesTo <> \"item\" this field should
+                        be omitted.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "requestGroups": {
+                </p>
+                <p> "title": "",
+                </p>
+                <p> "description": "",
+                </p>
+                <p> "type": "array",
+                </p>
+                <p> "items": {
+                </p>
+                <p> "$ref": "#/definitions/RequestGroup"
+                </p>
+                <p> },
+                </p>
+                <p> "uniqueItems": true
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "RequestGroup": {
+                </p>
+                <p> "type": "object",
+                </p>
+                <p> "title": "",
+                </p>
+                <p> "description": "",
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "id": {
+                </p>
+                <p> "title": "Identifier",
+                </p>
+                <p> "description": "The identifier for this requirement group. It must be unique and cannot change
+                    within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier
+                    guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further
+                    details.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "requests": {
+                </p>
+                <p> "title": "Requests",
+                </p>
+                <p> "description": "A list requirements which must all be satisfied for the requirement group to be
+                    met.",
+                </p>
+                <p> "type": "array",
+                </p>
+                <p> "items": {
+                </p>
+                <p> "$ref": "#/definitions/Requests"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "Request": {
+                </p>
+                <p> "type": "object",
+                </p>
+                <p> "title": "",
+                </p>
+                <p> "description": "An atomic requirement. Requirements can specify the expected value that the
+                    response has to contain, or a range of threshold values within which the response has to fit in.
+                    The requirement may apply to a certain period of time.",
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "id": {
+                </p>
+                <p> "title": "Request identifier",
+                </p>
+                <p> "description": "The identifier for this requirement. It must be unique and cannot change within the
+                    Open Contracting Process it is part of (defined by a single ocid). See the [identifier
+                    guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further
+                    details.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "title": {
+                </p>
+                <p> "title": "Request title",
+                </p>
+                <p> "description": "The title of this atomic requirement.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "description": {
+                </p>
+                <p> "title": "Request description",
+                </p>
+                <p> "description": "A free text description for this atomic requirement.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "dataType": {
+                </p>
+                <p> "title": "Requirement datatype",
+                </p>
+                <p> "description": "The data type in which the requirement response must be provided.",
+                </p>
+                <p> "type": "object"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "ConfirmationResponse": {
+                </p>
+                <p> "type": "object",
+                </p>
+                <p> "title": "Response",
+                </p>
+                <p> "description": "An assertion that responds to a single requirement. A requirement response provides
+                    the value for the requirement and may provide the period to which it applies.",
+                </p>
+                <p> "required": [
+                </p>
+                <p> "id",
+                </p>
+                <p> "requirement"
+                </p>
+                <p> ],
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "id": {
+                </p>
+                <p> "title": "Identifier",
+                </p>
+                <p> "description": "The identifier for this requirement response. It must be unique and cannot change
+                    within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier
+                    guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further
+                    details.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "title": {
+                </p>
+                <p> "title": "Title",
+                </p>
+                <p> "description": "A title for this requirement response.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "description": {
+                </p>
+                <p> "title": "Description",
+                </p>
+                <p> "description": "A description of this requirement response. Structured information should be
+                    provided in its other fields.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "value": {
+                </p>
+                <p> "title": "Value",
+                </p>
+                <p> "description": "The value of this requirement response. The value must be of the type defined in
+                    the requirement.dataType field.",
+                </p>
+                <p> "type": [
+                </p>
+                <p> "string",
+                </p>
+                <p> "integer",
+                </p>
+                <p> "number",
+                </p>
+                <p> "null"
+                </p>
+                <p> ]
+                </p>
+                <p> },
+                </p>
+                <p> "period": {
+                </p>
+                <p> "title": "Period",
+                </p>
+                <p> "description": "The period which the requirement response is applicable to.",
+                </p>
+                <p> "$ref": "#/definitions/Period"
+                </p>
+                <p> },
+                </p>
+                <p> "requirement": {
+                </p>
+                <p> "title": "Related requirement",
+                </p>
+                <p> "description": "The id and title of the requirement which the response is applicable to.",
+                </p>
+                <p> "$ref": "#/definitions/RequirementReference"
+                </p>
+                <p> },
+                </p>
+                <p> "relatedTenderer": {
+                </p>
+                <p> "title": "Related tenderer",
+                </p>
+                <p> "description": "Where this requirement response relates to a tenderer and is provided by the buyer
+                    or procuring entity this field should be used to reference the entry in the parties section for the
+                    tenderer the response relates to.",
+                </p>
+                <p> "$ref": "#/definitions/OrganizationReference"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "RequirementReference": {
+                </p>
+                <p> "type": "object",
+                </p>
+                <p> "title": "Requirement reference",
+                </p>
+                <p> "description": "Used to cross reference a requirement.",
+                </p>
+                <p> "required": [
+                </p>
+                <p> "id"
+                </p>
+                <p> ],
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "id": {
+                </p>
+                <p> "title": "Requirement ID",
+                </p>
+                <p> "description": "The id of the requirement which the response is applicable to.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> },
+                </p>
+                <p> "title": {
+                </p>
+                <p> "title": "Requirement title",
+                </p>
+                <p> "description": "The title of the requirement which the response is applicable to.",
+                </p>
+                <p> "type": "string"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "Tender": {
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "confirmationRequests": {
+                </p>
+                <p> "title": "",
+                </p>
+                <p> "description": "",
+                </p>
+                <p> "type": "array",
+                </p>
+                <p> "items": {
+                </p>
+                <p> "$ref": "#/definitions/ConfirmationRequest"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "Award": {
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "confirmationRequests": {
+                </p>
+                <p> "title": "",
+                </p>
+                <p> "description": "",
+                </p>
+                <p> "type": "array",
+                </p>
+                <p> "items": {
+                </p>
+                <p> "$ref": "#/definitions/ConfirmationRequest"
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> },
+                </p>
+                <p> "Contract": {
+                </p>
+                <p> "properties": {
+                </p>
+                <p> "requirementResponses": {
+                </p>
+                <p> "title": "Requirement responses",
+                </p>
+                <p> "description": "A list of the detailed responses of this contract to the requirements of the
+                    tender.",
+                </p>
+                <p> "type": "array",
+                </p>
+                <p> "items": {
+                </p>
+                <p> "$ref": "#/definitions/RequirementResponse"
+                </p>
+                <p> },
+                </p>
+                <p> "uniqueItems": true
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p> }
+                </p>
+                <p>}
+                </p>
+
+            </div>
 
         </div>
         <script>
