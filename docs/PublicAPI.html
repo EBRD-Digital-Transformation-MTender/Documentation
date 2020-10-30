@@ -68,6 +68,9 @@ permalink: /API/
             <div class="panel" style="display: block;">
                 <p class="navLevel2"><a href="/Documentation/API#h.CQRS">CQRS approach</a></p>
                 <p class="navLevel2"><a href="/Documentation/API#h.command">Command API</a></p>
+                <p class="navLevel2"><a href="/Documentation/API#h.competitionprocedures">API for Competitive
+                        Procedures</a></p>
+
             </div>
             <a href="/Documentation/services"><button class="accordion">Services &#11206; </button></a>
             <div class="panel">
@@ -176,11 +179,10 @@ permalink: /API/
                     Operation
                     Service)</span></p><a id="t.d3c7b9a9895a32fea5f92730e21a42f393c2b682"></a><a id="t.2"></a>
             <div class="sourceCode">
-                <p class="c48"><span class="c5 c28">POST</span><span class="c25 c28">&nbsp;</span><span
-                        class="c28 c62 c63">endPoint?specificParams[...]</span><span class="c25 c28">&nbsp;HTTP/1.1<br></span><span
-                        class="c63 c28 c62">Authorization</span><span class="c25 c28">: Bearer ...<br></span><span
-                        class="c63 c28 c62">X-OPERATION-ID</span><span class="c25 c28">: ...<br></span><span
-                        class="c63 c28 c62">Content-Type</span><span class="c25 c28">:
+                <p class="c48"><span class="c5 c28">POST</span><span class="c25 c28">&nbsp;</span><span class="c28 c62 c63">endPoint?specificParams[...]</span><span
+                        class="c25 c28">&nbsp;HTTP/1.1<br></span><span class="c63 c28 c62">Authorization</span><span
+                        class="c25 c28">: Bearer ...<br></span><span class="c63 c28 c62">X-OPERATION-ID</span><span
+                        class="c25 c28">: ...<br></span><span class="c63 c28 c62">Content-Type</span><span class="c25 c28">:
                         application/json<br></span><span class="c63 c28 c62">Host</span><span class="c25 c28">:
                         bpe.HOST</span></p>
             </div>
@@ -199,10 +201,10 @@ permalink: /API/
             <div class="sourceCode">
                 <p class="c48"><span class="c71 c28 c62">4</span><span class="c25 c28">XX<br>Content-Type:
                         application/json; charset=UTF</span><span class="c28 c62 c71">-8</span><span class="c25 c28"><br>{<br>
-                        &nbsp;&quot;errors&quot;:[<br> &nbsp; {<br> &nbsp; &nbsp; &quot;code&quot;: </span><span
-                        class="c46 c28">&quot;&quot;</span><span class="c25 c28">,<br> &nbsp; &nbsp;
-                        &quot;description&quot;: </span><span class="c46 c28">&quot;&quot;</span><span
-                        class="c25 c28"><br> &nbsp; }<br> &nbsp;]<br>}</span></p>
+                        &nbsp;&quot;errors&quot;:[<br> &nbsp; {<br> &nbsp; &nbsp; &quot;code&quot;: </span><span class="c46 c28">&quot;&quot;</span><span
+                        class="c25 c28">,<br> &nbsp; &nbsp;
+                        &quot;description&quot;: </span><span class="c46 c28">&quot;&quot;</span><span class="c25 c28"><br>
+                        &nbsp; }<br> &nbsp;]<br>}</span></p>
             </div>
             <h3 class="c53" id="h.1t3h5sf"><span class="c30">Activities</span></h3>
             <p class="c38"><span class="c11">This section describes the array of activities that can be performed
@@ -1218,8 +1220,7 @@ permalink: /API/
                 <p class="c48 c31"><span class="c25 c67 c28"></span></p>
                 <p class="c48"><span class="c25 c28">{<br> &nbsp;&quot;data&quot;: [<br> &nbsp; &nbsp;{<br>
                         &nbsp;
-                        &nbsp; &nbsp;&quot;ocid&quot;: </span><span class="c46 c28">&quot;&quot;</span><span
-                        class="c25 c28">,<br>
+                        &nbsp; &nbsp;&quot;ocid&quot;: </span><span class="c46 c28">&quot;&quot;</span><span class="c25 c28">,<br>
                         &nbsp; &nbsp; &nbsp;&quot;date&quot;: </span><span class="c46 c28">&quot;&quot;</span><span
                         class="c25 c28"><br> &nbsp; &nbsp;}<br> &nbsp;],<br> &nbsp;&quot;offset&quot;:</span><span
                         class="c46 c28">&quot;&quot;</span><span class="c25 c67 c28"><br>}</span></p>
@@ -1248,13 +1249,905 @@ permalink: /API/
             <div class="sourceCode">
                 <p class="c48"><span class="c28 c62 c85">GET</span><span class="c46 c28">&nbsp;/get/tenders/ocds-000-00001?offset=...</span></p>
             </div>
-            <h1 class="c81"><span class="c49"></span></h1>
-            <div>
-                <p class="c14"><span class="c11"></span></p>
-                <p class="c92 c31 c99"><span class="c36 c95"></span></p>
-                <p class="c14"><span class="c11"></span></p>
-                <p class="c14"><span class="c11"></span></p>
+
+            <h2 class="c82" id="h.competitionprocedures">API for Competitive Procedures</h2>
+            <p class="c67 c178"><span class="c14 c54"></span></p>
+            <h3 class="c195 c79 c720" id="h.30j0zll"><span class="c476 c491 c232 c184">Introduction
+                </span></h3>
+            <p class="c42">
+                The public procurement process in Moldova includes both online and offline procedures.
+            </p>
+            <p>In online procedures based on a selective method:</p>
+            <ul>
+                <li>1. The Contracting Authority (CA) publishes a notice;</li>
+                <li>2. Interested Economic Operators (EOs) must submit a request to participate in response to this
+                    notice;</li>
+                <li>3. Only those EOs which are pre-selected by the CA may submit offers.</li>
+            </ul>
+
+            <p>This report describes how the MTender (the System) may be used for a restricted procedure according to
+                the
+                European Union Public Procurement Directives .</p>
+            <p>This is a procedural use-case and no individual transactions are defined. Reference is made to other
+                profiles, in which the transactions and the transaction information requirements are listed and
+                defined.</p>
+            <p>At the system level, it is necessary to implement several online procedure based on a selective
+                procurement
+                method. These are:</p>
+            <ul>
+                <li>Procedure for utilities;</li>
+                <li>Restricted tender.</li>
+            </ul>
+
+            <h3 class="c195 c79 c720" id="h.30j0zll"><span class="c476 c491 c232 c184">Business processes
+                </span></h3>
+            <p class="c42">
+                The following diagrams show the sequence of the business processes implemented under this profile and
+                defines the sequence of interactions. </p>
+            <h4>Common flow of an online selective procedure for utilities</h4>
+            <p>The following Business Process Model Notation (BPMN) covers the common flow of the procurement procedure
+                for
+                utilities based on a selective method:</p>
+            </p>
+            <img alt="" src="../images/api_competitive_procedure.png" title="">
+
+            <h4>Common flow of restricted tender </h4>
+            <p>The following BPMN covers the common flow of a restricted procurement procedure based on a selective
+                method:</p>
+
+            <img alt="" src="../images/api_competitive_procedure2.png" title="">
+
+            <h4>Technical design</h4>
+            <p>In order to implement each use case in accordance with its’ BPMN in the System, the technical aspects
+                described in this section should be taken into consideration.</p>
+            <h5>Preparation of the Contract Notice</h5>
+            <p>The general flow of an online procedure based on a selective method starts with a line in the annual
+                procurement plan (Prior Information Notice or simplified Prior Notice - PAPI-1-1: Procurement
+                initiation -
+                prior notices) based on a described need (PAPI-0-1: Expenditure Item) and the sources of financing
+                (PAPI-0-2: Funding Source) declared for such a need. </p>
+            <p>The preparation of a Call for Expressions of Interest (EoI) under an online procurement procedure based
+                on a
+                selective method consists of the preparation and publication of a Contract Notice (CN) based on a prior
+                notice. </p>
+            <p>For the preparation of the CN, the following crucial parameters shall be determined as follows:</p>
+            <table id=table1>
+                <tbody>
+                    <tr>
+                        <td colspan='1' rowspan='1'>
+                            <p>Command model attribute</p>
+                        </td>
+                        <td colspan='1' rowspan='1'>
+                            <p>Procurement for utilities</p>
+                        </td>
+                        <td>Restricted procedure</td>
+                    </tr>
+                    <tr>
+                        <td colspan='1' rowspan='1'>
+                            <p>tender.procurementMethod</p>
+                        </td>
+                        <td colspan='1' rowspan='1'>
+                            <p>selective</p>
+                        </td>
+                        <td>selective</td>
+                    </tr>
+                    <tr>
+                        <td colspan='1' rowspan='1'>
+                            <p>tender.procurementMethodDetails</p>
+                        </td>
+                        <td colspan='1' rowspan='1'>
+                            <p>gpa</p>
+                        </td>
+                        <td>rt</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h6>State-chart diagram</h6>
+            <p>The life cycle of a cpPhase for the multi-stage non-repetitive procedure based on a selective method
+                consists of the following states:</p>
+            <img alt="" src="../images/api_competitive_procedure3.png" title="">
+
+            <h5>Pre-qualification</h5>
+            <p>Along with the publication of a CN for an online procurement procedure based on a selective method, the
+                time-frame for the submission of expressions of interest by EOs shall be established in the
+                pre-qualification phase. </p>
+            <p>A separate preQualification block shall be included into a command model:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "preQualification":{</p>
+                <p> "period":{</p>
+                <p> "startDate":"",</p>
+                <p> "endDate":""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
             </div>
+            <h6>Submission of expressions of interest by interested EOs </h6>
+            <p>EOs can submit an EoI during a certain period of time indicated in the tender documents. Each EoI shall
+                fulfill all the requirements detailed through the qualification criteria stated by the CA. </p>
+            <p>Such requests must be based on the following submission schema:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "submission":{</p>
+                <p> {</p>
+                <p> "id":"",</p>
+                <p> "requirementResponses":[],</p>
+                <p> "candidates":[</p>
+                <p> {}</p>
+                <p> ]</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <h6>4.2.2 Enquiries - requests and clarifications</h6>
+            <p>EOs can send requests for clarification during a certain period of time indicated in the CN
+                enquiryPeriod,
+                according to PAPI-12-1: Clarification of conditions.</p>
+
+            <p style="font-weight: bold">Initiation of pre-qualification</p>
+            <p style="font-style: italic">Disclosure of submissions</p>
+            <p>When enough EoI are received from EOs, the submitted EoI must be disclosed using the submissions array
+                according to the following schema:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"submissions":{</p>
+                <p>"details":[]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <p style="font-style: italic">Establishment of a period for qualification by the CA</p>
+            <p>In order to indicate that the qualification phase of a procurement process has started, a separate
+                qualificationPeriod.startDate shall be added into a preQualification:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "preQualification":{</p>
+                <p> "qualificationPeriod":{</p>
+                <p> "startDate":""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p style="font-style: italic">Qualification of envelopes</p>
+            <p>Along with the initiation of the pre-qualification phase by the CA, a set of qualifications must be
+                established against each EoI received in order to allow the CA to reflect the decision taken regarding
+                the
+                EoI. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "qualifications":[</p>
+                <p> {</p>
+                <p> "id":"",</p>
+                <p> "status":"pending",</p>
+                <p> "statusDetails":"awaiting",</p>
+                <p> "candidates":[],</p>
+                <p> "relatedSubmission":""</p>
+                <p> }</p>
+                <p> ]</p>
+                <p>}</p>
+            </div>
+            <p>Such objects are initially established with status:pending and statusDetails:awaiting. Since no order is
+                stated for the pre-qualification sequence, the CA can qualify the received EoI randomly. </p>
+
+            <p style="font-weight: bold">Declaration of non-conflict of interest</p>
+            <p>Before starting the qualification phase, all members of the evaluation panel (see Profile PAPI-11-6:
+                Evaluation panel) shall provide a declaration of non-conflict of interest according to the common flow
+                described in Profile PAPI-8-1: Declaration of absence of conflict of interest by CA.</p>
+
+            <p style="font-weight: bold">Qualification of EoI</p>
+            <p>Once all declarations of non-conflict of interest against a specific EO which submitted an EoI are
+                provided
+                by the evaluation committee, the related qualification for this EoI may be switched into statusDetails:
+                consideration.</p>
+            <p style="font-style: italic">Consideration</p>
+            <p>The CA shall update the qualification with all the required meta-data, being allowed to:</p>
+            <ul>
+                <li>Add qualification.documents if needed;</li>
+                <li>add text qualification.description where any justification is needed; </li>
+                <li>add qualification.internalID (if any).</li>
+            </ul>
+            <p style="font-style: italic">Indication of a decision</p>
+            <p>Once the revision of a specific EoI is complete and the related qualification is fully updated with all
+                relevant data, the CA shall switch this qualification into one of the following states, reflecting the
+                decision taken:</p>
+            <ul>
+                <li>qualification.statusDetails: active means that the EoI is qualified (that is, that the EO will be
+                    invited to submit an offer);</li>
+                <li>qualification.statusDetails: unsuccessful - means that the EoI is disqualified.</li>
+            </ul>
+            <p style="font-style: italic">Qualification protocol</p>
+            <p>Once the CA has completed the revision of the received EoI and all the qualifications are updated with
+                relevant meta-data, the CA must indicate the end of the pre-qualification phase by submitting a
+                qualification protocol.</p>
+
+            <p style="font-weight: bold">Completion of qualification</p>
+            <p>If no blockages arise during the stand-still period (out of system), the CA can initiate the end of the
+                pre-qualification phase by initiating the second stage of the selective procedure, that is, the
+                tendering
+                phase. In order to do so, a tenderPeriod for this second stage needs to be defined by the CA:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "tender":{</p>
+                <p> "tenderPeriod":{</p>
+                <p> "startDate":"",</p>
+                <p> "endDate":""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p>The completion of the qualification period will have the consequences described in the following
+                sections.
+            </p>
+            <p style="font-style: italic">Completion of the qualification period</p>
+            <p>An indicator of the completion of the qualificationPeriod will be added into
+                preQualification.qualificationPeriod:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "preQualification":{</p>
+                <p> "qualificationPeriod":{</p>
+                <p> "endDate":""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p style="font-style: italic">Finalization of the pre-qualification phase</p>
+            <p>All qualifications shall be switched into final statuses:</p>
+            <ul>
+                <li>qualification.status: pending / statusDetails: active → qualification.status: active /
+                    statusDetails:
+                    none means that the related EoI is qualified and the EO is invited to submit a commercial offer;</li>
+                <li>qualification.status: pending / statusDetails: unsuccessful → qualification.status: unsuccessful /
+                    statusDetails: none means that the related EoI is disqualified.</li>
+            </ul>
+            <p>All related submitted EoI shall be switched into the following statuses:</p>
+            <ul>
+                <li>qualification.status: active → submission.status: valid;</li>
+                <li>qualification.status: unsuccessful → submission.status: disqualified.</li>
+            </ul>
+            <p style="font-style: italic">Completion of the pre-qualification phase
+            </p>
+            <p>The result of the pre-qualification phase shall be reflected with: </p>
+            <ul>
+                <li>preQualification.status.complete, where a number enough of EOs who sent an EoI are invited to
+                    submit
+                    an offer;</li>
+                <li>preQualification.status.unsuccessful, where the pre-qualification phase has been completed in a
+                    negative way due to the lack of EoI by EOs or because all the received EoI were disqualified.</li>
+            </ul>
+
+            <h4>Tendering</h4>
+            <h5>Invitations for qualified EOs </h5>
+            <p>Once the pre-qualification phase and the following stand-still period are over, and when the tendering
+                phase
+                is initiated by the CA in order to disclose the offers by the short-list of invited EOs, a separate
+                array
+                invitations will be generated with a separate element for each invited EO (that is, those with
+                qualification.status: active):</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "invitations":[</p>
+                <p> {</p>
+                <p> "id":"",</p>
+                <p> "date":"",</p>
+                <p> "tenderers":[],</p>
+                <p> "relatedQualification":""</p>
+                <p> }</p>
+                <p> ]</p>
+                <p>}</p>
+            </div>
+            <p>Only those EO that have been invited are allowed to submit a tender. Any tender submitted by EOs that
+                have
+                not been invited shall be refused automatically.</p>
+            <h5>Submission of offers by invited EOs </h5>
+            <p>Each invited EO is allowed to submit an offer within a given tender.tenderPeriod. Each offer shall
+                fulfil
+                all the requirements defined by the criteria related to every item or lot, providing an array of
+                requirementResponses. </p>
+            <p>Each offer includes:</p>
+            <ul>
+                <li>A reference to the EO’s profile, previously sent with the EoI (in case of two-stage procedures);</li>
+                <li>a set of documents of the offer, specifying the types of documents for their future splitting into
+                    different "envelopes";</li>
+                <li>the financial value of the offer;</li>
+                <li>a set of required responses according to the criteria specified by the CA (for example, related to
+                    the subject of procurement; related to the delivery and post-delivery, etc.).</li>
+            </ul>
+            <p>Such requests are based on the bid schema:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "bid":{</p>
+                <p> "id":"",</p>
+                <p> "status":"",</p>
+                <p> "relatedLots":[],</p>
+                <p> "tenderers":[],</p>
+                <p> "items":[</p>
+                <p> {</p>
+                <p> "id":"",</p>
+                <p> "description":"",</p>
+                <p> "quantity":""</p>
+                <p> }</p>
+                <p> ],</p>
+                <p> "requirementResponses":[]</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p>All the received offers remain confidential and closed until the expiration of the tendering period
+                tender.tenderPeriod.endDate. Once the tender.tenderPeriod.endDate is achieved, offers cannot be
+                submitted,
+                withdrawn or amended. </p>
+            <h4>Electronic Auction</h4>
+            <p>Electronic Auctions (eAuction) can be used as a part of the process, according to Profile PAPI-11-5:
+                Electronic auctions.</p>
+
+            <h4>Evaluation</h4>
+            <h5>Disclosure of proposals </h5>
+            <p>When enough offers have been received, the disclosure of these offers shall be reflected in a bids array
+                according to the following schema: </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "bids":{</p>
+                <p> "details":[]</p>
+                <p>}</p>
+            </div>
+
+            <h5>Establishment of a period for evaluation </h5>
+            <p>A separate object awardPeriod must be added into a tender when the specific start date for awarding is
+                automatically set: </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "tender":{</p>
+                <p> "awardPeriod":{</p>
+                <p> "startDate":""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h5>Evaluation of offers </h5>
+            <p>Along with the establishment of the tender.awardPeriod.startDate, a set of awards must be established
+                for
+                each offer received in order to allow the CA to reflect the decision taken for these offers. Such
+                objects
+                are based on the award schema and are initially defined with status:pending for all. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "awards":[</p>
+                <p> {</p>
+                <p> "id":"",</p>
+                <p> "status":"pending",</p>
+                <p> "suppliers":[],</p>
+                <p> "relatedLots":[],</p>
+                <p> "relatedBid":""</p>
+                <p> }</p>
+                <p> ]</p>
+                <p>}</p>
+            </div>
+            <h5>Initial ranking based on award criteria </h5>
+            <p>Depending on tender.awardCriteria and tenderAwardCriteriaDetails, offers can or cannot be initially
+                automatically ranked according to Profile PAPI-7-2: Initial ranking for evaluation. </p>
+            <h5>Evaluation by the CA </h5>
+            <p>Once an initial ranking is available (according to the awarding methodology applied), the CA can start
+                the
+                manual evaluation of offers according to either PAPI-7-1: Simple manual evaluation or PAPI-7-3: Scoring
+                function - advanced evaluation. </p>
+            <h5>Completion of the procedure </h5>
+            <p>The evaluation process ends with the submission of a protocol that reflects the results of the tendering
+                procedure. Once evaluation is completed and each received offer’s state is updated, the CA submits the
+                evaluation protocol which indicates the publication of the Contract Award Notice (CAN) according to
+                Profile
+                PAPI-9-1: Award decision - contract award notice. This protocol has to be submitted for each lot
+                separately. </p>
+
+            <h4>Initiation of a contract</h4>
+            <p>See PAPI-10-1: Initiation of a contract</p>
+
+            <h5>Cancellation of a procedure</h5>
+            <p>See PAPI-3-3: Termination of a procedure</p>
+
+
+            <h3>Tutorial</h3>
+            <p>This tutorial explains step-by-step how to use both the (Central Database Unit) CDUs’ command and query
+                APIs
+                in order to fulfil all the aforementioned requirements and perform all the functionality covered in
+                this
+                Profile</p>
+            <h4>Pre-conditions</h4>
+            <p>The procurement process for online procedures based on a selective method begins the same way as for any
+                other procurement method: from the line in the annual procurement plan (Prior Information Notice (PIN)
+                or
+                simplified Prior Notice (PN) - PAPI-1-1: Procurement initiation - prior notices) based on the need
+                described (PAPI-0-1: Expenditure Item) and the sources of financing (PAPI-0-2: Funding Source) declared
+                for
+                this need.</p>
+            <h4>5.2 Getting started</h4>
+            <p>This tutorial shows step-by-step a sequence of all actions and requests a contributor (NEPP) needs to
+                conduct throughout the entire process covered by the use-cases.</p>
+            <h5>Create a CN on a PN</h5>
+            <p>To prepare a CN for a procurement procedure based on a limited method previously created cpPhase.PN to
+                be
+                updated with all data according to a relevant command model.</p>
+            <h6>Get X-OPERATION-ID </h6>
+            <p>According to CDUI-2-1: X-OPERATION-ID, for the identification of an operation before starting and, in
+                particular, for the preparation of a CN, a unique operations’ identified, X-OPERATION-ID, shall be
+                requested: </p>
+            <div class="sourceCode">
+                <p>POST HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Host: operation.HOST</p>
+                <p></p>
+                <p>201 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb"</p>
+                <p>}</p>
+            </div>
+            <h6>Registration of documentation</h6>
+            <p>According to CDUI-3-1: Registration of a document, the CA can register document for the future
+                cpPhase.CN
+                before it is created: </p>
+            <div class="sourceCode">
+                <p>POST /registration HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: storage.HOST</p>
+                <p>{</p>
+                <p> "hash": "9a0364b9e99bb480dd25e1f0284c8555"</p>
+                <p>}</p>
+                <p>201 Created</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "success": true,</p>
+                <p> "data": {</p>
+                <p> "id": "4c4f5a50-89cd-11e8-b758-dd76462396b0",</p>
+                <p> "url": "http://storage.HOST/get/4c4f5a50-89cd-11e8",</p>
+                <p> "dateModified": "2018-07-17T14:25:47Z"</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <h6>Send a request for the creation of a CN based on a PN</h6>
+            <p>To introduce a new CN for a procurement procedure based on the limited method
+                createCNonPN.selective-online
+                command, a model should be used for the preparation of POST-request for BPE with the following
+                parameters:</p>
+            <p>/do/cn/cpid/ocid?country=...&pmd=...</p>
+
+            <p>Where:</p>
+            <ul>
+                <li>cpid - OCID of parent Contracting Process (cProcess)</li>
+                <li>ocid - OCID of a prior notice under this contracting process</li>
+                <li>country - Identifier of country of jurisdiction according to ‘country’ codelis</li>
+                <li>pmd - Identifier procurementMethodDetails according to ‘pmd’ codelist</li>
+            </ul>
+            <div class="sourceCode">
+                <p>POST /do/cn/ocds-000-00001/ocds-000-00001-pn HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>X-OPERATION-ID: f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb</p>
+                <p>X-TOKEN: 2ef61fa89e8a451ba4149d2f8e31173b</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: bpe.HOST</p>
+                <p></p>
+                <p>{} // data set based on createCNonPN.selective-online command-model</p>
+                <p></p>
+                <p>202 Accepted</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+            </div>
+
+            <p> <span style="color:red; font-weight: bold"> Important! </span> Find below the main differences of a
+                command
+                model between a selective procedure and an open procedure: </p>
+            <p style="font-weight: bold">Pre-qualification</p>
+            <p>A separate preQualification block shall be included into the CN in order to initiate a call for EoIs:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "preQualification": {</p>
+                <p> "period": {</p>
+                <p> "endDate": ""</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p style="font-weight: bold">No tender period</p>
+            <p>Since there is no period for the submission of offers at the first stage of the selective procedure,
+                tenderPeriod is supposed to be excluded from the request.</p>
+            <p style="font-weight: bold">Second-stage parameters</p>
+            <p>The CA is allowed to limit the number of candidates to be invited to submit an offer in the second stage
+                of
+                the procedure. In this case, pre-selection instead of pre-qualification will be applied in order to
+                evaluate the EOs which submit an EoI. In order to limit the number of candidates, secondStage building
+                block shall be included within the tender:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "tender": {</p>
+                <p> "secondStage": {</p>
+                <p> "minimumCandidates": 2,</p>
+                <p> "maximumCandidates": 5</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p style="font-weight: bold">Other criteria</p>
+            <p>Technique for the reduction of the number of candidates according to the limits of the secondStage: </p>
+            <div class="sourceCode">
+                <p>"tender": {</p>
+                <p> "otherCriteria": {</p>
+                <p> "qualificationSystemMethods": [</p>
+                <p> "" // The value from enum [“automated” or “manual” ]</p>
+                <p> ],</p>
+                <p> "reductionCriteria": "" // The value from enum [“scoring” or “none” ]</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <p>Together with the request, information needed for future automated evaluation can be expressed:</p>
+            <p style="font-weight: bold">PAPI-2-5: Evaluation panel</p>
+            <p>A set of CA evaluation panel could be announced. </p>
+            <p style="font-weight: bold">PAPI-11-1: Award criteria</p>
+            <p>The set of criteria may include different types of requirements, used in different ways and for
+                different
+                reasons. </p>
+            <p style="font-weight: bold">PAPI-11-4: Conversions</p>
+            <p>When a scoring function is used, a set of verifiable conversions might be needed for future ranking and
+                evaluation of offers.</p>
+
+            <h6>Feed Point Response</h6>
+            <p>As a result of the command execution, a separate ocds-record is formed in the system describing the
+                Contract
+                Notice created. The system will inform the contributor (according to the CDUI-5-1: Backward
+                notification)
+                with the following message:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "initiator": "platform",</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "data": {</p>
+                <p> "ocid": "ocds-t1s2t3-TEST",</p>
+                <p> "url": "http://public.HOST/tenders/ocds-000-00001/ocds-000-00001-sp",</p>
+                <p> "operationDate": "2018-08-14T13:51:06Z",</p>
+                <p> "outcomes": {</p>
+                <p> "ev": [ </p>
+                <p> {</p>
+                <p> "id": "ocds-000-00001-sp"</p>
+                <p> }</p>
+                <p> ]</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Upload documentation</h6>
+            <p>Having both the documents registered and the cpPhase.CN created, the CA can upload documents according
+                to
+                CDUI-3-2: Upload of a document. Document uploading is an iterative process.</p>
+            <div class="sourceCode">
+                <p>POST /upload/389684cc28c242b79c97c56be5142e25 HTTP/1.0</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Content-Length: 58</p>
+                <p>Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy572732436472$</p>
+                <p>Host: storage.HOST</p>
+                <p></p>
+                <p>------------a_BoUnDaRy572732436472$</p>
+                <p>content</p>
+                <p>------------a_BoUnDaRy572732436472$--</p>
+                <p></p>
+                <p>201 Created</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p></p>
+                <p>{</p>
+                <p> "data": {</p>
+                <p> "url": "https://storage.HOST/get/389684cc28c242b79c97c56be5142e25"</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Request full result</h6>
+            <p>Once all previous actions are finalised, the newly created CN is now available in a Public Point:</p>
+            <div class="sourceCode">
+                <p>GET /get/tenders/ocds-000-00001/ocds-000-00001-sp?offset= HTTP/1.1</p>
+                <p>Host: public.HOST</p>
+                <p></p>
+                <p>200 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p></p>
+                <p>{} // data set based on CN query-model</p>
+            </div>
+
+            <h5>Amend a CN</h5>
+            <p>Once a CN is published, only non-significant changes and amendments are available according to PAPI-3-1:
+                Corrigendum notice - amendment of initial conditions. </p>
+            <h6>Get X-OPERATION-ID</h6>
+            <p>According to CDUI-2-1: X-OPERATION-ID, the identification of an operation before it starts is required
+                and,
+                in particular, for the preparation of an amendment, a unique operations’ identifier X-OPERATION-ID
+                shall be
+                requested: </p>
+            <div class="sourceCode">
+                <p>POST HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Host: operation.HOST</p>
+                <p></p>
+                <p>201 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb"</p>
+                <p>}</p>
+            </div>
+
+            <h6>Registration of documentation</h6>
+            <p>According to a CDUI-3-1: Registration of a document, the CA can register documents related to an
+                amendment.
+            </p>
+            <div class="sourceCode">
+                <p>POST /registration HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: storage.HOST</p>
+                <p>{</p>
+                <p> "hash": "9a0364b9e99bb480dd25e1f0284c8555"</p>
+                <p>}</p>
+                <p>201 Created</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "success": true,</p>
+                <p> "data": {</p>
+                <p> "id": "4c4f5a50-89cd-11e8-b758-dd76462396b0",</p>
+                <p> "url": "http://storage.HOST/get/4c4f5a50-89cd-11e8",</p>
+                <p> "dateModified": "2018-07-17T14:25:47Z"</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Send a request for the amendment of a CN</h6>
+            <p>To amend a CN using an amendPhase command, a model should be used for the preparation of a POST-request
+                for
+                BPE with the following parameters:</p>
+            <p>/do/cn/cpid/ocid</p>
+            <p>Where:</p>
+            <ul>
+                <li>cpid - OCID of parent Contracting Process (cProcess)</li>
+                <li>ocid - OCID of a phase of contracting process to be amended</li>
+            </ul>
+
+            <div class="sourceCode">
+                <p>POST /do/cn/ocds-000-00001/ocds-000-00001-sp HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>X-OPERATION-ID: f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb</p>
+                <p>X-TOKEN: 2ef61fa89e8a451ba4149d2f8e31173b</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: bpe.HOST</p>
+                <p></p>
+                <p>{} // data set based on amendPhase command-model</p>
+                <p></p>
+                <p>202 Accepted</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+            </div>
+
+            <h6>Feed Point Response</h6>
+            <p>As a result of the command execution a separate ocds-release is formed in the system describing the CN
+                together with amendment. The System will inform the contributor (according to CDUI-5-1: Backward
+                notification) with the following message:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "initiator": "platform",</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "data": {</p>
+                <p> "ocid": "ocds-000-00001-cn",</p>
+                <p> "url": "http://public.HOST/tenders/ocds-000-00001/ocds-000-0000-sp",</p>
+                <p> "operationDate": "2018-08-14T13:51:06Z",</p>
+                <p> "outcomes": {</p>
+                <p> "amendment": {</p>
+                <p> "id": "ocds-000-00001-cn-amendment-1"</p>
+                <p> }</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Upload documentation</h6>
+            <p>Now the CA can upload new documents related to the CN, according to CDUI-3-2: Upload of a document. </p>
+            <div class="sourceCode">
+                <p>POST /upload/389684cc28c242b79c97c56be5142e25 HTTP/1.0</p>
+                <p>Authorization:</p>
+                <p>Content-Length: 58</p>
+                <p>Content-Type: multipart/form-data; boundary=----------a_BoUnDaRy572732436472$</p>
+                <p>Host: storage.eprocurement.systems</p>
+                <p></p>
+                <p>------------a_BoUnDaRy572732436472$</p>
+                <p>content</p>
+                <p>------------a_BoUnDaRy572732436472$--</p>
+                <p></p>
+                <p>201 Created</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p></p>
+                <p>{</p>
+                <p> "data": {</p>
+                <p> "url": ".../get/389684cc28c242b79c97c56be5142e25"</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+            <h6>Request full result</h6>
+            <p>Once all previous actions are finalised, the amended CN is now available in a Public Point:</p>
+            <div class="sourceCode">
+                <p>GET /get/tenders/ocds-000-00001/ocds-000-00001-sp?offset= HTTP/1.1</p>
+                <p>Host: public.HOST</p>
+                <p></p>
+                <p>200 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p></p>
+                <p>{} // data set based on CN query-model</p>
+            </div>
+
+            <h5>Clarification</h5>
+            <p>The clarification activities conducted during the enquiryPeriod must be performed according to common
+                Profile PAPI-12-1: Clarification of conditions.</p>
+
+            <h5>Submission of an EoI</h5>
+            <p>In order to submit a new EoI for pre-qualification, the actions described in the following sections must
+                be
+                performed.</p>
+
+            <h6>Get X-OPERATION-ID</h6>
+            <p>According to CDUI-2-1: X-OPERATION-ID, the identification of an operation before it starts is required
+                and,
+                in particular, for the preparation of the submission of an EoI, a unique operations’ identifier
+                X-OPERATION-ID shall be requested: </p>
+
+            <div class="sourceCode">
+                <p>POST HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Host: operation.HOST</p>
+                <p></p>
+                <p>201 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb"</p>
+                <p>}</p>
+            </div>
+
+            <h6>Registration of documentation</h6>
+            <p>According to a CDUI-3-1: Registration of a document, the EO can register documents related to the
+                submission
+                of an EoI. </p>
+            <div class="sourceCode">
+                <p>POST /registration HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: storage.HOST</p>
+                <p>{</p>
+                <p> "hash": "9a0364b9e99bb480dd25e1f0284c8555"</p>
+                <p>}</p>
+                <p>201 Created</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "success": true,</p>
+                <p> "data": {</p>
+                <p> "id": "4c4f5a50-89cd-11e8-b758-dd76462396b0",</p>
+                <p> "url": "http://storage.HOST/get/4c4f5a50-89cd-11e8",</p>
+                <p> "dateModified": "2018-07-17T14:25:47Z"</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Send a request for the submission of an EoI</h6>
+            <p>To submit an EoI within an online procedure based on a selective method using a createSubmission
+                command, a
+                model should be used for the preparation of a POST-request for BPE with the following parameters:</p>
+            <p>/do/submission/cpid/ocid</p>
+            <p>Where:</p>
+            <ul>
+                <li>cpid - OCID of parent Contracting Process (cProcess)</li>
+                <li>ocid - OCID of a phase of contracting process</li>
+            </ul>
+
+            <div class="sourceCode">
+                <p>POST /do/submission/ocds-000-00001/ocds-000-00001-sp HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>X-OPERATION-ID: f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: bpe.HOST</p>
+                <p></p>
+                <p>{</p>
+                <p> "submission": {</p>
+                <p> "id": ""</p>
+                <p> "candidates": [</p>
+                <p> { "$ref": "#/definitions/Organization" }</p>
+                <p> ]</p>
+                <p> "documents": [</p>
+                <p> { "$ref": "#/definitions/Document" }</p>
+                <p> ],</p>
+                <p> "requirementResponses":[</p>
+                <p> { "$ref": "#/definitions/requirementResponse" }</p>
+                <p> ]</p>
+                <p> }</p>
+                <p>}</p>
+                <p>5.2.5 </p>
+                <p>202 Accepted</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+            </div>
+
+            <p style="font-weight: bold">Requirement Responses</p>
+            <p>An EoI shall include relevant requirementResponse for each requirement expressed through criteria, where
+                criterion.source: tenderer</p>
+
+            <h6>Feed Point Response</h6>
+            <p>As a result of the command execution, a separate ocds-release is formed in the system describing the
+                submitted EoI. The System will inform the contributor (according to a CDUI-5-1: Backward notification)
+                with
+                a following message:</p>
+
+            <div class="sourceCode">
+                <p>{</p>
+                <p> "initiator": "platform",</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "X-RESPONSE-ID": "f5c6a3c1-5ff8-463f-9c0c-d4c1f324b7fb",</p>
+                <p> "data": {</p>
+                <p> "ocid": "ocds-000-00001-sp",</p>
+                <p> "url": "http://public.HOST/tenders/ocds-000-00001/ocds-000-00001-sp",</p>
+                <p> "operationDate": "2018-08-14T13:51:06Z",</p>
+                <p> "outcomes": {</p>
+                <p> "submissions": [</p>
+                <p> {</p>
+                <p> "id": "333-submission-id-3344",</p>
+                <p> "X-TOKEN": "c3bdd497-ac2d-4e25-bd7f-cd55111aa7b4",</p>
+                <p> }</p>
+                <p> ]</p>
+                <p> }</p>
+                <p> }</p>
+                <p>}</p>
+            </div>
+
+            <h6>Upload documentation</h6>
+            <p>Now, having both the documents registered and the EoI submitted, the EO can upload documents according
+                to
+                CDUI-3-2: Upload of a document. Document uploading is an iterative process.</p>
+            <p>Note that there will be no updated information in a Public Point after the submission of an offer since
+                all
+                the offers remain confidential until the deadline for submission (tender.tenderPeriod.endDate) .</p>
+
+            <h5>Withdrawal of an EoI</h5>
+            <p>In order to withdraw an EoI, the actions described in the following sections must be performed.</p>
+            <h6>Get X-OPERATION-ID</h6>
+            <p>According to CDUI-2-1: X-OPERATION-ID, the identification of an operation before it starts is required
+                and,
+                in particular, for the preparation of the withdrawal of an EoI, a unique operations’ identifier
+                X-OPERATION-ID shall be requested: </p>
+            <div class="sourceCode">
+                <p>POST HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>Host: operation.HOST</p>
+                <p></p>
+                <p>201 OK</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+                <p>{</p>
+                <p> "X-OPERATION-ID": "f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb"</p>
+                <p>}</p>
+            </div>
+
+            <h6>Send a request for the submission of an EoI</h6>
+            <p>To withdraw an EoI, a request shall be send to BPE with the following parameters: </p>
+            <p>/cancel/submission/cpid/ocid/id</p>
+            <p>Where:</p>
+            <ul>
+                <li>cpid - OCID of parent Contracting Process (cProcess)</li>
+                <li>ocid - OCID of a phase of contracting process</li>
+                <li>id - an identifier of submission to be withdrawn</li>
+            </ul>
+
+            <div class="sourceCode">
+                <p>POST /cancel/submission/ocds-000-00001/ocds-000-00001-sp/333-submission-id-3344 HTTP/1.1</p>
+                <p>Authorization: Bearer QWxhZGRpbjpPcGVuU2VzYW1l</p>
+                <p>X-OPERATION-ID: f5c6a3c0-5ff8-463f-9c0c-d4c1f324b7fb</p>
+                <p>Content-Type: application/json</p>
+                <p>Host: bpe.HOST</p>
+                <p></p>
+                <p>{}</p>
+                <p></p>
+                <p>202 Accepted</p>
+                <p>Content-Type: application/json; charset=UTF-8</p>
+            </div>
+            <h6>Feed Point Response</h6>
+            <p>As a result of the command execution, the System will inform the contributor (according to CDUI-5-1:
+                Backward notification) with a relevant message.</p>
 
         </div>
         <script>
