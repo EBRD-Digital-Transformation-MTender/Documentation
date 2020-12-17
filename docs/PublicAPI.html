@@ -7,7 +7,7 @@ permalink: /API/
 <html>
 
     <head>
-        <link rel="stylesheet" type="text/css" href="./../documentationStyles.css">
+        <link rel="stylesheet" type="text/css" href="documentationStyles.css">
     </head>
 
     <body>
@@ -70,6 +70,8 @@ permalink: /API/
                 <p class="navLevel2"><a href="/Documentation/API#h.command">Command API</a></p>
                 <p class="navLevel2"><a href="/Documentation/API#h.competitionprocedures">API for Competitive
                         Procedures</a></p>
+                <p class="navLevel2"><a href="/Documentation/API#h.EstFA">Establishment of a Framework Agreement</a></p>
+
 
             </div>
             <a href="/Documentation/services"><button class="accordion">Services &#11206; </button></a>
@@ -2149,6 +2151,988 @@ permalink: /API/
             <p>As a result of the command execution, the System will inform the contributor (according to CDUI-5-1:
                 Backward notification) with a relevant message.</p>
 
+            <h2 class="c82" id="h.EstFA"><span>Establishment of a Framework Agreement</span></h2>
+            <h3>Business processes</h3>
+            <p>The following diagrams show the choreography of the business processes implemented by the Profile. The
+                choreography defines the sequence of interactions when the Profile is run within its context.</p>
+            <h4>Pre-conditions</h4>
+            <p>The process for the establishment of a framework agreement begins from a cameral demand analysis (based
+                on detailed expenditure items of the Buyers) and aggregated planning as a multi-relation with a number
+                of periodic indicative notices (Prior Information Notice or simplified Prior Notice - PAPI-1-1:
+                Procurement initiation - prior notices), based on described need (PAPI-0-1: Expenditure Item) and the
+                sources of financing (PAPI-0-2: Funding Source) declared for such a need by the other Buyers who intend
+                to become a party of further framework agreement by CPB.</p>
+            <h4>Initiation of a framework agreement </h4>
+            <p>Initiation of a framework agreement is an offline process by CPB. It is based on analysis of a buyer's
+                demand described by publishing the lists of expenditure items as a part of the budgeting process.
+                Having all the needs described by both obligatory and voluntary Buyers, CPB can evaluate such demand
+                against overall value, geographical distribution, homogeneity, timing and so on, as well as compare it
+                with a market proposition. Main goal of this stage is to decide on a provisional procurement strategy
+                and inform Buyers about CPBs intention to establish a framework agreement for a specific category. All
+                the following action related to scoping of a future aggregated demand and budget.</p>
+            <img alt="" src="../images/BPMN FOR A PROCESESS OF INITIATION OF A FRAMEWORK AGREEMENT.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);">
+
+            <p class="center">BPMN for a process of initiation of a framework agreement </p>
+            <h4>Common flow of planning an aggregated</h4>
+            <p>A principle business-process of an aggregation of a Buyers indicative notices looks like following:
+            </p>
+            <img alt="" src="../images/BPMN for common online selective procedure for utilities.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);">
+
+            <p class="center">BPMN for common online selective procedure for utilities</p>
+            <h4>Common flow of a design of a framework agreement</h4>
+            <p>The high-level of a design of a framework agreement expressed in a following diagram:</p>
+            <img alt="" src="../images/Common flow of a design of a framework agreement.png" style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);">
+
+            <h4>Common process of a framework agreement establishment</h4>
+            <p>The Profile covers a common flow of procurement procedure for utilities based on a selective method:</p>
+
+            <p class="center">BPMN for common process of a framework agreement establishment</p>
+
+            <h3>Technical design</h3>
+            <p>In order to implement a Profile in a MTender system the following technical design is applied:</p>
+            <h4>Preparation of framework agreement establishment</h4>
+            <p>As it is stated above, contracting process for an establishment of a framework agreement based on an
+                online selective procurement method and begins from a cameral demand analysis (based on detailed
+                expenditure items of the Buyers) and aggregated planning as a multi-relation with a number of periodic
+                indicative notices by the Buyers who intend to become a party of further framework agreement by CPB.
+                Thus, an establishment of a framework agreement on a technical layer begins from an initiation of a
+                relevant contracting process and publication of a draft of a future aggregated plan where all the
+                relations with the periodic notices aggregated by CPB as a common scope of a framework agreement to be
+                established. </p>
+            <h5>Initiation of a contracting process for a framework agreement </h5>
+            <p>Initiation of a contracting process in case of framework agreement goes in the same way as for any other
+                procurement methods - with a publication of a planning notice (PN) which in this case is a draft of a
+                future aggregated plan (AP). Thus, the relevant request for initiation of a contracting process based
+                on createPN.ap command-model to be sent to a BPE: </p>
+
+            <table>
+                <tr>
+                    <p>/do/ap?country=...&pmd=...</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>country: Identifier of country of jurisdiction according to country codelist</p>
+                </tr>
+                <tr>
+                    <p>pmd: Identifier procurementMethodDetails according to pmd codelist</p>
+                </tr>
+            </table>
+
+            <P>As a result, a new contracting process for a farther framework agreement (FA) with a relevant attributes
+                will be initiated in the system as well as draft of a future aggregated plan (AP). </P>
+            <h5>4.1.2 Collection of demand and aggregated planning </h5>
+            <p>The Aggregated Plan (AP) contains information about multiple individual procurement plans. Through the
+                aggregation of demand CPBs could significantly diminish costs of procedures. Procurement techniques
+                that involve aggregation usually take longer to award than non-aggregated procurement processes, but
+                they are associated with lower cost than running "standard“ restricted or negotiated procedures. CPBs
+                are more professional and aggregation may permit greater strategic buying power Repetitive purchasing
+                and issues of aggregation are inevitably evoked in the context of CPBs since the reason to establish
+                them is usually to provide smaller contracting authorities with the benefits of economies of scale.</p>
+            <p>On a data-level, aggregation means setting up a relationship between different data-sets and inheritance
+                of specific data in order to reflect aggregation and its scope. </p>
+            <p>The logic illustrated with the following component diagram consist of a sequence of relations set based
+                on the business process performed. </p>
+            <img alt="" src="../images/Component diagram of a collection and aggregation of a periodic notices as a aggregated plan.png"
+                style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);">
+            <p class="center">Component diagram of a collection and aggregation of a periodic notices as a aggregated
+                plan </p>
+            <h6>4.1.2.1. Collection of a needs to be included into a aggregated plan</h6>
+            <p>According to a business process above, once a potential Buyer becomes aware of CPBs intention to
+                establish a framework agreement for a specific category of goods or services, he can request from CPB
+                an inclusion of his relevant demand and related budget into a scope of such FA. To do so, Buyer needs
+                to describe his demand first by initiating a separate contracting process against previously declared
+                annual needs (expenditure item classified with a certain CPV code) and publication of a relevant
+                periodic notice, describes provisional schedule, budget allocated and, at least common definition of a
+                subject of procurement. Once such data is ready on Buyers' side, the inclusion of a demand can be
+                requested from CPB through establishing a relation between periodic notice of contracting process and
+                the framework agreement. Such a relation serves as a data-hook of inclusion requests recorded.</p>
+
+            <table>
+                <tr>
+                    <p>/do/outsourcing/cpid/ocid?FA=...&AP=...</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a contracting process whichs PN is to be requested for inclusion into
+                        aggregated plan </p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a PN which is to be requested for inclusion into aggregated plan </p>
+                </tr>
+                <tr>
+                    <p>FA: Identifier of a FA where a received PN is to be included as a request for aggregation</p>
+                </tr>
+                <tr>
+                    <p>AP: Identifier of a aggregated plan under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <p>As a result, a relevant relation will be established in FA to PN received as follows:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"relatedProcesses": [</p>
+                <p>{</p>
+                <p>"id": "",</p>
+                <p>"relationship": [</p>
+                <p>"x demand"</p>
+                <p>],</p>
+                <p>"identifier": ""</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+            </div>
+            <p>And the reverse relation in PN to FA as follows:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"relatedProcesses": [</p>
+                <p>{</p>
+                <p>"id": "",</p>
+                <p>"relationship": [</p>
+                <p>"framework"</p>
+                <p>],</p>
+                <p>"identifier": ""</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+            </div>
+            <p>Thus, all the requests by the Buyers interested in their needs to be covered by further framework
+                agreement will be collected in an AP drafted by CPB as the related processes with a relevant </p>
+            <p>relationship: x_demand.</p>
+            <h6>4.1.2.2. Aggregation of requested demands </h6>
+            <p>On a CPB side, each requested inclusion to be reviewed by CPB and decided on whether this request is a
+                subject of this framework from classification, geography, volume and etc perspectives. If compliant and
+                CPB decides to include this demand into a scope of future framework agreement, such demand is to be
+                aggregated through establishing a relevant relation: </p>
+
+            <table>
+                <tr>
+                    <p>/do/relation/cpid/ocid?CP=...&PN=...</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a contracting process whichs PN is to be requested for inclusion into
+                        aggregated plan </p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a PN which is to be requested for inclusion into aggregated plan </p>
+                </tr>
+                <tr>
+                    <p>FA: Identifier of a FA where a received PN is to be included as a request for aggregation</p>
+                </tr>
+                <tr>
+                    <p>AP: Identifier of a aggregated plan under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <p>As a result, a relevant relation will be established in AP to PN received as follows:
+            </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"relatedProcesses": [</p>
+                <p>{</p>
+                <p>"id": "",</p>
+                <p>"relationship": [</p>
+                <p>"x scope"</p>
+                <p>],</p>
+                <p>"identifier": ""</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+            </div>
+            <p>In the same way CPB proceeds with all the requests collected during a certain determined period of time
+                and, having the final aggregated scope, CPB can complete a scoping period and start with a design of
+                framework, preparation of a pre-qualification phase and a framework establishment itself.</p>
+            <h6>4.1.2.3. Description of a scope of an aggregated plan</h6>
+            <p>Since aggregation of a subject of procurement from multiple sources (periodic notices by Buyers) into
+                single common scope (AP) doesn't seem a linear process and often requires a human-analysis, at this
+                stage a subject aggregation together with a “lots” strategy goes to CPB as a manual process.</p>
+            <p>In order to reflect a summary of an aggregation - subject of matter of this contracting process as a set
+                of items and lots, CPB supposes to update AP with a relevant substance. To do this, relevant request
+                for an update of a AP based on updatePN.ap command-model to be sent to a BPE:</p>
+
+            <table>
+                <tr>
+                    <p>/do/ap/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a FA where a received PN is to be included as a request for aggregation</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a aggregated plan under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <p>In the same way CPB proceeds with all the updates up to all the demand collected via the aggregated plan
+                is reflected in its scope. Once done, CPB can start with collection of expressions of interest from a
+                market. </p>
+            <h7>4.1.2.3.1. Determining product categories and products</h7>
+            <p>The subject matter of framework agreements is works/goods/services. However, as framework agreements are
+                established for repeating needs and usually include a form of aggregated purchasing, challenges
+                regarding the subject matter often occur. The issues relate to the uncertainties of how detailed the
+                subject matter must be identified and described, and question whether substitution of subject is
+                allowed, and if yes, to what extent. These uncertainties are particularly important within framework
+                contracts, where all terms and conditions for awarding call-offs are established at the stage of
+                concluding a framework - framework establishment. As a scope for change is limited in comparison with
+                framework agreements, where a mini-competition or further specification of terms will be applicable.</p>
+            <p>Technically, determining of a product categories is a determination of a relevant list of items with
+                aggregated classification according to CPV and decomposed place of performance (delivery).</p>
+            <p>Simplest case when the only category of goods scoped for relatively same (or even same) geography:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"items": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"description": "Notebooks",</p>
+                <p>"quantity":200, </p>
+                <p>"classification": {</p>
+                <p>"schema": "CPV",</p>
+                <p>"id": "30213100-6",</p>
+                <p>"decription":"Portable computers"</p>
+                <p>}</p>
+                <p>},</p>
+                <p>"deliveryAddress": {</p>
+                <p>"region": "Florida"</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <p>More complex case when a common volume in a category of goods is divided through geography:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"items": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"description": "Notebooks",</p>
+                <p>"quantity":200, </p>
+                <p>"classification": {</p>
+                <p>"schema": "CPV",</p>
+                <p>"id": "30213100-6",</p>
+                <p>"decription":"Portable computers"</p>
+                <p>}</p>
+                <p>},</p>
+                <p>"deliveryAddress": {</p>
+                <p>"region": "Florida"</p>
+                <p>},</p>
+                <p>{</p>
+                <p>"id": "002",</p>
+                <p>"description": "Notebooks",</p>
+                <p>"quantity":50, </p>
+                <p>"classification": {</p>
+                <p>"schema": "CPV",</p>
+                <p>"id": "30213100-6",</p>
+                <p>"decription":"Portable computers"</p>
+                <p>},</p>
+                <p>"deliveryAddress": {</p>
+                <p>"region": "California"</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>4.1.2.3.2. Determining the legal type of FA</h7>
+            <h7>Fixed and non-fixed terms</h7>
+            <p>When it comes to framework agreements that do not include all terms and conditions, it is required that
+                these are further specified and substituted when necessary at the stage of awarding call-offs.</p>
+            <h7>Indication whether options are used and other information about options</h7>
+            <p>A buyer may have a right – but not an obligation – to additional purchases from a supplier while the
+                contract is valid. For example, a contract may concern a thousand uniforms, and the buyer may have the
+                option to request an additional hundred uniforms. This may be useful if, when initiating the
+                contracting process, the buyer doesn't yet know whether a planned increase in staff will take place.</p>
+            <p>The options.hasOptions field can be set to true, and the options.description field can describe the
+                options for additional purchases. hasOptions and options.description can also be set on lot objects in
+                the tender.lots array:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"lots": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"options": {</p>
+                <p>"hasOptions": true,</p>
+                <p>"description": "The buyer has the option to buy an additional hundred uniforms.", </p>
+                <p>}</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>Information on the recurrence of the contracting process</h7>
+            <p>Such information needed if, for example, another procurement procedure or qualification system for the
+                same contract matter is likely to be re-launched, or re-established, in the foreseeable future. Note
+                that this does not mean awarding multiple contracts within a single qualification system, framework
+                agreement, or dynamic purchasing system; in these cases, these fields should not be used. This
+                information can be useful, for example, to companies deciding whether to invest into machinery
+                necessary for a particular contract. With this information, they know that there will likely be an
+                opportunity to win similar contracts in future years, which may make the investment more worthwhile.</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"lots": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"recurrence": {</p>
+                <p>"hasRecurrence": true,</p>
+                <p>"dates": [</p>
+                <p>{ "startDate": "2020-01-01T00:00:00Z" },</p>
+                <p>{ "startDate": "2021-01-01T00:00:00Z" }</p>
+                <p>],</p>
+                <p>"description": "The duration of this contract and recurrent contracts less then 3 y"</p>
+                <p>}</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>Description of the options for the renewal of contracts</h7>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"lots": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"renewals": {</p>
+                <p>"hasRenewals": true,</p>
+                <p>"variantsDetails": "Contracts are due to be renewed one time at the end of term"</p>
+                <p>}</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>Information about variants</h7>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"lots": [</p>
+                <p>{</p>
+                <p>"id": "001",</p>
+                <p>"variants": {</p>
+                <p>"hasVariants": true,</p>
+                <p>"variantsDetails": "Any relevant items are permitted"</p>
+                <p>}</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>4.1.2.3.3. Duration of a future framework agreement by each defined category</h7>
+            <p>The duration of a framework agreement may generally not exceed four years and may be shorter.</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"contractPeriod": {</p>
+                <p>"durationInMonth": 36,</p>
+                <p>"startDate": "",</p>
+                <p>"endDate": ""</p>
+                <p>}</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h4>4.2 Call for expressions of interest</h4>
+            <p>Preparation of Call for expressions of interest under a contracting process based on an online selective
+                procurement method is made by preparation and publication of a contract notice based on a prior notice.
+                In case of framework agreement such prior notice is an AP. To introduce a new Contract Notice as a call
+                for expressions of interest for procedure based on a selective method createCNonPN.selective-online
+                command-model should be used for preparation of POST-request for BPE:</p>
+
+            <table>
+                <tr>
+                    <p>/do/fe/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where a call for EoI is to be published</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a aggregated plan under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <p>As a result of the command execution a separate ocds-record based on cpPhase.FE is formed in the system
+                describing the Contract Notice created.</p>
+            <h5>4.2.1 Specific information</h5>
+            <p>Together with all the common information applicable for any of contract notices for other procurement
+                methods, the following additional information is specifically applied in case of an announce of
+                establishment of a framework agreement: </p>
+            <h6>4.2.1.1. Applied techniques</h6>
+            <h7>4.2.1.1.1. Pre-qualification</h7>
+            <p>Separate preQualification block shall be included into Contract Notice in order to initiate a call for
+                EoI:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"preQualification": { }</p>
+                <p>}</p>
+            </div>
+            <h7>4.2.1.1.2. Second-stage parameters</h7>
+            <p>A separate technique according to PAPI-11-8: Second-stage: PE allowed to limit a number of candidates to
+                be invited to submit financial offers later on. Where this is a case, pre-selection instead of
+                pre-qualification will be applied in order to evaluate candidates. To limit number of candidates,
+                secondStage building block to be included inside:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"secondStage": {</p>
+                <p>"minimumCandidates": 2,</p>
+                <p>"maximumCandidates": 5</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>4.2.1.1.3. Other criteria</h7>
+            <p>A separate technique according to PAPI-11-3: Other criteria - reduction of the number of candidates
+                according to a limits by secondStage: </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"otherCriteria": {</p>
+                <p>"qualificationSystemMethods": [""], // The value from enum ["automated" or "manual" ]</p>
+                <p>"reductionCriteria": "" // The value from enum ["scoring" or "none" ]</p>
+                <p>}</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h7>4.2.1.1.4. Award criteria</h7>
+            <p>Set of criteria may include different types of requirements based on PAPI-11-2: Qualification criteria,
+                used in different ways and for different reasons. </p>
+            <h7>4.2.1.1.5. Conversions</h7>
+            <p>Where scoring function to be applied, a set of verifiable conversions needed for future ranking and
+                evaluation as described in a PAPI-11-5: Scoring function and conversions</p>
+            <h7>4.2.1.1.6. Requirement of an electronic catalogue to be submitted</h7>
+            <p>If all the further financial offers to be expressed with a pre-award catalogue</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"requiresElectronicCatalogue": // true/false boolean value</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h6>4.2.1.2. Evaluation panel</h6>
+            <p>A set of Procuring Entities’ evaluation panel could be announced based on PAPI-11-7: Evaluation panel</p>
+            <h5>4.2.2 State-chart diagram</h5>
+            <p>The life cycle of a cpPhase.FE for an establishment of a framework agreement based on selective method
+                consists of the following states:</p>
+            <img alt="" src="../images/State-chart diagram for an establishment of a framework agreement based on selective method.png"
+                style="width: 100%; margin-left: -0.00px; margin-top: -0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);">
+            <p class="center">State-chart diagram for an establishment of a framework agreement based on selective
+                method</p>
+            <h4>4.3 Submission of expressions of interest by interested EOs</h4>
+            <p>Along with publication of a contract notice for a framework establishment, the pre-qualification phase
+                shall be launched in order to indicate a time-frame for submission of expressions of interest based on
+                either PAPI-4-1: Submission - expression of interest or PAPI-4-2: Advanced submission - expression of
+                interest based on ESPD dependign on PEs’ strategy. Separate preQualification block of a query-model
+                expresses such time-frame: </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"preQualification": {</p>
+                <p> "period": {}</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <p>Submission of EoIs is available for any interested economic operator during a certain period determined
+                by tender documents. Each EoI shall fulfill all the requirements prescribed by the qualification
+                criteria related to tenderers with a relevant list of the responses by EO. To send a submission for
+                procedure based on a selective method a createSubmission command-model should be used for preparation
+                of POST-request for BPE with an indication of the following parameters:</p>
+
+            <table>
+                <tr>
+                    <p>/do/submission/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where a EoI is to be submitted</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <h4>4.4 Enquiries - requests and clarifications</h4>
+            <p>Within prescribed by a contract notice enquiryPeriod any interested EO allowed to send a request for
+                clarification according to PAPI-12-1: Clarification of conditions. </p>
+            <h4>4.5 Pre-qualification by CPB</h4>
+            <h5>4.5.1 Initiation of pre-qualification</h5>
+            <h6>4.5.1.1. Disclosure of submissions</h6>
+            <p>Where enough submissions is a case, all the submissions to be disclosed as submissions array according
+                to the relevant schema:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"submissions": { }</p>
+                <p>}</p>
+            </div>
+            <h6>4.5.1.2. Establishment of a period for qualification by PE</h6>
+            <p>In order to indicate a start of the qualification phase of a contracting process a separate
+                qualificationPeriod.startDate will be added into a preQualification:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"preQualification": {</p>
+                <p>"qualificationPeriod": {</p>
+                <p>"startDate": ""</p>
+                <p>}</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h6>4.5.1.3. Qualification envelopes</h6>
+            <p>Along with initiation of a prequalification by CA, a set of qualifications to be established against
+                each submission received in order to allow CA to reflect its decision against each such submission. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"qualifications": [</p>
+                <p>{</p>
+                <p>"id": "",</p>
+                <p>"status": "pending",</p>
+                <p>"statusDetails": "awaiting",</p>
+                <p>"candidates": [],</p>
+                <p>"relatedSubmission": ""</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+            </div>
+            <p>Such objects are initially established with status:pending and statusDetails:awaiting. Since no order is
+                prescribed for the prequalification sequence - CA can qualify submissions received randomly. </p>
+            <h5>4.5.2 Initial ranking of submissions according to qualification criteria</h5>
+            <p>Depending on tender.awardCriteria and tenderAwardCriteriaDetails initial automated ranking can or can
+                not be done automatically according to PAPI-5-3: Initial ranking - simple pre-selection, PAPI-5-4:
+                Scoring - advanced pre-selection or PAPI-5-2: Automated pass/fail - advanced qualification.</p>
+            <h5>4.5.3 Declaration of non-conflict of interest</h5>
+            <p>Before starting qualification, each declared member of the evaluation panel (see PAPI-11-6: Evaluation
+                panel) shall respond against each candidate from each submission received according to a common flow
+                prescribed by a Profile PAPI-8-1: Declaration of absence of conflict of interest by CA.</p>
+            <h5>4.5.4 Qualification of a submissions</h5>
+            <p>Once all the declarations of non-conflict of interest against specific candidates are submitted by
+                evaluation committee, related qualification may be switched into statusDetails: consideration </p>
+
+            <table>
+                <tr>
+                    <p>/do/consideration/qualification/cpid/ocid/qualificationId</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where qualification is taking place</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+                <tr>
+                    <p>qualificationId: Identifier of a qualification to be updated</p>
+                </tr>
+            </table>
+
+            <h6>4.5.4.1. Consideration</h6>
+            <p>In order to evaluate a submission against qualification criteria and reflect CPBs’ decision on
+                considered submission one of the following profiles shall be applied (depending on procurement strategy
+                under specific procurement process): PAPI-5-1: Pass/fail - simple qualification or PAPI-5-5:
+                Distributed qualification - conditions-driven decision making</p>
+            <p>CPB shall update qualification with all the required meta-data. Under such updates PE allowed to:</p>
+            <ul>
+                <li>add any qualification.documents if needed</li>
+                <li>add text qualification.description where any justification is needed </li>
+                <li>add qualification.internalID if any </li>
+            </ul>
+            <h6>4.5.4.2. Indication of a decision</h6>
+            <p>Once consideration of specific submission is completed and related qualification is fully updated with
+                all the relevant data, CPB shall switch such a qualification in a one of the states, reflecting
+                positive or negative decision in its regard:</p>
+            <ul>
+                <li>qualification.statusDetails: active - means related submission is qualified</li>
+                <li>qualification.statusDetails: unsuccessful - means related submission is disqualified</li>
+            </ul>
+            <p>In order to implement both consideration and indication of a decision, a targeted qualification shall be
+                updated according with an updateQualification command-model with a following request to a BPE:</p>
+
+            <table>
+                <tr>
+                    <p>/do/qualification/cpid/ocid/qualificationId</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where qualification is taking place</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+                <tr>
+                    <p>qualificationId: Identifier of a qualification to be updated</p>
+                </tr>
+            </table>
+
+            <h5>4.5.5 Qualification protocol</h5>
+            <p>As soon as CA has completed qualification and all the qualifications are updated with relevant meta-data
+                and statuses details, CA indicates the end of pre-qualification by submitting a protocol: </p>
+
+            <table>
+                <tr>
+                    <p>/do/protocol/qualification/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where qualification is taking place</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+                <tr>
+                    <p>qualificationId: Identifier of a qualification to be updated</p>
+                </tr>
+            </table>
+
+            <h5>4.5.6 Withdraw qualification protocol</h5>
+            <p>If there are some blockers raised up during stand-still period (out of system), CPB can withdraw a
+                previously submitted qualification protocol and step back to a qualification in order to address
+                blockers:</p>
+            <table>
+                <tr>
+                    <p>/cancel/protocol/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where qualification is taking place</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+                <tr>
+                    <p>qualificationId: Identifier of a qualification to be updated</p>
+                </tr>
+            </table>
+
+            <h5>4.5.7 Completion of qualification</h5>
+            <p>If no blockers indicated during stand-still period (out of system), CPB can initiate the end of
+                qualification:</p>
+
+            <table>
+                <tr>
+                    <p>/confirm/qualification/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where qualification is taking place</p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+                <tr>
+                    <p>qualificationId: Identifier of a qualification to be updated</p>
+                </tr>
+            </table>
+            <p>Such completion of a qualification period will cause a also following consequences: </p>
+            <h6>4.5.7.1. Completion of qualification period</h6>
+            <p>Additional value will be added into preQualification.qualificationPeriod as an indication of a
+                completion of qualificationPeriod</p>
+
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"preQualification": {</p>
+                <p>"qualificationPeriod": {</p>
+                <p>"endDate": ""</p>>
+                <p>}</p>
+            </div>
+
+            <h6>4.5.7.2. Finalization of pre-qualification</h6>
+            <p>All the qualifications shall be moved into relevant final statuses:</p>
+            <ul>
+                <li>qualification.status: pending / statusDetails: active → qualification.status: active /
+                    statusDetails: none - means related submission is qualified and a candidate(s) is invited to submit
+                    a commercial offer</li>
+                <li>qualification.status: pending / statusDetails: unsuccessful → qualification.status: unsuccessful /
+                    statusDetails: none - means related submission is disqualified)</li>
+            </ul>
+            <p>And all the related submissions to relevant statuses:</p>
+            <ul>
+                <li>where related qualification.status: active → submission.status: valid </li>
+                <li>where related qualification.status: unsuccessful → submission.status: disqualified </li>
+            </ul>
+            <h6>4.5.7.3. Completion of pre-qualification</h6>
+            <p>Character of a result of the pre-qualification to be reflected with: </p>
+            <ul>
+                <li>preQualification.status.complete where enough number of candidates were selected for future
+                    invitation to submit an offer</li>
+                <li>preQualification.status.unsuccessful where pre-qualification completed in a negative way due to
+                    lack of submissions or because all the submissions were disqualified</li>
+            </ul>
+            <h4>4.6 Pre-award catalogue request</h4>
+            <p>Once pre-qualification and a following stand-still period are over, a sourcing phase shall be initiated
+                by CPB by a publication of a number of pre-award catalogue requests according to a design of a
+                framework agreement and a distinction of a subject matter.</p>
+            <p>In order to initiate a collection of indicative offers and competition on it by all the qualified
+                suppliers, CPB shall publish a separate pre-award catalogue request for each separate part of a subject
+                matter. </p>
+            <p>To start a new Pre-award catalogue request, a createPCRonFE command-model to be used for preparation of
+                POST-request for BPE with an indication of the following parameters:</p>
+
+            <table>
+                <tr>
+                    <p>/do/pcr/cpid/ocid</p>
+                </tr>
+                <tr>
+                    <p>Request parameters</p>
+                </tr>
+                <tr>
+                    <p>cpid: Identifier of a framework agreement where PCR is needed </p>
+                </tr>
+                <tr>
+                    <p>ocid: Identifier of a framework establishment under targeted framework agreement </p>
+                </tr>
+            </table>
+
+            <h5>4.6.1 Specific information</h5>
+            <p>Together with all the common information applicable for any of contract notices for other procurement
+                methods, the following additional information is specifically applied in case of an announcement of
+                pre-award catalogue request:</p>
+            <h6>4.6.1.1. Measurable targets</h6>
+            <p>Set of sepcific targets describes an expected verifiable measures and values to be achieved within this
+                pre-award catalogue request can be included according to PAPI-11-1: Targets and metrics. </p>
+            <h6>4.6.1.2. Applied techniques</h6>
+            <h7>4.6.1.2.1. Electronic auction</h7>
+            <p>An eAuction can be included as a part of process according to a Profile PAPI-11-5: Electronic auctions.</p>
+            <h7>4.6.1.2.2. Award criteria</h7>
+            <p>Set of criteria may include different types of requirements based on PAPI-11-2: Qualification criteria,
+                used in different ways and for different reasons.</p>
+            <h7>4.6.1.2.3. Conversions</h7>
+            <p>Where scoring function to be applied, a set of verifiable conversions needed for future ranking and
+                evaluation as described in a PAPI-11-5: Scoring function and conversions. </p>
+
+            <h4>4.7 Submission of pre-award catalogues by qualified candidates</h4>
+            <p>According to PAPI-6-1: Bid - simple tendering or PAPI-6-2: Structured Bid - advanced tendering each
+                invited candidate allowed to submit his bid within the given tender.tenderPeriod. Each bid shall
+                fulfill all the requirements prescribed by the criteria related to item or lot with a relevant list of
+                the responses by EO by providing an array of requirementResponses. </p>
+            <p>According to PAPI-6-1: Bid - simple tendering or PAPI-6-2: Structured Bid - advanced tendering each
+                invited candidate allowed to submit his bid within the given tender.tenderPeriod. Each bid shall
+                fulfill all the requirements prescribed by the criteria related to item or lot with a relevant list of
+                the responses by EO by providing an array of requirementResponses. </p>
+            <ul>
+                <li>a reference on organization profile sent previously while submitting an expression of interest, in
+                    case of two-stage procedures)</li>
+                <li>set of documents of the offer, specified with relevant types of documents for their future
+                    splitting into the different "envelopes"</li>
+                <li>absolute financial value of an offer</li>
+                <li>set of required responses according to criteria specified by Contract Notice related to financial
+                    part of the offer:</li>
+                <ul>
+                    <li>reflections on requirements characterise the nature of the subject of procurement</li>
+                    <li>reflections on requirements characterise the nature of the delivery and post-delivery</li>
+                </ul>
+            </ul>
+            <p>Such requests based on bid schema:</p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"bid": {</p>
+                <p>"id": "",</p>
+                <p>"relatedLots": [],</p>>
+                <p>"tenderers": [],</p>
+                <p>"items": [</p>
+                <p>{</p>
+                <p>"id": "",</p>
+                <p>"description": "",</p>
+                <p>"quantity": ""</p>
+                <p>}</p>
+                <p>],</p>
+                <p>"requirementResponses": []</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <p>All the proposals collected remain confidential and closed until expiration of a period for tendering -
+                tender.tenderPeriod.endDate. Once tender.tenderPeriod.endDate achieved, no offers to be received,
+                withdrawn or corrected. </p>
+            <h4>4.8 Electronic auction</h4>
+            <p>An eAuction can be included as a part of process according to a Profile PAPI-11-5: Electronic auctions</p>
+            <h4>4.9 Evaluation by CPB</h4>
+            <h5>4.9.1 Initiation of an evaluation</h5>
+            <h6>4.9.1.1. Disclosure of the pre-award catalogues</h6>
+            <p>Where enough offers is a case, all such offers to be disclosed as an bids array according to the
+                relevant schema. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"bids": {</p>
+                <p>"details": []</p>
+                <p>}</p>>
+            </div>
+            <h6>4.9.1.2. Establishment of a period for evaluation</h6>
+            <p>Separate object awardPeriod to be added into a tender where the certain start date for awarding is
+                determined automatically. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"tender": {</p>
+                <p>"awardPeriod": {</p>
+                <p>"startDate": ""</p>>
+                <p>}</p>
+                <p>}</p>
+                <p>}</p>
+            </div>
+            <h6>4.9.1.3. Evaluation envelopes</h6>
+            <p>Along with establishment of tender.awardPeriod.startDate a set of awards to be established against each
+                bid received in order to allow CA to reflect its decision against each such bid. Such objects are based
+                on award schema and initially established with status:pending for all. </p>
+            <div class="sourceCode">
+                <p>{</p>
+                <p>"awards": [</p>
+                <p>{</p>
+                <p>"id": "",</p>>
+                <p>"status": "pending",</p>
+                <p>"suppliers": [],</p>
+                <p>"relatedLots": [],</p>
+                <p>"relatedBid": ""</p>
+                <p>}</p>
+                <p>]</p>
+                <p>}</p>
+            </div>
+            <h5>4.9.2 Initial ranking on evaluation criteria</h5>
+            <p>Depending on tender.awardCriteria and tenderAwardCriteriaDetails initial automated ranking can or can
+                not be done automatically according to a Profile PAPI-7-2: Initial ranking for evaluation</p>
+            <h5>4.9.3 Evaluation by contracting authority</h5>
+            <p>Once an initial ranking according to applied awarding methodology is done, CA can start with a manual
+                evaluation according to either PAPI-7-1: Simple manual evaluation or PAPI-7-3: Scoring function -
+                advanced evaluation</p>
+            <h5>4.9.4 Conclusion of a post-award catalogue </h5>
+            <p>The evaluation process ends by submission of a protocol that reflects the entire results of tendering.
+                Once evaluation is completed and each considered offer is indicated with a relevant state, CA submits
+                the evaluation protocol which, in its turn, indicates the publication of the contract award notices
+                according to Profile PAPI-9-1: Award decision - contract award notice. Such protocol has to be
+                submitted for each lot separately. </p>
+            <h4>4.10 Conclusion of a framework agreement </h4>
+            <h4>4.11 Cancellation of a procedure</h4>
+            <p>See PAPI-3-3: Termination of a procedure</p>
+
+
+
+            <h3>5. Command models</h3>
+            <p>The following command-models to be used to operate with a data-objects under offline procedure based on
+                a limited method</p>
+            <h4>5.1 updatePN.ap</h4>
+            <h4>5.2 createPN.ap</h4>
+            <h4>5.3 createCNonPN.selective-online</h4>
+            <p>In order to describe and contribute a Contract Notice for a procedure based on a limited method, a
+                following structure to be used:</p>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Attribute</p>
+                    </td>
+                    <td>
+                        <p>Description</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.title</p>
+                    </td>
+                    <td>
+                        <p>Title for this part of CP</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.description</p>
+                    </td>
+                    <td>
+                        <p>Description for this part of CP</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.awardCriteria</p>
+                    </td>
+                    <td>
+                        <p>Specify the award criteria for the procurement</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.awardCriteriaDetails</p>
+                    </td>
+                    <td>
+                        <p>Specify the award criteria details for the procurement</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.lots</p>
+                    </td>
+                    <td>
+                        <p>A tender process is divided into lots</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.items</p>
+                    </td>
+                    <td>
+                        <p>The goods and services to be purchased</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.submissionMethod</p>
+                    </td>
+                    <td>
+                        <p>Specify the method by which bids must be submitted </p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.submissionMethodRationale</p>
+                    </td>
+                    <td>
+                        <p>A value that identifies the rationale where electronic submission method is not to be
+                            allowed</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.submissionMethodDetails</p>
+                    </td>
+                    <td>
+                        <p>Any detailed or further information on the submission method.</p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <p>tender.documents</p>
+                    </td>
+                    <td>
+                        <p>All documents and attachments related to the tender, including any notices.</p>
+                    </td>
+
+                </tr>
+
+            </tbody>
+            </table>
         </div>
         <script>
             var acc = document.getElementsByClassName("accordion");
