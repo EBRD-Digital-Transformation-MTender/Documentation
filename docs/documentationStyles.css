@@ -215,6 +215,14 @@ h5{
     margin-left: 5%;
 }
 
+.center{
+  text-align: center;
+}
+
+.small-text{
+  font-size: small;
+}
+
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 15px;}

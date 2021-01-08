@@ -3143,53 +3143,53 @@ permalink: /API/
 <p>Phase 4 of the project is focused on electronic Framework Agreement (FA), covering both the conclusion of the FA and the subsequent purchases under a FA using the different types of contracts based on a FA (direct purchase, second-stage competition, etc.), and enabling the participation of Central Purchasing Bodies (CPB) with a specific role in the process. </p>
 <p>The use of FA will:</p>
 <ul>
-    <li>•	improve value for money and achieve cost savings by aggregating demand and getting better value for money through economies of scale; </li>
-    <li>•	reduce the administrative burden by lowering the number of procedures a Contracting Authority (CA) has to run and, therefore, decreasing the time and costs linked to carrying out procurement. The diminished administrative burden also applies to Economic Operators (EO) that are either awarded a contract directly or are invited to participate in a simplified “Mini Competition” (MC) within the FA;  </li>
-    <li>•	enable CAs to effectively manage procurement when they cannot objectively foresee the exact type and/or amount of supplies, services and works for a forthcoming period. </li>
+    <li>improve value for money and achieve cost savings by aggregating demand and getting better value for money through economies of scale; </li>
+    <li>reduce the administrative burden by lowering the number of procedures a Contracting Authority (CA) has to run and, therefore, decreasing the time and costs linked to carrying out procurement. The diminished administrative burden also applies to Economic Operators (EO) that are either awarded a contract directly or are invited to participate in a simplified “Mini Competition” (MC) within the FA;  </li>
+    <li>enable CAs to effectively manage procurement when they cannot objectively foresee the exact type and/or amount of supplies, services and works for a forthcoming period. </li>
 </ul>
 
-<h3>1.1	Aim of the document</h3>
+<h3>Aim of the document</h3>
 <p>The main purpose of this document is to provide a detailed technical design in order for the Networking Electronic Procurement Platforms (NEPPs) to be able to implement all the necessary processes and functionalities related to the execution of FAs in their platforms.</p>
 <p>When a FA has been concluded with more than one EO, that FA shall be performed in one of the following ways by the CA or the CPB:</p>
 <ul>
-    <li>•	Following the terms and conditions of the FA, without the reopening competition, by awarding a contract directly to a specific EO applying the terms governing the provision of the works, services and supplies concerned and the objective conditions set in the FA;</li>
-    <li>•	Where not all the terms governing the provision of the works, services and supplies are laid down in the FA, through reopening competition amongst the EOs parties to the FA;</li>
-    <li>•	Partly without reopening of competition and partly with reopening of competition amongst the EOs parties to the FA, where this possibility has been stipulated in the procurement documents for the FA.</li>
+    <li>Following the terms and conditions of the FA, without the reopening competition, by awarding a contract directly to a specific EO applying the terms governing the provision of the works, services and supplies concerned and the objective conditions set in the FA;</li>
+    <li>Where not all the terms governing the provision of the works, services and supplies are laid down in the FA, through reopening competition amongst the EOs parties to the FA;</li>
+    <li>Partly without reopening of competition and partly with reopening of competition amongst the EOs parties to the FA, where this possibility has been stipulated in the procurement documents for the FA.</li>
 </ul>
 <p>Conclusion of the FA is described in a separate document .</p>
 
-<h3>1.2	Alignment with regulation</h3>
+<h3>Alignment with regulation</h3>
 <p>This blueprint is aligned with the following regulation:</p>
 <ul>
-    <li>•	Regulation on procurements conducted through framework agreements </li>
+    <li>Regulation on procurements conducted through framework agreements </li>
 </ul>
 
-<h2>2.	Technical design</h2>
-<h3>2.1	BPMN</h3>
+<h2>Technical design</h2>
+<h3>BPMN</h3>
 <p>The diagram below shows the general processes for the execution of a FA with the different types of contracts based on a FA:</p>
 <img alt="" src="../images/FIGURE1-Blueprint_FA_execution.png" style="width: 100%; " title="">
 <img alt="" src="../images/FIGURE1.1-Blueprint_FA_execution.png" style="width: 100%; " title="">
-<P class="center">Figure 1 – BPMN for the execution of a FA </P>
-<h3>2.2	State-chart diagrams</h3>
-<h4>2.2.1	Direct purchase</h4>
+<P class="center small-text">Figure 1 – BPMN for the execution of a FA </P>
+<h3>State-chart diagrams</h3>
+<h4>Direct purchase</h4>
 <p>The following diagram presents the sequence of stages applicable for the execution of a FA based on direct purchase following the terms and conditions of the FA, without reopening competition, by awarding a contract directly to a specific EO applying the terms governing the provision of the works, services and supplies concerned and the objective conditions set in the FA:</p>
-<!--IMAGEN: figure 2-->
-<p class="center">Figure 2 – State-chart diagram for direct purchase under a FA</p>
-<h4>2.2.2	Mini-competition</h4>
+<img alt="" src="../images/FIGURE2-Blueprint_FA_execution.png" style="width: 100%; " title="">
+<p class="center small-text">Figure 2 – State-chart diagram for direct purchase under a FA</p>
+<h4>Mini-competition</h4>
 <p>The following diagram presents the sequence of stages applicable for the execution of a FA based on reopening of competition (partially or completely) amongst the EOs parties to the FA:</p>
-<!--IMAGEN: figure 3-->
+<img alt="" src="../images/FIGURE3-Blueprint_FA_execution.png" style="width: 100%; " title="">
 <p class="center">Figure 3 – State-chart diagram for mini-competition under a FA</p>
 <p>Further detail on the different statuses is provided in section “2.4 OCDS dataflow” of this document.</p>
-<h3>2.3	OCDS dataset</h3>
-<h4>2.3.1	Issuing of a Direct purchase under a FA</h4>
+<h3>OCDS dataset</h3>
+<h4>Issuing of a Direct purchase under a FA</h4>
 <p>This request shall be formed on the basis of the FA execution and include:</p>
 <ul>
-    <li>•	Products category determined for this request;</li>
-    <li>•	precise technical specification;</li>
-    <li>•	lots (where applicable);</li>
-    <li>•	specific nomenclature;</li>
-    <li>•	terms and conditions which are non-fixed in the (if any);</li>
-    <li>•	evaluation criteria.</li>
+    <li>Products category determined for this request;</li>
+    <li>precise technical specification;</li>
+    <li>lots (where applicable);</li>
+    <li>specific nomenclature;</li>
+    <li>terms and conditions which are non-fixed in the (if any);</li>
+    <li>evaluation criteria.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3217,15 +3217,15 @@ permalink: /API/
     <p>}</p>
 </div>
 <P class="center">Figure 4 – Code for issuing of a Direct purchase under a FA</P>
-<h4>2.3.2	Issuing of a Mini-competition under a FA</h4>
+<h4>Issuing of a Mini-competition under a FA</h4>
 <p>This request shall be formed on the basis of the FA execution and include:</p>
 <ul>
-    <li>•	products category determined for this request;</li>7
-    <li>•	minimum technical specification (where applicable);</li>
-    <li>•	lots (where applicable);</li>
-    <li>•	specific nomenclature;</li>
-    <li>•	terms and conditions which are non-fixed in the FA (if any);</li>
-    <li>•	awarding methodology and evaluation criteria and techniques.</li>
+    <li>products category determined for this request;</li>7
+    <li>minimum technical specification (where applicable);</li>
+    <li>lots (where applicable);</li>
+    <li>specific nomenclature;</li>
+    <li>terms and conditions which are non-fixed in the FA (if any);</li>
+    <li>awarding methodology and evaluation criteria and techniques.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3254,11 +3254,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 5 – Code for issuing a Mini-competition under a FA</p>
-<h3>2.4	OCDS dataflow</h3>
-<h4>2.4.1	Direct purchase</h4>
-<h5>2.4.1.1	State1 - Tendering (active.tendering)</h5>
+<h3>OCDS dataflow</h3>
+<h4>Direct purchase</h4>
+<h5>State1 - Tendering (active.tendering)</h5>
 <p>Together with the publication of the Purchase Request (PR), the CA shall initiate a period for the response by a quoted party of the FA.</p>
-<h6>2.4.1.1.1	Purchase request</h6>
+<h6>Purchase request</h6>
 <p>In order to indicate the initiation of the period for the quoted party of a FA to respond to a PR, the CA shall establish the start and end dates of such period. This shall be done by adding a separate tenderPeriod object into the tender building block, which will reflect the end date of the period for response prescribed by the CA and its start date, reflected as a system moment of initiation of the tendering phase:</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3271,11 +3271,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 6 – Code for establishing the period of a Purchase request</p>
-<h6>2.4.1.1.2	Response to the purchase request</h6>
+<h6>Response to the purchase request</h6>
 <p>The EO that is party to the FA is the only one allowed to submit a quotation within the given tender.tenderPeriod indicated in a PR: </p>
 <ul>
-    <li>•	Quotation is based on Bids schema. </li>
-    <li>•	Quotation shall fulfil all the requirements prescribed by Criteria related to items or to lots with a relevant list of the responses by the EO, providing an array of requirementResponses.  </li>
+    <li>Quotation is based on Bids schema. </li>
+    <li>Quotation shall fulfil all the requirements prescribed by Criteria related to items or to lots with a relevant list of the responses by the EO, providing an array of requirementResponses.  </li>
 </ul>
 <p>Having a set of requirements predefined by the CA and a number of values available, the EO preparing a submission includes values for each requirement, reflecting the substance of the quotation and fulfilling general corporate profiles’ data, as requested by the CA or required by the legal framework of a particular jurisdiction.</p>
 <p>Each offer includes:</p>
@@ -3284,8 +3284,8 @@ permalink: /API/
 <p>3.	absolute financial value of the tender;</p>
 <p>4.	a set of required responses according to the criteria specified by the CA within the Contract Notice (CN) related to the financial part of the offer:</p>
 <ul>
-    <li>●	reflections on requirements characterise the nature of the subject of procurement;</li>
-    <li>●	reflections on requirements characterise the nature of the delivery and post-delivery.</li>
+    <li>reflections on requirements characterise the nature of the subject of procurement;</li>
+    <li>reflections on requirements characterise the nature of the delivery and post-delivery.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3308,9 +3308,9 @@ permalink: /API/
 </div>
 <p class="center">Figure 7 – Code for information of a bid</p>
 <p>The quotation received remains confidential and closed until expiration of the period for tendering (tender.tenderPeriod.endDate). </p>
-<h5>2.4.1.2	State1.1 - Unsuccessful completion of responding period </h5>
+<h5>State1.1 - Unsuccessful completion of responding period </h5>
 <p>When the quoted EO does not respond within the given period, the evaluation phase will end in an unsuccessful way with no future actions by the CA. Procurement initiation shall be moved to a phase of preparation of a negative award notice.</p>
-<h6>2.4.1.2.1	Indication of the unsuccessful outcome of procurement initiation</h6>
+<h6>Indication of the unsuccessful outcome of procurement initiation</h6>
 <p>When absence of the requested quotation is the case, the relevant unsuccessful character shall be reflected for lots or for the entire PR.</p>
 <p>For lots</p>
 <p>A negative character of procurement under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed unsuccessfully due to the lack of submission of a tender by the quoted EO, or when the received tender was rejected.</p>
@@ -3336,11 +3336,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 9 – Code for unsuccessful outcome of procurement initiation at tender level</p>
-<h5>2.4.1.3	State8.3 - Unsuccessful completion of tendering </h5>
+<h5>State8.3 - Unsuccessful completion of tendering </h5>
 <p>Where no tender was collected during the tendering period for all the announced lots, the evaluation phase will end unsuccessfully with no future actions by the CA. The procurement process shall be moved to a phase of preparation of a negative award notice.</p>
-<h5>2.4.1.4	State3 - Evaluation (active.evaluation) </h5>
+<h5>State3 - Evaluation (active.evaluation) </h5>
 <p>Once the tenderPeriod.endDate is achieved, the quotation received under this request shall be fully disclosed and available for the evaluation of the CA.</p>
-<h6>2.4.1.4.1	Initiation of evaluation phase</h6>
+<h6>Initiation of evaluation phase</h6>
 <p>For the evaluation of the quotation received, the following technical steps shall be performed on a system level:</p>
 <p>Disclosure of quotation</p>
 <p>When a quotation is provided by the quoted EO, it is disclosed as a bid according to the relevant schema. An author (bid.tenderers) is updated into parties as an Organization with a role: tenderer.</p>
@@ -3398,20 +3398,20 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 12 – Code for evaluation of envelopes</p>
-<h6>2.4.1.4.2	Consideration</h6>
+<h6>Consideration</h6>
 <p>Evaluation</p>
 <p>In order to evaluate the award, the CA shall update it with all the required meta-data:</p>
 <ul>
-    <li>•	add any documents, if needed;</li>
-    <li>•	add requirementResponses if there are relevant requirements related to the CA within the evaluation phase prescribed by tender.criteria; </li>
-    <li>•	add text descriptions where any justification is needed; </li>
-    <li>•	add internalID, if any. </li>
+    <li>add any documents, if needed;</li>
+    <li>add requirementResponses if there are relevant requirements related to the CA within the evaluation phase prescribed by tender.criteria; </li>
+    <li>add text descriptions where any justification is needed; </li>
+    <li>add internalID, if any. </li>
 </ul>
 <p>Indication of a decision</p>
 <p>Once the evaluation of the specific bid is complete and the related award is fully updated with all relevant data, the CA shall switch the award to one of the following states, reflecting a positive or negative decision:</p>
 <ul>
-    <li>•	award.statusDetails: active - means the related bid is selected as the winning tender to be awarded;</li>
-    <li>•	award.statusDetails: unsuccessful - means the related bid is rejected.</li>
+    <li>award.statusDetails: active - means the related bid is selected as the winning tender to be awarded;</li>
+    <li>award.statusDetails: unsuccessful - means the related bid is rejected.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3432,12 +3432,12 @@ permalink: /API/
 </div>
 <p class="center">Figure 13 – Code for award details</p>
 <p>As soon as the CA has completed the evaluation, the CA indicates the end of the evaluation by publishing an intention to award a contract (award decision).</p>
-<h6>2.4.1.4.3	Award decision</h6>
+<h6>Award decision</h6>
 <p>To reflect a decision regarding a Purchase Contract (PC), the CA prepares a Notice on Award Decision. This data-entity is based on Contract schema and is included in contracts array.</p>
 <p>Initially, this contract is established with status: pending and a statusDetails which reflects a decisions' character:</p>
 <ul>
-    <li>•	statusDetails: active - the decision regarding quotation is positive (winner is identified);</li>
-    <li>•	statusDetails: unsuccessful - the decision regarding quotation is negative (the quotation was rejected).</li>
+    <li>statusDetails: active - the decision regarding quotation is positive (winner is identified);</li>
+    <li>statusDetails: unsuccessful - the decision regarding quotation is negative (the quotation was rejected).</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3453,7 +3453,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 14 – Code for award decision</p>
-<h6>2.4.1.4.4	Cancellation of the award decision</h6>
+<h6>Cancellation of the award decision</h6>
 <p>To reflect the decision to cancel a specific award, taken previously for a particular quotation, the CA shall switch relevant contract object into contract.status: cancelled.</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3465,7 +3465,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 15 – Code for cancellation of the award decision</p>
-<h6>2.4.1.4.5	Confirmation of the award decision</h6>
+<h6>Confirmation of the award decision</h6>
 <p>If no blockers are indicated, the CA can initiate the contract preparation for the awarded quotation or the finalization of an unsuccessful output of a PR where the received quotation was rejected during the evaluation phase.</p>
 <p>Confirmation of a negative award decision</p>
 <p>Confirmation of a negative award decision requires to switch the relevant contract object into final status unsuccessful, with parallel indication of the reason for a negative outcome in statusDetails.</p>
@@ -3497,7 +3497,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 17 – Code for positive award decision</p>
-<h6>2.4.1.4.6	Contract initiation</h6>
+<h6>Contract initiation</h6>
 <p>To describe and reflect the scope of a PC to be concluded on a positive award decision, a parallel data-stream will be initiated. This stream is a separate OCDS-record where all the information related to the future contract is collected from the current procurement process. In order to establish the relation with this parallel stream, the relevant contract reflects the positive award decision and shall be extended with relatedProcess.relationship: [x_contracting].</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3521,11 +3521,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 18 – Code for contract initiation</p>
-<h6>2.4.1.4.7	Contract preparation and activation</h6>
+<h6>Contract preparation and activation</h6>
 <p>According to the common flow of MTender, the preparation of a contract is concluded.</p>
-<h5>2.4.1.5	State3.1 - Unsuccessful completion of evaluation (unsuccessful.lackOfOffers)</h5>
+<h5>State3.1 - Unsuccessful completion of evaluation (unsuccessful.lackOfOffers)</h5>
 <p>If the received quotation was rejected, the evaluation phase will end in an unsuccessful way with no future actions by the CA.</p>
-<h6>2.4.1.5.1	Completion of the evaluation phase</h6>
+<h6>Completion of the evaluation phase</h6>
 <p>The previously opened period for evaluation shall be closed by adding a separate endDate attribute for awardPeriod.</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3537,7 +3537,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 19 –Code for closure of the evaluation phase</p>
-<h6>2.4.1.5.2	Indication of the unsuccessful outcome of procurement initiation</h6>
+<h6>Indication of the unsuccessful outcome of procurement initiation</h6>
 <p>When the quotation received is rejected, the unsuccessful result shall be reflected for lots or for the entire PR.</p>
 <p>For lots</p>
 <p>A negative character under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed in a negative way due to the lack of submission of quotation or where the received quotation was rejected.</p>
@@ -3562,8 +3562,8 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 21 – Code for unsuccessful procurement initiation</p>
-<h5>2.4.1.6	State4 - Completion of procedure</h5>
-<h6>2.4.1.6.1	Indication of the successful outcome of procurement initiation</h6>
+<h5>State4 - Completion of procedure</h5>
+<h6>Indication of the successful outcome of procurement initiation</h6>
 <p>When the PC was concluded under a relevant request, a positive character of a process shall be reflected for both the lot and the entire PR:</p>
 <p>For lots</p>
 <p>A positive character under a specific lot is reflected with lot.status: complete. </p>
@@ -3587,10 +3587,10 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 23 – Code for successful procurement initiation</p>
-<h4>2.4.2	Mini-competition</h4>
-<h5>2.4.2.1	State1 - Tendering (active.tendering)</h5>
+<h4>Mini-competition</h4>
+<h5>State1 - Tendering (active.tendering)</h5>
 <p>Together with the publication of the PR, the CA shall initiate a period for submission of quotations by the EOs that are party of the FA.</p>
-<h6>2.4.2.1.1	Call for proposals</h6>
+<h6>Call for proposals</h6>
 <p>In order to indicate the start of the tendering phase of a procurement process, the CA shall establish a start date as a call for tendering of the commercial tenders. This indication shall be done by adding a separate tenderPeriod object into the tender building block, which will reflect an end date of the tendering phase prescribed by the CA, and its start date is reflected as a system moment of initiation of the tendering phase:</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3606,8 +3606,8 @@ permalink: /API/
 <h6>2.4.2.1.2	Tendering</h6>
 <p>Each invited EO (party to the FA) is allowed to submit a tender - quotation within the given tender.tenderPeriod indicated in the PR. </p>
 <ul>
-    <li>•	Each quotation is based on Bids schema. </li>
-    <li>•	Each quotation shall fulfil all the requirements prescribed by Criteria related to items or lots with a relevant list of the responses by the EO, providing an array of requirementResponses.  </li>
+    <li>Each quotation is based on Bids schema. </li>
+    <li>Each quotation shall fulfil all the requirements prescribed by Criteria related to items or lots with a relevant list of the responses by the EO, providing an array of requirementResponses.  </li>
 </ul>
 <p>Having a set of requirements predefined by the CA and a number of values available, EOs preparing a submission include values for each requirement, reflecting the substance of the submission and fulfilling general corporate profiles’ data, as requested by the CA or required by the Legal Framework of a particular jurisdiction.</p>
 <p>Each tender includes:</p>
@@ -3616,8 +3616,8 @@ permalink: /API/
 <p>7.	absolute financial value of the tender;</p>
 <p>8.	a set of required responses according to the criteria specified by the CA within the PR:</p>
 <ul>
-    <li>●	reflections on requirements characterise the nature of the subject of procurement;</li>
-    <li>●	reflections on requirements characterise the nature of the delivery and post-delivery.</li>
+    <li>reflections on requirements characterise the nature of the subject of procurement;</li>
+    <li>reflections on requirements characterise the nature of the delivery and post-delivery.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3641,9 +3641,9 @@ permalink: /API/
 </div>
 <p class="center">Figure 25 – Code for bid information</p>
 <p>All the tenders collected remain confidential and closed until the expiration of the period for tendering (tender.tenderPeriod.endDate). Once the tender.tenderPeriod.endDate is achieved, no tenders can be received, withdrawn or corrected.</p>
-<h5>2.4.2.2	State1.1 - Unsuccessful completion of tendering (unsuccessful.lackOfOffers)</h5>
+<h5>State1.1 - Unsuccessful completion of tendering (unsuccessful.lackOfOffers)</h5>
 <p>Where not enough tenders were collected during the tendering period for all the announced lots, the evaluation phase will end unsuccessfully with no future actions by the CA. The procurement process shall be moved to a phase of preparation of a negative award notice.</p>
-<h6>2.4.2.2.1	Indication of the unsuccessful outcome of procurement</h6>
+<h6>Indication of the unsuccessful outcome of procurement</h6>
 <p>When absence of tenders is the case, the relevant unsuccessful character shall be reflected for lots or for the entire PR.</p>
 <p>For lots</p>
 <p>A negative character under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed unsuccessfully due to the lack of submission of tenders by the EOs party to the FA, or when the received tenders were rejected. </p>
@@ -3669,11 +3669,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 27 – Code for unsuccessful purchase request</p>
-<h5>2.4.2.3	State 2 - Auction (active.auction)</h5>
+<h5>State 2 - Auction (active.auction)</h5>
 <p>Where electronic auction as a technique for the awarding of the contract was prescribed in the PR, all the tenders received shall be partially disclosed in order to establish an auction.  </p>
-<h5>2.4.2.4	State3 - Evaluation (active.evaluation) </h5>
+<h5>State3 - Evaluation (active.evaluation) </h5>
 <p>Once the tenderPeriod.endDate is achieved (when electronic auction was not prescribed in the PR) or when the electronic auction is completed, all tenders received under this request shall be fully disclosed and available for the evaluation of the CA.</p>
-<h6>2.4.2.4.1	Initiation of evaluation phase</h6>
+<h6>Initiation of evaluation phase</h6>
 <p>For the evaluation of the tenders received, the following technical steps shall be performed on a system level.</p>
 <p>Disclosure of tenders</p>
 <p>Tenders are disclosed in a bids array. Authors (bid.tenderers) are updated into parties as an Organization with a role: tenderer.</p>
@@ -3733,7 +3733,7 @@ permalink: /API/
 <p class="center">Figure 30 – Code for evaluation of envelopes</p>
 <p>Disclosure of enquirers</p>
 <p>Together with the initiation of the evaluation phase, all enquirers (tender.enquiries[*].author) are reflected into parties array according to Organization block schema with role: enquirer. </p>
-<h6>2.4.2.4.2	Initial ranking on award criteria</h6>
+<h6>Initial ranking on award criteria</h6>
 <p>Depending on tender.awardCriteria and tenderAwardCriteriaDetails, an initial automated ranking can or cannot be done:</p>
 <table class="default">
     <tr>
@@ -3768,43 +3768,43 @@ permalink: /API/
 <p class="center">Pn = P * C1 * C2 * ... Cn </p>
 <p>where</p>
 <ul>
-    <li>●	Pn - value of normalised price</li>
-    <li>●	P - basic price taken from bid.value or lot.value or equal to '1' depending on awardCriteria</li>
-    <li>●	C1 ... Cn - values of the coefficients to be applied (related with values of requirements, available for supplier and indicated in requirementResponses)</li>
+    <li>Pn - value of normalised price</li>
+    <li>P - basic price taken from bid.value or lot.value or equal to '1' depending on awardCriteria</li>
+    <li>C1 ... Cn - values of the coefficients to be applied (related with values of requirements, available for supplier and indicated in requirementResponses)</li>
 </ul>
 <p>Ranking approach</p>
 <ul>
-    <li>●	priceOnly</li>
+    <li>priceOnly</li>
 </ul>
 <p>Where awardCriteria: priceOnly - only bid.value is compared in order to identify the most suitable tender. Cheapest goes first.</p>
 <ul>
-    <li>●	costOnly</li>
+    <li>costOnly</li>
 </ul> 
 <p>Where awardCriteria: costOnly – the assumption is that all the tenderers have the same bid.value equal to lot.value. It means that the normalised price needs to be calculated for each bid received based on lot.value as a basis. Cheapest goes first.</p>
 <ul> 
-    <li>●	qualityOnly</li>
+    <li>qualityOnly</li>
 </ul>> 
 <p>Where awardCriteria: qualityOnly – the assumption is that the price doesn't matter and the only valuable part of the tender is quality - meaning set of values of criteria, selected by the EO while submitting a bid. It means that the normalised price needs to be calculated for each bid received, based on '1'. Most qualified goes first.</p>
 <ul>
-    <li>●	ratedCriteria</li>
+    <li>ratedCriteria</li>
 </ul>
 <p>Where awardCriteria: ratedCriteria – the assumption is that both price and value matter. It means that the normalised price needs to be calculated for each bid received based on ‘bid.value'. Cheapest goes first. </p>
 <p>Where automated ranking is the case, all the awards are ranked into order for evaluation and the first award (most suitable according to the prescribed evaluation function) will be switched to the next state ‘available for evaluation’ by the CA. </p>
-<h6>2.4.2.4.3	Consideration</h6>
+<h6>Consideration</h6>
 <p>Evaluation</p>
 <p>In order to evaluate an award, the CA shall update it with all the required meta-data:</p>
 <ul>
-    <li>•	Add any documents, if needed;</li>
-    <li>•	add requirementResponses if there are relevant requirements related to the CA within the evaluation phase prescribed by tender.criteria; </li>
-    <li>•	add text descriptions where any justification is needed; </li>
-    <li>•	add date when the decision was taken;</li>
-    <li>•	add internalID, if any. </li>
+    <li>Add any documents, if needed;</li>
+    <li>add requirementResponses if there are relevant requirements related to the CA within the evaluation phase prescribed by tender.criteria; </li>
+    <li>add text descriptions where any justification is needed; </li>
+    <li>add date when the decision was taken;</li>
+    <li>add internalID, if any. </li>
 </ul>
 <p>Indication of a decision</p>
 <p>Once the evaluation of a specific bid is complete and the related award is fully updated with all relevant data, the CA shall switch the award to one of the following states, reflecting a positive or negative decision:</p>
 <ul>
-    <li>•	award.statusDetails: active - means the related bid is selected as a winning tender to be awarded;</li>
-    <li>•	award.statusDetails: unsuccessful - means the related bid is rejected.</li>
+    <li>award.statusDetails: active - means the related bid is selected as a winning tender to be awarded;</li>
+    <li>award.statusDetails: unsuccessful - means the related bid is rejected.</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3829,8 +3829,8 @@ permalink: /API/
 <p>To reflect the decision regarding each lot and the tender selected to be awarded a PC (award.statusDetails:active), the CA prepares a Notice on Award Decision. This data-entity is based on Contract schema and included in contracts array.</p>
 <p>Initially, this contract is established with status: pending and statusDetails which reflect a decisions' character:</p>
 <ul>
-    <li>●	statusDetails: active where the decision regarding the lot is positive (winner is identified);</li>
-    <li>●	statusDetails: unsuccessful where the decision regarding the lot is negative (all tenders were rejected).</li>
+    <li>statusDetails: active where the decision regarding the lot is positive (winner is identified);</li>
+    <li>statusDetails: unsuccessful where the decision regarding the lot is negative (all tenders were rejected).</li>
 </ul>
 <div class="sourceCode">
     <p>{</p>
@@ -3846,7 +3846,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 32 – Code for award decision</p>
-<h6>2.4.2.4.5	Cancellation of the award decision</h6>
+<h6>Cancellation of the award decision</h6>
 <p>To reflect a decision to cancel a specific award decision taken previously for a particular lot, the CA shall switch relevant contract object into contract.status: cancelled.</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3858,7 +3858,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 33 – Code for cancellation of award decision</p>
-<h6>2.4.2.4.6	Confirmation of the award decision</h6>
+<h6>Confirmation of the award decision</h6>
 <p>If no blockers are indicated, the CA can initiate the contract preparation for the awarded lot or the finalization of an unsuccessful output of the lot.</p>
 <p>Confirmation of a negative award decision</p>
 <p>Confirmation of negative award decision requires to switch the relevant contract object into final status unsuccessful, with a parallel indication of the reason for a negative outcome as  statusDetails.</p>
@@ -3890,7 +3890,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 35 – Code for positive award decision</p>
-<h6>2.4.2.4.7	Contract initiation</h6>
+<h6>Contract initiation</h6>
 <p>To describe and reflect the scope of a PC to be concluded on a positive award decision, a parallel data-stream will be initiated. This stream is a separate OCDS-record where all the information related to the future PC is collected from the current procurement process. </p>
 <p>In order to establish the relation with this parallel stream, the relevant contract reflects the positive award decision and shall be extended with relatedProcess.relationship: [x_contracting]</p>
 <div class="sourceCode">
@@ -3915,11 +3915,11 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 36 – Code for contract initiation</p>
-<h6>2.4.2.4.8	Contract preparation and activation</h6>
+<h6>Contract preparation and activation</h6>
 <p>According to the common flow of MTender, the preparation of a contract is concluded.</p>
-<h5>2.4.2.5	State3.2 - Unsuccessful completion of evaluation (unsuccessful.lackOfOffers)</h5>
+<h5>State3.2 - Unsuccessful completion of evaluation (unsuccessful.lackOfOffers)</h5>
 <p>When all the tenders collected during the period of tendering were rejected, the evaluation phase will end unsuccessfully with no future actions by the CA,</p>
-<h6>2.4.2.5.1	Completion of the evaluation phase</h6>
+<h6>Completion of the evaluation phase</h6>
 <p>The previously opened period for evaluation shall be closed by adding a separate endDate attribute for awardPeriod:</p>
 <div class="sourceCode">
     <p>{</p>
@@ -3931,7 +3931,7 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 37 – Code for closure of the evaluation phase</p>
-<h6>2.4.2.5.2	Indication of the unsuccessful outcome of procurement initiation</h6>
+<h6>Indication of the unsuccessful outcome of procurement initiation</h6>
 <p>Where all received tenders are rejected, the unsuccessful character shall be reflected for lots or for the entire PR.</p>
 <p>For lots</p>
 <p>A negative character under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed in a negative way due to the lack of submission of tenders or where all the received tenders were rejected.</p>
@@ -3956,8 +3956,8 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center">Figure 39 – Code for unsuccessful outcome of procurement initiation at tender level</p>
-<h5>2.4.2.6	State4 - Completion of procedure</h5>
-<h6>2.4.2.6.1	Indication of the successful outcome of procurement initiation</h6>
+<h5>State4 - Completion of procedure</h5>
+<h6>Indication of the successful outcome of procurement initiation</h6>
 <p>Where PC was concluded under relevant request, a positive character of a process shall be reflected for both lot and entire PR:</p>
 <p>For lots</p>
 <p>A positive character under a specific lot is reflected with lot.status: complete.</p>
