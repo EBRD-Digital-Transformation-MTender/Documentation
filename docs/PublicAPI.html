@@ -72,7 +72,7 @@ permalink: /API/
                         Procedures</a></p>
                         <p class="navLevel2"><a href="/Documentation/API#h.EstFA">Establishment of a Framework Agreement</a></p>
                         <p class="navLevel2"><a href="/Documentation/API#h.ExeFA">Execution of a Framework Agreement</a></p>
-
+                        <p class="navLevel2"><a href="/Documentation/API#h.ResFA">Restricted procedure</a></p>
 
             </div>
             <a href="/Documentation/services"><button class="accordion">Services &#11206; </button></a>
@@ -3981,6 +3981,1836 @@ permalink: /API/
     <p>}</p>
 </div>
 <p class="center small-text">Figure 41 – Code for successful outcome of procurement initiation at tender level</p>
+
+<h2 id="h.ResFA">Restricted Procedure</h2>
+<p>The MTender system is version 2.0 of the Automated Information System "State Register of Public Procurements", and is an information system compatible with cloud computing technology, which is hosted on the MCloud shared government platform.</p>
+<p>The "MTender" system is a systematised pool of data on public procurement contracts concluded and processes related to public procurement contracts, such as the planning and conduct of public procurement procedures, the selection and designation of winners in these procedures. The information resource on public procurement contracts is formed through the operation/functioning of the automated information system "MTender".</p>
+<h3>Aim of the document</h3>
+<p>The main purpose of this document is to provide a detailed technical design in order for the Networking Electronic Procurement Platforms (NEPPs) to be able to implement all the necessary processes and functionalities related to the restricted procedure in their platforms.</p>
+<p>Restricted procedure is a public procurement procedure regulated by the EU Directives on Public Procurement (EUPD), in which any interested Economic Operator (EO) can submit a request to participate in response to a call for competition (first stage of the procedure), but only those EOs invited to do so by the Contracting Authority (CA) following its assessment of the information provided may submit a tender (second stage of the procedure).</p>
+<h3>Alignment with regulation</h3>
+<p>This blueprint is aligned with:</p>
+<ul>
+    <li>The regulation regarding Restricted Procedure: REGULATION on electronic tendering procedure for procurement of goods, services and works via restricted tender </li>
+    <li>The following standard bidding document:</li>
+</ul>
+
+
+<h2>Technical design</h2>
+<h3>Business process model</h3>
+<p>The following BPMN reflects the general process for a restricted procedure as prescribed by the EUPD, which has been taken as a regulatory basis for the local secondary legislation on which MTender system is based:</p>
+<img alt="" src="../images/FIGURE 1_restricted_procedure.png" style="width: 100%; " title="">
+<p class="center">Figure 1 - BPMN for a general restricted procedure </p>
+<h3>2.2 State-chart diagram</h3>
+<p>The following image presents the sequence of stages applicable for a restricted procedure:</p>
+<img alt="" src="../images/FIGURE 2_restricted_procedure.png" style="width: 100%; " title="">
+<p class="center">Figure 2 - State-chart diagram for a restricted procedure</p>
+<p>More detail on the different statuses is provided in section “2.4 OCDS dataflow” of this document.</p>
+<h3>OCDS building blocks applied</h3>
+<h4>Tender</h4>
+<p>With a tender block, all the data describing an aspect of the competitive part of the tendering process can be designed and structured. The general scope of data needed to publish a Contract Notice (CN) for this type of procurement method is the same as for a single stage procedure (e.g. open tender). </p>
+<p>Along with all the common information prescribed by Open Contracting Data Standard (OCDS) 1.1 for a tender building block (https://standard.open-contracting.org/latest/en/schema/reference/#tender), some specifics can also be designed as follows:  </p>
+<h5>Targets</h5>
+<p>Where a CA intends to achieve particular quantifiable results within the competitive part of the tendering process, such targets can be designed with a targets building block. The block is built according to ocds_metrics_extension .</p>
+<h5>Criteria</h5>
+<p>In order to prescribe a scope of qualification and conditions for participation (exclusion grounds, selection and qualification criteria), a criteria building block should be used inside tender. In the same way, qualification and evaluation check-points for the CA itself can be included in the criteria array: e.g. request for declaration of absence of the conflict of interests. The block is built according to an eOCDS_structuredAwardCriteria .</p>
+<h5>Conversions</h5>
+<p>Once quantitative criteria have to be included into the CN as well as applicable options and weights, a separate extension must be applied to allow the CA to include all the conversions needed for future qualification and evaluation. Conversions are built on eOCDS-conversions , which is a tool that enables the describing of the conversions used and their applicable coefficients.</p>
+<h5>SecondStage</h5>
+<p>Building block adds a secondStage object to the tender and lot objects, to describe the second stage of a two-stage procedure. More specifically, it adds two fields to describe the limits on the number of candidates to be invited. If there is an exact limit on the number of candidates, minimumCandidates and maximumCandidates are set to the same number. If maximumCandidates is set, the selectionCriteria is used to describe how the selection criteria will be used to select candidates to be invited for the second stage. The block is built according to ocds_secondStageDescription_extension .</p>
+<h5>Enquiries</h5>
+<p>The enquiries extension can be used to record questions raised by the CA during a tendering process, and the answers provided by the EO. The ocds_enquiry_extension  adds an enquiries array to tender, consisting of one or more enquiry objects, each with fields for a question and an answer. </p>
+<h4>Pre-qualification</h4>
+<p>The pre-qualification phase can be designed using ocds_qualification_extension . This extension also extends the code list for party roles with qualifiedBidders and disqualifiedBidders.</p>
+<h4>Submission</h4>
+<p>In order to express their interest in participating in a specific procurement process, EOs can submit a request - submission. Such an expression of interest includes self-declaration on eligibility criteria (both exclusion grounds and selection criteria) expressed by the CA in accordance with a notation prescribed by a criteria building block (see above) in a CN:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"properties": {</p>
+    <p>"submissions": {</p>
+    <p>"title": "Submissions",</p>
+    <p>"description": "",</p>
+    <p>"type": "object",</p>
+    <p>"properties": {</p>
+    <p>"details": {</p>
+    <p>"title": "Submission details",</p>
+    <p>"description": "Requests to participate sent by interested parties",</p>
+    <p>"type": "array",</p>
+    <p>"items:{</p>
+    <p>"$ref": "#/definitions/Submission"  </p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"definitions": {</p>
+    <p>"Submission": {</p>
+    <p>"title": "Submission",</p>
+    <p>"description": "For representing a interest in response to the qualification call",</p>
+    <p>"type": "object",</p>
+    <p>"properties": {</p>
+    <p>"id": {</p>
+    <p>"title": "ID",</p>
+    <p>"description": "A local identifier for this submission",</p>
+    <p>"type": [</p>
+    <p>"string"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"date": {</p>
+    <p>"title": "Date",</p>
+    <p>"description": "The date when this submission was received",</p>
+    <p>"type": [</p>
+    <p>"string",</p>
+    <p>"null"</p>
+    <p>],</p>
+    <p>"format": "date-time"</p>
+    <p>},</p>
+    <p>"status": {</p>
+    <p>"title": "Status",</p>
+    <p>"description": "The status of the submission, drawn from the bidStatus codelist",</p>
+    <p>"type":"string",</p>
+    <p>"enum":[</p>
+    <p>"pending",</p>
+    <p>"disqualified",</p>
+    <p>"valid",</p>
+    <p>"withdrawn"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"statusDetails": {</p>
+    <p>"title": "Status Details",</p>
+    <p>"description": "The status details of the submission from bidStatusDetails codelist",</p>
+    <p>"type":"string",</p>
+    <p>"enum":[</p>
+    <p>"disqualified",</p>
+    <p>"valid",</p>
+    <p>"withdrawn"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"candidates": {</p>
+    <p>"title": "Tenderer",</p>
+    <p>"description": "Reference for party or parties, responsible for this qualification.",</p>
+    <p>"type": [</p>
+    <p>"array",</p>
+    <p>"null"</p>
+    <p> ],</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/OrganizationReference"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"documents": {</p>
+    <p>"title": "Documents",</p>
+    <p>"description": "Any documents and attachment related to the submission",</p>
+    <p>"type": "array",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/Document"</p>
+    <p>},</p>
+    <p>"uniqueItems": true</p>
+    <p>},</p>
+    <p>"requirementResponses": {</p>
+    <p>"type": "array",</p>
+    <p>"description": "A set of the relevant requirementResponses",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/RequirementResponse"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>2.3.3.1 State-chart diagram - requests to participate sent by interested parties</h5>
+<img alt="" src="../images/FIGURE 4_restricted_procedure.png" style="width: 100%; " title="">
+<p class="center">Figure 4 - State-chart diagram for a ‘submission’ object</p>
+<h4>2.3.4 Qualifications</h4>
+<p>In order to reflect the qualify/does not qualify conclusions or a result of automated eligibility checks (where applicable), CAs can form qualifications. Each such object includes a result of the pre-qualification/pre-selection for each submission received against the eligibility criteria (both exclusion grounds and selection criteria) expressed by the CA in the CN. Mentioned qualifications can be designed with the following OCDS-structure: </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"properties": {</p>
+    <p>"qualifications": </p>
+    <p>"title": "Qualifications",</p>
+    <p>"description": "Qualification conclusions by Procuring Entities or a result of automated eligibility check (where applicable)",</p>
+    <p>"type":"array",</p>
+    <p>"items"{</p>
+    <p>"$ref": "#/definitions/Qualification"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"definitions": {</p>
+    <p>"Qualification": {</p>
+    <p>"title": "Qualification",</p>
+    <p>"description": "For reflection qualification conclusions or a result of automated eligibility check (where applicable) for the specific submission received",</p>
+    <p>"type": "object",</p>
+    <p>"properties": {</p>
+    <p>"id": {</p>
+    <p>"title": "ID",</p>
+    <p>"description": "A local identifier for this qualification",</p>
+    <p>"type": "string"</p>
+    <p>},</p>
+    <p>"date": {</p>
+    <p>"title": "Date",</p>
+    <p>"description": "The date when this qualification concluded",</p>
+    <p>"type": "string",</p>
+    <p>"format": "date-time"</p>
+    <p>},</p>
+    <p>"internalId": {</p>
+    <p>"title": "",</p>
+    <p>"description": "",</p>
+    <p>"type": "string"</p>
+    <p>},</p>
+    <p>"status": {</p>
+    <p>"title": "Status",</p>
+    <p>"description": "The status of the qualification, drawn from the codelist",</p>
+    <p>"type": "string",</p>
+    <p>"enum":[</p>
+    <p>"pending",</p>
+    <p>"active",</p>
+    <p>"unsuccessful",</p>
+    <p>"cancelled"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"description": {</p>
+    <p>"title": "Description",</p>
+    <p>"description": "Description or justification for the qualification conclusion made",</p>
+    <p>"type": "string",</p>
+    <p>"format": "date-time"</p>
+    <p>},</p>
+    <p>"relatedSubmission": {</p>
+    <p>"title": "Related submission",</p>
+    <p>"description": "",</p>
+    <p>"type": "string"</p>
+    <p>},</p>
+    <p>"candidates": {</p>
+    <p>"title": "Candidates",</p>
+    <p>"description": "The Organization Reference for party of this qualification",</p>
+    <p>"type": "array",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/OrganizationReference"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"documents": {</p>
+    <p>"title": "Documents",</p>
+    <p>"description": "Any documentas and attachment related to the submission",</p>
+    <p>"type": "array",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/Document"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"requirementResponses": {</p>
+    <p>"type": "array",</p>
+    <p>"description": "A set of the relevant requirementResponses",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/RequirementResponse"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>State-chart diagram - qualifications</h5>
+<img alt="" src="../images/FIGURE 6_restricted_procedure.png" style="width: 100%; " title="">
+<p class="center">Figure 6 - State-chart diagram for a ‘qualification’ object</p>
+<h4>Invitations</h4Z>
+<p>In order to invite those who passed the pre-qualification/pre-selection exercise to submit their technical and financial tenders, CAs publish invitations. These invitations can be designed with the following OCDS-structure:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"properties": {</p>
+    <p>"invitations": {</p>
+    <p>"title": "Invitations",</p>
+    <p>"description": "Invitations to participate for those candidates whose submissions were eligible and therefore confirmed by PE or passed automated eligibility check (where applicable)",</p>
+    <p>"type":"array",</p>
+    <p>"items':{</p>
+    <p>"$ref": "#/definitions/invitation" </p>
+    <p>}</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"definitions": {</p>
+    <p>"Invitation": {</p>
+    <p>"title": "Invitation",</p>
+    <p>"description": "invitation published against eligible submission qualified previously by PE",</p>
+    <p>"type": "object",</p>
+    <p>"properties": {</p>
+    <p>"id": {</p>
+    <p>"title": "ID",</p>
+    <p>"description": "A local identifier for this invitation",</p>
+    <p>"type": [</p>
+    <p>"string"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"date": {</p>
+    <p>"title": "Date",</p>
+    <p>"description": "The date when this invitation sent",</p>
+    <p>"type": [</p>
+    <p>"string",</p>
+    <p>"null"</p>
+    <p>],</p>
+    <p>"format": "date-time"</p>
+    <p>},</p>
+    <p>"status": {</p>
+    <p>"title": "Status",</p>
+    <p>"description": "The status of the invitation, drawn from the bidStatus codelist",</p>
+    <p>"type": "string",</p>
+    <p>"enum":[</p>
+    <p>"active",</p>
+    <p>"unsuccessful"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"statusDetails":{</p>
+    <p>"title":"",</p>
+    <p>"description":"",</p>
+    <p>"type":"string",</p>
+    <p>"enum":[</p>
+    <p>"expired",</p>
+    <p>"withdrawn"</p>
+    <p>]</p>
+    <p>},</p>
+    <p>"tenderers": {</p>
+    <p>"title": "Tenderer",</p>
+    <p>"description": "The OrganizationReference for party, or parties, responsible for this qualification. This should provide a name and identifier, cross-referenced to an entry in the parties array at the top level of the release.",</p>
+    <p>"type": "array",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/OrganizationReference"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>"documents": {</p>
+    <p>"title": "Documents",</p>
+    <p>"description": "Any documents related to the qualification",</p>
+    <p>"type": "array",</p>
+    <p>"items": {</p>
+    <p>"$ref": "#/definitions/Document"</p>
+    <p>},</p>
+    <p>"uniqueItems": true</p>
+    <p>},</p>
+    <p>"relatedQualification": {</p>
+    <p>"title": "Related lot(s)",</p>
+    <p>"description": "",</p>
+    <p>"type": "string"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>Tenders</h4>
+<p>Information on bids submitted as part of a procurement process. An array of a submitted bids can be designed using the ocds_bid_extension </p>
+<h4>Awards</h4>
+<p>The award section  is used to announce any awards issued for a tender. There can be multiple awards made. Releases can contain all or a subset of these awards. </p>
+<h4>Contracts</h4>
+<p>The contract section  is used to provide details of contracts that have been entered into. Every contract must have a related award, linked via the awardID field. </p>
+<h4>Parties</h4>
+<p>Each of the parties (organisations or other participants) referenced in a release must be included in the parties section.</p>
+<h5>Organisations</h5>
+<p>The specific details prescribed by an Organisation Schema  can be provided for each party.</p>
+<h5>Persons</h5>
+<p>Specific information related to a person, representing a particular organisation, can be also described according to eOCDS-persons .</p>
+<h5>Details</h5>
+<p>Additional details on a particular organisation can be expressed with ocds_organizationClassification_extension  and ocds_partyDetails_scale_extension .</p>
+<h3>OCDS dataflow</h3>
+<h4>State 0: Announcement of the initiation</h4>
+<h5>Contract Notice</h5>
+<p>The general scope of data needed to publish a CN for this type of procurement method is the same as for a single-stage procedure (e.g. open tender). </p>
+<h6>Subject of procurement</h6>
+<p>The goods and services to be purchased, broken into line items and lots according to a CA strategy.</p>
+<p>A tender process can be divided into lots, where EOs can submit for one or more lots. Details of each lot can be provided according to (ocds_lots_extension ). Items, documents and other features may then reference the lot they are related to, using relatedLot. Where no relatedLot identifier is given, the values ought to be interpreted as applicable to the whole tender.</p>
+<h6>Awarding methodology</h6>
+<p>The CA prescribes a methodology for the further qualification of submissions and evaluation of the tender based on the following techniques: </p>
+<p>For a qualification process, the CA describes:</p>
+<ul>
+    <li>Qualification method –how the qualification decision will be taken: </li>
+        <ul>
+            <li>manual - where the CA intends to undertake a qualification process involving an  evaluation panel;</li>
+            <li>automated - where the CA transfers the qualification process to a system based on all the qualification criteria prescribed by a  CN. </li>
+        </ul>
+    <li>Reduction criteria – The CA prescribes criteria for the reduction of the number of candidates to be invited to submit a tender: </li>
+    <ul>
+        <li>scoring - where there is a limitation on the number of candidates to be invited </li>
+        <li>o	none - where there is no limit for the number of candidates to be invited to submit a tender</li>
+    </ul>
+</ul>
+<p>Both attributes are to be described and included in a structure of the CN in accordance with ocds_otherRequirements_extension.</p>
+<p>For an evaluation process, the CA describes: </p>
+<ul>
+    <li>Awarding criterion – a general indicator on which the award decision will be based:</li>
+        <ul>
+            <li>priceOnly - where awardCriteria: priceOnly - only bid.value to be compared in order to identify the most suitable tender – Cheapest goes first.</li>
+            <li>costOnly - where awardCriteria: costOnly - assumption that all the tenderers have a same bid.value equal to lot.value. This means that the normalised price needs to be calculated for each tender received, based on lot.value. Cheapest goes first.</li>
+            <li>qualityOnly - where awardCriteria: qualityOnly - assumption that the price doesn't matter and the only valuable part of the tender is the quality - meaning the set of values of criteria, selected by the EO while submitting a tender. This means that the normalised price needs to be calculated for each tender received, based on '1'. Most qualified goes first.</li>
+            <li>ratedCriteria - where awardCriteria: ratedCriteria - assumption that both price and quality matter. This means that the normalised price needs to be calculated for each tender received, based on bid.value. Cheapest goes first.</li>
+        </ul>
+    
+    <li>How awarding criterion is to be applied for initial scoring of the tenders received – using a separate tender.awardCriteriaDetails attribute, the CA prescribes how all the tenders received shall be scored (by a system) for further evaluation:</li>
+        <ul>
+            <li>automated - the awarding will be approached automatically based on ‘awardCriteria’ and a set of relevant requirementResponses received from the tenderers against `requirements` applied by the CA.</li>
+            <li>manual - the awarding will be approached manually.</li>
+        </ul>
+</ul>
+<h6>Criteria and requirements</h6>
+<p>A separate criteria array can be added into the tender building block schema to describe:</p>
+<ul>
+    <li>Qualification and evaluation criteria and its minimum requirements;</li>
+    <li>specific requirements related to a procurement subject;</li>
+    <li>specific requirements related to delivery/performance;</li>
+    <li>general and specific essential conditions of the future contract;</li>
+    <li>requirements related to the CA; </li>
+    <li>criteria for future advanced evaluation by the committee. </li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"criteria": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h6>Conversions - weightings for a scoring function</h6>
+<p>A separate conversions array can be added into the tender building block:</p>
+<ul>
+    <li>To describe conversions used and their applicable coefficients, either as a list of precise values or as a mathematical formula for calculation of the value of a particular coefficient in this particular case (depending on the value received within requirementResponse related to a specific requirement) to be applied;</li>
+    <li>to relate each conversion used (together with coefficients) with used criteria or targets (where applicable);</li>
+    <li>to include applicable options to used criteria or observations for targets.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"conversions": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h6>Limit of number of participants</h6>
+<p>The CA is allowed to limit the number of candidates to be invited to submit financial and technical offers. Where this is a case, pre-selection instead of pre-qualification will be applied in order to evaluate candidates. </p>
+<p>To limit the number of candidates, secondStage building block can be included in the tender or even a specific lot, as shown below.</p>
+<p>For tender</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"secondStage": {</p>
+    <p>"minimumCandidates": 2,</p>
+    <p>"maximumCandidates": 5</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>For specific lot</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"secondStage": {</p>
+    <p>"minimumCandidates": 2,</p>
+    <p>"maximumCandidates": 5</p>
+    <p>}</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Call for enquiries</h5>
+<p>In order to indicate the start of the explanatory phase of a procurement process, the CA shall establish a start date as an enquiry session. </p>
+<p>Such an indication shall be done by adding a separate enquiryPeriod object into the tender building block, which will reflect an end date of the explanatory phase prescribed by the CA and its start date, reflected as a system moment of initiation of the explanatory phase:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"enquiryPeriod": {</p>
+    <p>"startDate": "",</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Pre-qualification modality</h5>
+<p>Along with a start of initiation for the restricted procedure, a pre-qualification phase shall also be launched in order to receive requests for participations from EOs. </p>
+<h6>Pre-qualification establishment</h6>
+<p>A separate preQualification block shall be included in the CN, where preliminary qualification or selection of the candidates to be invited to submit a tender is needed.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"id": "",</p>
+    <p>"procuringEntity":{}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h6>Call for expression of interest</h6>
+<p>A call for expression of interest (EoI) is used in limited tendering to invite EOs to qualify themselves, e.g. by means of an ESPD or qualification. Submission of EoIs is only allowed during a specified period, determined by a stage of pre-qualification. In order to reflect such a period, a separate period object can be added into a preQualification block, where the specific timeframe for expressions is determined.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"period": {</p>
+    <p>"startDate": "",</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+
+<h4>State1 - Submission phase (active.submission)</h4>
+<h5>Enquiries - requests and clarifications</h5>
+<p>Within a call for clarifications tender.enquiryPeriod, any interested EO is allowed to send enquiries - requests for clarification. Such requests remain anonymous. Once tender.enquiryPeriod.endDate is achieved, no more enquiries can be received.</p>
+<p>Enquires</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"enquiries": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"title": "",</p>
+    <p>"description": "",</p>
+    <p>"relatedLot": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>All the enquiries received within tender.enquiryPeriod are disclosed immediately as enquiries array items. All the enquiries’ authors remain confidential until the start of the evaluation.</p>
+<p>Answers</p>
+<p>During the enquiryPeriod, the CA is able to submit an answer to a question received:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"enquiries": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"answer": "",</p>
+    <p>"dateAnswered": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Submission - expression of interests</h5>
+<p>The submission of EoIs is only allowed during a specific period of time, determined by a pre-qualification stage. In order to reflect this period, a separate period object can be added into a preQualification block, where the specific timeframe for EoIs is determined. Thus, within a given preQualification.period, any interested EO is allowed to send a submissions - requests for participation or EoI. Each request shall fulfil all the requirements prescribed by the criteria related to tenderers, with a relevant list of the responses by the EO (confirmative or quantifiable), providing an array of requirementResponses. </p>
+<p>Having a set of requirements predefined by the CA and a number of values available, tenderers preparing their submissions include values for each requirement and fulfil general corporate profiles’ data, as requested by the CA or required by the Legal Framework of a particular jurisdiction.</p>
+<p>Thus, each submission includes:</p>
+<p>1.	An organisation profile according to the extended organization model;</p>
+<p>2.	A set of documents of the tender, specified with relevant types of documents for their future splitting into the different "envelopes";</p>
+<p>3.	A set of requirementResponses according to criteria specified by the CA within the  CN:</p>
+<ul>
+    <li>Commitment on exclusion grounds;</li>
+    <li>commitment on selection criteria (including absolute values if required);</li>
+    <li>commitment on minimum technical requirements (including absolute values if required).</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"submission": {</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"value": "true",</p>
+    <p>"requirement": {},</p>
+    <p>"relatedCandidate": {}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"value": "true",</p>
+    <p>"requirement": {},</p>
+    <p>"relatedCandidate": {}</p>
+    <p>}</p>
+    <p>],</p>
+    <p>"candidates": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>All the submissions received remain confidential and closed until the end of the submissions period - preQualification.period.endDate. Once a deadline for submissions is reached, no submissions can be received, withdrawn or corrected.</p>
+<h4>State1.1 - Suspension due to non-clarification </h4>
+<p>Where initiation is suspended, a particular value for tender.statusDetails is used:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender":{</p>
+    <p>"statusDetails": "suspended"</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State8.1 - Unsuccessful completion of submission </h4>
+<p>Where not enough submissions were collected during the EoI period, the pre-qualification phase will end unsuccessfully, with no future actions by the CA. The procurement initiation shall be moved to a phase of preparation of a negative award notice.</p>
+<h5>Reflection of an unsuccessful submission period completion  </h5>
+<p>The character of a result of the pre-qualification to be reflected with preQualification.status is:</p>
+<ul>
+    <li>complete where enough candidates were selected for future invitation to submit a tender;</li>
+    <li>unsuccessful where pre-qualification is unsuccessfully completed due to lack of submissions or because all the submissions were disqualified.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"status": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Indication of the unsuccessful outcome of a procurement initiation</h5>
+<p>For lots</p>
+<p>A negative character of procurement under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"status": "unsuccessful"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>For entire initiation</p>
+<p>A negative character of a procurement under an entire initiation (procurement process) is reflected with tender.status: unsuccessful, where initiation is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected. Details of a negative closure are reflected in tender.statusDetails.</p>
+<ul>
+    <li>lackOfSubmissions</li>
+    <li>allDisqualified</li>
+    <li>lackOfOffers</li>
+    <li>allRejected</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"status": "unsuccessful",</p>
+    <p>"statusDetails": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State2 - Qualification phase (active.qualification)</h4>
+<h5>Initiation of qualification phase</h5>
+<p>Disclosure of submissions</p>
+<p>Where there are enough submissions, all the submissions are disclosed as a submissions array according to the relevant schema. All the submissions’ authors are added into parties as organizations with a role: candidate.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"submissions": {</p>
+    <p>"details": [</p>
+    <p>{</p>
+    <p>"id": "1",</p>
+    <p>"requirementResponses": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"value": "true",</p>
+    <p>"requirement": {},</p>
+    <p>"relatedTenderer": {}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"value": "true",</p>
+    <p>"requirement": {},</p>
+    <p>"relatedTenderer": {}</p>
+    <p>}</p>
+    <p>],</p>
+    <p>"tenderers": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>Establishment of a period for qualification by the CA</p>
+<p>In order to indicate a start of the qualification phase of a procurement process, a start date must be established. Such an indication shall be done by adding a separate qualificationPeriod object into the preQualification building block, which will reflect a start date of the qualification phase as a system moment:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"qualificationPeriod": {</p>
+    <p>"startDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>Qualification envelopes</p>
+<p>Along with establishment of preQualification.qualificationPeriod.startDate, a set of qualifications is established against each submission received in order to allow the CA to reflect its decision on each submission. Such objects are initially established with status:pending and statusDetails:awaiting (State1 of a relevant state-chart diagram of a qualification object). Since no order is prescribed for the pre-qualification sequence, the CA can evaluate submissions received randomly. </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"qualifications": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"status": "pending",</p>
+    <p>"statusDetails": "awaiting",</p>
+    <p>"candidates": [],</p>
+    <p>"relatedSubmission": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Declaration of non-conflict of interest</h5>
+<p>Before starting qualification, each declared member of the evaluation panel shall respond with a confirmation of absence of conflict of interest against each candidate from each qualification by sending requirementResponses, following a common flow for declarations, as described in Annex 5.</p>
+<h5>Qualification of submissions</h5>
+<p>Once all the non-conflict of interest declarations are submitted by evaluation committee members, the qualification for review is switched into qualification.statusDetails: consideration (State 2 of a relevant state-chart diagram of a qualification object).</p>
+<p>Consideration</p>
+<p>The CA shall update the qualifications with all the required meta-data. By updating, the CA reflects its decision on each submission received. The CA is allowed to:</p>
+<ul>
+    <li>Add any qualification.documents if needed;</li>
+    <li>add qualification.requirementResponses if any relevant requirements related to the CA within the pre-qualification phase prescribed by tender.criteria is applied;</li>
+    <li>add text qualification.descriptions where any justification is needed; </li>
+    <li>add qualification.date when any decision was taken;</li>
+    <li>add qualification.internalID, if any. </li>
+</ul>
+<p>Indication of a decision</p>
+<p>Once consideration of a specific submission is complete and the related qualification is fully updated with all relevant data, the CA shall change the qualification state, reflecting a positive or negative decision in this regard:</p>
+<ul>
+    <li>qualification.statusDetails: active - state 3 of a relevant state-chart diagram of a qualification object. This means the submission is qualified and a candidate(s) will be invited to submit a commercial tender.</li>
+    <li>qualification.statusDetails: unsuccessful - state 4 of a relevant state-chart diagram of a qualification object. This means the submission is disqualified.</li>
+</ul>
+div class="sourceCode">
+    <p>{</p>
+    <p>"qualifications": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"internalid":"",</p>
+    <p>"date":"",</p>
+    <p>"status": "pending",</p>
+    <p>"statusDetails":"active",</p>
+    <p>"documents":[],</p>
+    <p>"requirementResponses</p>
+    <p>"candidates": [],</p>
+    <p>"relatedSubmission": ""</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"internalid":"",</p>
+    <p>"date":"",</p>
+    <p>"status": "pending",</p>
+    <p>"statusDetails":"unsuccessful",</p>
+    <p>"description":"This is why this submission was rejected",</p>
+    <p>"documents":[],</p>
+    <p>"requirementResponses":[], </p>
+    <p>"candidates": [],</p>
+    <p>"relatedSubmission": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>As soon as the CA has completed the qualification and all the submissions received are updated with the relevant meta-data, the CA indicates the end of qualification.</p>
+<h4>State3 - Standstill period for pre-qualification </h4>
+<p>In this state, no one can take any action except the CA to switch the process to State4 or back to State2. No other actions can be prescribed for the system - all review procedures go offline and the time tracking is up to the CA. </p>
+<h5>Completion of qualification period</h5>
+<p>If no blockers are indicated during the stand-still period, the CA can initiate the end of the        qualificationPeriod and the entire pre-qualification phase. Additional values of the endDate can be added into the preQualification.qualificationPeriod as an indication of pre-qualification completion.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"qualificationPeriod": {</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Finalisation of pre-qualification</h5>
+<p>Finalisation of the qualifications</p>
+<p>All the qualifications shall be moved by a system into relevant final statuses:</p>
+<ul>
+    <li>qualification.status: pending / statusDetails: active → qualification.status: active / statusDetails: none (State 3 to State 3.1 of a relevant state-chart diagram of a qualification object. Means that the submission is qualified and the candidate(s) is invited to submit a tender).</li>
+    <li>qualification.status: pending / statusDetails: unsuccessful → qualification.status: unsuccessful / statusDetails: none (State4 to State4.1 of a relevant state-chart diagram of a qualification, see 3.3.4.1). Means the submission is disqualified).</li>
+</ul>
+<p>Finalisation of the submissions</p>
+<p>All the related submissions are assigned the relevant statuses:</p>
+<ul>
+    <li>submission.status: pending where relevant qualification.status: active → submission.status: valid (State1 to State3 of a relevant state-chart diagram of a submission).</li>
+    <li>submission.status: pending where relevant qualification.status: unsuccessful → submission.status: disqualified (State1 to State4 of 2.3.3.1 state-chart diagram of a submission). </li>
+</ul>
+<h5>Completion of pre-qualification</h5>
+<p>The character of a result of the pre-qualification to be reflected with preQualification.status is:</p>
+<ul>
+    <li>complete where enough candidates were selected for future invitation to submit a tender;</li>
+    <li>unsuccessful where pre-qualification is unsuccessfully completed due to a lack of submissions or because all submissions were disqualified.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"status": ""</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State8.2 - Unsuccessful completion of pre-qualification </h4>
+<p>Where all the submissions collected during the EoI period were disqualified, the pre-qualification phase will end unsuccessfully with no future actions by the CA. Procurement initiation shall be moved to a phase of preparation of a negative award notice.</p>
+<h5>Completion of qualification period</h5>
+<p>If no blockers are indicated during the stand-still period, the CA can initiate the end of the qualificationPeriod and the entire pre-qualification phase.</p>
+<p>An additional value of endDate is added into preQualification.qualificationPeriod as an indication of pre-qualification completion.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"qualificationPeriod": {</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Completion of pre-qualification</h5>
+<p>The character of a result of the pre-qualification is reflected with preQualification.status. It is:</p>
+<ul>
+    <li>complete where enough candidates were selected for future invitation to submit a tender;</li>
+    <li>unsuccessful where pre-qualification is unsuccessfully completed due to a lack of submissions or because all the submissions were disqualified.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"preQualification": {</p>
+    <p>"status": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Indication of the unsuccessful outcome of procurement initiation</h5>
+<p>For lots</p>
+<p>A negative character of a procurement under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"status": "unsuccessful"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>For entire initiation</p>
+<p>A negative character of a procurement under entire initiation (procurement process) is reflected with tender.status: unsuccessful, where initiation is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected. Details of a negative closure are reflected in tender.statusDetails.</p>
+<ul>
+    <li>lackOfSubmissions</li>
+    <li>allDisqualified</li>
+    <li>lackOfOffers</li>
+    <li>allRejected</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"status": "unsuccessful",</p>
+    <p>"statusDetails": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State4 - Tendering (active.tendering)</h4>
+<h5>Invitations for selected candidates</h5>
+<p>Once pre-qualification and the following stand-still period are over and the tendering session is initiated by the CA, in order to disclose a short-list of invited candidates, separate array invitations is generated with separate elements for each invited candidate (those whose submissions are affiliated with qualification.status: active). </p>
+<p>The authors of valid submissions are reflected in the parties section with an additional role: invitedCandidate. Only those tenderers indicated in invitations are allowed to submit their financial and technical offers. All the others are refused automatically. </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"invitations": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"date": "",</p>
+    <p>"tenderers":[],</p>
+    <p>"relatedQualification": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Call for proposals</h5>
+<p>In order to indicate the start of a tendering phase of a procurement process, the CA shall establish a start date as a call for tendering of the commercial tenders. This indication shall be done by adding a separate tenderPeriod object into the tender building block, which will reflect an end date of the tendering phase prescribed by the CA and its start date reflected as a system moment of initiation of the tendering phase:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"tenderPeriod": {</p>
+    <p>"startDate": "",</p>
+    <p>"endDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Tendering</h5>
+<p>Each invited candidate is allowed to submit a financial and technical tender within the given tender.tenderPeriod indicated with any call for tenders. Each tender is based on a Bids schema. Each tender shall fulfil all the requirements prescribed by the criteria related to items or lots, with a relevant list of the responses by the EOs and providing an array of requirementResponses. </p>
+<p>Having a set of requirements predefined by the CA and a number of values available, tenderers preparing their submissions include values for each requirement and fulfil the general corporate profiles data as requested by the CA or required by the Legal Framework of a particular jurisdiction.</p>
+<p>Thus, each tenders includes:</p>
+<ul>
+    <li>Reference on organization profile sent previously while submitting an expression of interest;</li>
+    <li>set of documents of the tender, specified with relevant types of documents for their future splitting into the different "envelopes";</li>
+    <li>absolute financial value of a tender- bids[*].value;</li>
+    <li>decomposed array of unit prices (if requested by the CA) - bids[*].items.unit.value;</li>
+    <li>set of requirementResponses according to criteria specified by the CA within the  CN related to the financial part of the tender:</li>
+        <ul>
+            <li>reflections on requirements characterise the nature of the subject of procurement;</li>
+            <li>reflections on requirements characterise the nature of the delivery and post-delivery.</li>
+        </ul>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"bid": {</p>
+    <p>"id": "",</p>
+    <p>"status": "",</p>
+    <p>"relatedLots": [],</p>
+    <p>"tenderers":[],</p>
+    <p>"items": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"description": "",</p>
+    <p>"quantity": "",</p>
+    <p>"unit": {},</p>
+    <p>"relatedLot":""</p>
+    <p>}</p>
+    <p>],</p>
+    <p>"requirementResponses":[]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>All the tenders collected remain confidential and closed until the end of the period for tendering - tender.tenderPeriod.endDate. Once tender.tenderPeriod.endDate is reached, no tenders can be received, withdrawn or corrected. </p>
+<h4>State8.3 - Unsuccessful completion of tendering </h4>
+<p>Where not enough tenders were collected during the tendering period for all the announced lots, the evaluation phase will end unsuccessfully with no future actions by the CA. The procurement process shall be moved to a phase of preparation of a negative award notice.</p>
+<h5>Indication of the unsuccessful outcome of procurement process</h5>
+<p>For lots</p>
+<p>A negative character of a procurement under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"status": "unsuccessful"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>For entire initiation (tender)</p>
+<p>Where all the lots are unsuccessful, the entire procurement initiation goes to State8.3. A negative character of a procurement under entire initiation (procurement process) is reflected with tender.status: unsuccessful, where the initiation is closed unsuccessfully due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected. Details of a negative closure are reflected in tender.statusDetails.</p>
+<ul>
+    <li>lackOfSubmissions</li>
+    <li>allDisqualified</li>
+    <li>lackOfOffers</li>
+    <li>allRejected</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"status": "unsuccessful",</p>
+    <p>"statusDetails": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State5 - Evaluation (active.evaluation)</h4>
+<h5>Initiation of the evaluation phase</h5>
+<p>Disclosure of the proposals</p>
+<p>Where enough tenders are received, all the tenders are disclosed as a tenders array according to the relevant schema. All the authors (bid.tenderers) are updated into parties as an organizations with a role: tenderer.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"bids": {</p>
+    <p>"details":[</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"status": "pending",</p>
+    <p>"statusDetails":"",</p>
+    <p>"relatedLots": [],</p>
+    <p>"tenderers":[],</p>
+    <p>"items": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"description": "",</p>
+    <p>"quantity": "",</p>
+    <p>"unit": {},</p>
+    <p>"relatedLot":""</p>
+    <p>}</p>
+    <p>],</p>
+    <p>"requirementResponses":[]</p>
+    <p>}</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Establishment of a period for evaluation</p>
+<p>A separate object awardPeriod is added into a tender block where the specific startDate for awarding is determined automatically. </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"awardPeriod": {</p>
+    <p>"startDate": ""</p>
+    <p>}</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<p>Evaluation envelopes</p>
+<p>Such objects are based on an awards schema and initially established with status:pending with statusDetails:none for all. </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"awards": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"status": "pending",</p>
+    <p>"suppliers": [],</p>
+    <p>"relatedLots": [],</p>
+    <p>"relatedBid": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Disclosure of the enquirers</p>
+<p>Together with initiation of the evaluation phase, all the enquirers (tender.enquiries[*].author) are reflected into the parties with a role: enquirer once tender.enquiryPeriod.endDate is reached.</p>
+<h5>Initial ranking on award criteria</h5>
+<p>Depending on tender.awardCriteria and tender.AwardCriteriaDetails, initial automated ranking can or cannot be done, as described in Annex 4: Ranking for evaluation:</p>
+<p>Depending on previously established or not established eligibility checks, the result state may be:</p>
+<ul>
+    <li>award.statusDetails: consideration - where an eligibility check took place previously</li>
+    <li>award.statusDetails: awaiting – where an eligibility check was not conducted by the CA previously</li>
+</ul>
+<h5>Evaluation</h5>
+<p>To evaluate the tender, the CA shall update the related award with all the required meta-data. In these updates, the CA is allowed to:</p>
+<ul>
+    <li>Add any documents if needed;</li>
+    <li>Add requirementResponses if there are any relevant requirements related to the CA within the evaluation phase prescribed by tender.criteria; </li>
+    <li>Add text descriptions where any justification is needed; </li>
+    <li>Add date when the decision was taken;</li>
+    <li>Add internalID, if any. </li>
+</ul>
+<p>Indication of a decision</p>
+<p>Once the evaluation of a specific tender is complete and the related award is fully updated with all relevant data, the CA shall switch the award to one of the following states, reflecting a positive or negative decision:</p>
+<ul>
+    <li>award.statusDetails: active - means the related tender is selected as a winning tender to be awarded;</li>
+    <li>award.statusDetails: unsuccessful - means the related tender is rejected.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"awards": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"description": "",</p>
+    <p>"status": "pending",</p>
+    <p>"date": "active",</p>
+    <p>"suppliers": [],</p>
+    <p>"relatedLots": [],</p>
+    <p>"relatedBid": ""</p>
+    <p>"documents": [],</p>
+    <p>"requirementResponses": [],</p>
+    <p>"indernalId": ""</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>As soon as the CA has completed the evaluation and the winning candidates for a particular lot are identified or all the proposals under this lot are rejected, the CA indicates the end of evaluation for the lot by publishing an intention to award a contract (award decision).</p>
+<h5>Award decision</h5>
+<p>To reflect a decision regarding each specific lot and the proposal selected to be awarded with a contract (award.statusDetails:active), the CA prepares a Notice on Award Decision. This data-entity is based on a contract schema and included in a contracts array. </p>
+<p>Since it a stand-still period for evaluation, initially these contracts are established with a status: pending and statusDetails, which reflects a decisions' character:</p>
+<ul>
+    <li>contract.statusDetails: active where the decision regarding the lot is positive (winner is identified);</li>
+    <li>contract.statusDetails: unsuccessful where the decision regarding the lot is negative (all the tenders were rejected).</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"contracts": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"date": "",</p>
+    <p>"awardId": "",</p>
+    <p>"status": "pending",</p>
+    <p>"statusDetails": "awaiting",</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Stand-still period</h5>
+<p>In this state, no one can take any actions except the CA, who switches the process to State4 or back to State2. No other actions can be prescribed for the system - all review procedures go offline, and the time tracking is up to the CA. </p>
+<h5>Cancellation of the award decision</h5>
+<p>To reflect a decision to cancel a specific award decision taken previously under a particular lot, the CA shall switch the relevant contract object into contract.status: cancelled.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"contracts": [</p>
+    <p>{</p>
+    <p>"status": "cancelled"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Confirmation of the award decisions</h5>
+<p>If no blockers indicated during stand-still period, the CA can initiate contract preparation for the awarded lot or finalization of an unsuccessful output of a lot where all the proposals were rejected during the evaluation phase.</p>
+<p>Confirmation of a negative award decision</p>
+<p>Confirmation of a negative award decision requires switching the relevant contract object to final status: unsuccessful, with a parallel indication of the reason for a negative outcome as a statusDetails:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"contracts": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"awardId": "",</p>
+    <p>"status":"unsuccessful",</p>
+    <p>"statusDetails": "allOffersRejected"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Confirmation of a positive award decision</p>
+<p>Confirmation of a positive decision requires reflecting the subsequent contract initiation into a relevant contract object by indicating statusDetails, provided that the object remains intermediate status: pending:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"contracts": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"awardId": "",</p>
+    <p>"status":"pending",</p>
+    <p>"statusDetails": "contractPreparation"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Contract initiation</h5>
+<p>To describe and reflect the scope of a contract to be concluded on a positive award decision, a parallel data-stream will be initiated. This stream is a separate OCDS-record where all the information related to future contracts is collected from a current procurement process. In order to establish the relation with this parallel stream, the relevant contract reflects a positive award decision and shall be extended with a relatedProcess.relationship: [x_contracting]:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"contracts": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"awardId": "",</p>
+    <p>"status":"pending",</p>
+    <p>"statusDetails": "contractPreparation",</p>
+    <p>"relatedProcesses": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"relationship": [</p>
+    <p>"x_contracting"</p>
+    <p>],</p>
+    <p>"scheme": "ocid"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<h5>Contract preparation and activation</h5>
+<p>According to a common flow of MTender, the preparation of a contract is concluded.</p>
+<h4>State8.4 - Unsuccessful completion of evaluation </h4>
+<p>Where all the tenders collected during the period of tendering were rejected, the evaluation phase will end unsuccessfully with no future actions by the CA.</p>
+<h5>Indication of the unsuccessful outcome of procurement initiation </h5>
+<p>For lots</p>
+<p>A negative character of a procurement under a specific lot is reflected with lot.status: unsuccessful, where the lot is closed in a negative way due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected.</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"status": "unsuccessful"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>For entire initiation (tender)</p>
+<p>A negative character of a procurement under the entire initiation (procurement process) is reflected with tender.status: unsuccessful, where the initiation is closed in a negative way due to a lack of submissions for pre-qualification or tenders for evaluation, or where all the tenders were rejected. The details of a negative closure are reflected in tender.statusDetails.</p>
+<ul>
+    <li>lackOfSubmissions</li>
+    <li>allDisqualified</li>
+    <li>lackOfOffers</li>
+    <li>allRejected</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"status": "unsuccessful",</p>
+    <p>"statusDetails": ""</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State6 - Completion of procedure</h4>
+<h5>Indication of a successful outcome of a procurement initiation</h5>
+<p>For lots</p>
+<p>A positive character of a procurement under a specific lot is reflected with lot.status: complete </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"lots": [</p>
+    <p>{</p>
+    <p>"status": "complete"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>For entire initiation</p>
+<p>A positive character of a procurement under an entire initiation (procurement process) is reflected with tender.status: complete. </p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"status": "complete"</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h4>State7 - Cancellation of procedure</h4>
+<p>State7 is a cancellation of procedure. The cancellation flow is common to any procurement method and described in a separate document (the API guide for NEPPs:</p>
+<p>https://mtendereprocurementsystem.github.io/MTender-Documentation/API/).</p>
+
+
+
+<h2>Annexes</h2>
+<h3>Evaluation Committee</h3>
+<h4>Background</h4>
+<p>The process of evaluation of tenders is generally carried out by a suitably competent evaluation panel. According to the Public Procurement Guidance for Practitioners by the European Commission, it is best practice to establish the Evaluation Committee as soon as the decision has been taken to proceed with the procurement to ensure that the procurement process is done in the most professional way by involving all the necessary staff qualifications from the start. </p>
+<p>The Committee needs to have a permanent core of members. Procurement, financial and legal persons should be permanent members. Technical staff will be members depending on the type of contract. The committee should ideally comprise members experienced in each of the areas to be examined in the tender.</p>
+<p>A chairperson is usually appointed to lead, co-ordinate, give guidance and control the process of evaluation of tenders. The chairperson is responsible, inter alia, for ensuring that the process of tender evaluation is carried out in accordance with the general law and Treaty principles as well as local requirements. A secretary to the evaluation panel, generally with non-voting powers, is often appointed for the purpose of providing support to the chairperson, carrying out the administrative tasks linked to the evaluation process, and keeping the minutes of each meeting.</p>
+<p>The way in which the members of the evaluation panel operate - for example, whether they assess the tenders independently or jointly - depends on local legislation or local practice.</p>
+<p>In principle, the evaluation panel normally has only the mandate to identify the best tender and to make a recommendation as to the award of the contract to the CA.</p>
+<p>References</p>
+<ul>
+    <li>Tender Evaluation and Contract Award  by the Sigma Programme (OECD and EU) </li>
+    <li>How will the tenders be evaluated? (page 18) by the Office for Infrastructure and Logistics of the European Commission </li>
+    <li>Public Procurement Guidance for Practitioners by European Commission </li>
+</ul>
+<p>Technical design</p>
+<p>In order to declare an evaluation panel member, the CA while preparing a CN can add specific information about each person to be included in the evaluation panel by adding relevant information according to a `persones` block:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"procuringEntity": {</p>
+    <p>"id": "",</p>
+    <p>"persones": [</p>
+    <p>{</p>
+    <p>"title": "",</p>
+    <p>"name": "",</p>
+    <p>"identifier": {</p>
+    <p>"scheme": "",</p>
+    <p>"id": ""</p>
+    <p>},</p>
+    <p>"businessFunctions": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"type": "",</p>
+    <p>"jobTitle": "",</p>
+    <p>"period": {},</p>
+    <p>"documents": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"documentType": "",</p>
+    <p>"title": "",</p>
+    <p>"description": ""</p>
+    <p>}</p>
+    <p>]</p> 
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+
+<h3>Structured criteria</h3>
+<h4>Background</h4>
+<p>A set of criteria may include different types of requirements, used in different ways and for different reasons. Some of the criteria used may be prescribed on the legal basis “by default” (exclusion grounds of ESPD or particular chapters of selection grounds from ESPD, like ‘general yearly turnover’).</p>
+<h5>Types of criteria</h5>
+<p>Under each Tendering Process, the CA may define and apply various types of criteria:</p>
+<h6>Pre-qualification, pre-selection or the scoring function.</h6>
+<p>According to the ESPD, the structure of qualification criteria is as follows:</p>
+<p>Exclusion grounds</p>
+<p>These criteria are eligibility criteria put forward by the CA to the candidates. All of them are published in the CN and relate to the whole procedure.</p>
+<p>Selection criteria</p>
+<p>These criteria are also eligibility criteria, but they are optional for the CA to apply for the tender. The criteria allow determining the quantitative and qualitative criteria for candidates for participation in the procedure.</p>
+<p>Allowances</p>
+<p>These criteria are award criteria and should be taken into account by the CA in cases determined by the relevant law, which also defines a set of these criteria and their values. Examples include the following criteria:</p>
+<ul>
+    <li>The proposal of the candidate-resident of the country of jurisdiction receives a reduction factor;</li>
+    <li>The proposal of a candidate-resident of the country of jurisdiction if the candidate is an organisation in the category of SMEs receives a reduction factor of price.</li>
+</ul>
+<p>Non-price criteria</p>
+<p>These criteria are award criteria and can be applied by the CA in the case of the most economically advantageous tender (MEAT) strategy. MEAT is recognised as winning according to the following criteria:</p>
+<ul>
+    <li>In case of contracts for public procurement of goods - the price, delivery time, payment terms, profitability, quality, aesthetic, functional and technical characteristics, capabilities and cost of technical assistance and maintenance.</li>
+    <li>In the case of contracts for public procurement of works - the proposed quality, cost per unit of product of the tenderer by the end of the work, total price, experience of the tenderer, etc. The share of the price in the total evaluation of the tenders should not be more than 80%.</li>
+    <li>In the case of contracts for public procurement of services - the proposed quality, cost per unit of the tenderer’s products, total price, experience of the tenderer, etc. The price share in the total evaluation of the tenders should not be more than 40%.</li>
+</ul>
+<p>Therefore, depending on the category of procurement, the CA can determine a set of non-price criteria (quantitative and qualitative) in the range of 20-60%, which will be taken into account along with the price part of the tender and affect the absolute economic value of the entire tender proposal.</p>
+<h6>Guarantees</h6>
+<p>The CA may, if deemed appropriate and proportionate, on a case-by-case basis and subject to a risk analysis, require contractors to lodge a guarantee. For example, in the case of works contracts, a performance guarantee may be required to assure the Commission that the contract will be properly fulfilled after provisional approval and payment of the balance, pending final acceptance.</p>
+<p>An example of this application is described by ocds_requirements_extension (example).</p>
+<p>Bid bond / Performance guarantee</p>
+<p>The guarantee is released after final acceptance of the deliverables, except where the contract has not been performed or has been performed incorrectly or completion is late. In these cases, a part of the guarantee is retained, in proportion to the seriousness of the damage suffered, at the first request of the Commission. If the value of the damage is greater than the sum of the guarantee, the whole guarantee will be retained.</p>
+<h6>Essential conditions - contract draft</h6>
+<p>The draft contract containing all the elements of the contract that will subsequently be signed is enclosed with the tender documents so that tenderers have all the information they need. The draft contract is divided into two parts:</p>
+<p>General conditions</p>
+<p>The terms that apply to all contracts of the same type, unless the special conditions derogate from them.</p>
+<p>Specific conditions</p>
+<p>They cover the subject and duration of the contract, the price, and arrangements for implementing the contract (deadlines for ordering, paying, etc.). They specify whether a performance guarantee must be provided by the future contractor to ensure proper implementation of the contract.</p>
+
+<h4>Technical design</h4>
+<p>Separate criteria array to be added into tender building block according to a criteria schema  to describe:</p>
+<ul>
+    <li>Qualification and evaluation criteria and their minimum requirements;</li>
+    <li>Specific requirements related to a subject of procurement;</li>
+    <li>Specific requirements related to delivery/performance;</li>
+    <li>General and specific essential conditions of the future contract;</li>
+    <li>Requirements related to the CA; </li>
+    <li>Criteria for future advanced evaluation by the committee. </li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"criteria": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>Examples</h5>
+<p>Below is an example of requirements specified against both an item and a tenderer:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"criteria": [</p>
+    <p>{</p>
+    <p>"id": "001",</p>
+    <p>"title": "Participation in a criminal organisation",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for participation in a criminal organisation, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?", </p>
+    <p>"source": "tenderer",        </p>
+    <p>"type":"CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"description":"PARTICIPATION_IN_CRIMINAL_ORGANISATION",</p>
+    <p>"id": "0.2.1.1"</p>
+    <p>},</p>
+    <p>"relatesTo": "tenderer",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "001-1",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "001-1-1",</p>
+    <p>"title": "The EO has not been the subject of a conviction.",</p>
+    <p>"description": "The economic operator itself or any person who is a member of its administrative, management, or supervisory board or has powers of representation, decision or control therein has not been the subject of a conviction by final judgement for participation in a criminal organisation, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable as defined in Article 2 of Council Framework Decision 2008/841/JHA of 24 October 2008 on the fight against organised crime ",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2",  </p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "001-2-1",</p>
+    <p>"title": "The EO has been the subject of a conviction.",</p>
+    <p>"description": "The economic operator itself or any person who is a member of its administrative, management, or supervisory board or has powers of representation, decision or control therein has been the subject of a conviction by final judgement for participation in a criminal organisation, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable as defined in Article 2 of Council Framework Decision 2008/841/JHA of 24 October 2008 on the fight against organised crime (OJ L 300, 11.11.2008, p. 42)",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": true</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-2",</p>
+    <p>"title": "Date of conviction",</p>
+    <p>"description": "Provide the date of conviction",</p>
+    <p>"dataType": "text"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-3",</p>
+    <p>"title": "Reason of the conviction",</p>
+    <p>"description": "Provide the reason of the conviction",</p>
+    <p>"dataType": "text"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-4",</p>
+    <p>"title": "Name of the convicted persons",</p>
+    <p>"description": "Provide the name of the convicted persons.",</p>
+    <p>"dataType": "text"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-5",</p>
+    <p>"title": "Length of the period of conviction",</p>
+    <p>"description": "Provide the reason of the conviction",</p>
+    <p>"dataType": "text"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-6",</p>
+    <p>"title": "Have measures been taken?",</p>
+    <p>"description": "",</p>
+    <p>"dataType": "boolean"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-7",</p>
+    <p>"title": "Description of the measures taken",</p>
+    <p>"description": "",</p>
+    <p>"dataType": "text"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "002",</p>
+    <p>"title": "General yearly turnover",</p>
+    <p>"description": "The economic operator's general yearly turnover for the last three financial years.",</p>
+    <p>"source": "tenderer",</p>
+    <p>"type":"CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING.TURNOVER.GENERAL_YEARLY",</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"description":"CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING.TURNOVER.GENERAL_YEARLY",</p>
+    <p>"id": "0.3.3.1.1"</p>
+    <p>},</p>
+    <p>"relatesTo": "tenderer",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "002-1",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "002-1-1",</p>
+    <p>"title": "Avg general turnover 2016-2018",</p>
+    <p>"description": "Avg general turnover",</p>
+    <p>"dataType": "number",</p>
+    <p>"period": {}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "002-1-2",</p>
+    <p>"title": "Avg general turnover 2018",</p>
+    <p>"description": "Avg general turnover in 2018",</p>
+    <p>"dataType": "number",</p>
+    <p>"period": {},</p>
+    <p>"eligibleEvidences":[</p>
+    <p>{</p>
+    <p>"id":"002-1-2-1",</p>
+    <p>"title":"tax report",</p>
+    <p>"evidences":[</p>
+    <p>{</p>
+    <p>"id":"002-1-2-1-1",</p>
+    <p>"type":"document",</p>
+    <p>"description":"Scan-copy of the yearly balance"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id":"002-1-2-1-2",</p>
+    <p>"type":"document",</p>
+    <p>"description":"Tax-service receipt of acceptance",</p>
+    <p>"dateType":"string"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id":"002-1-2-2",</p>
+    <p>"title":"Bank statement",</p>
+    <p>"evidences":[</p>
+    <p>{</p>
+    <p>"id":"",</p>
+    <p>"type":"document",</p>
+    <p>"description":"Account transactions story",</p>
+    <p>"dateType":"string"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id":"002-1-2-3",</p>
+    <p>"title":"Public register",</p>
+    <p>"evidences":[</p>
+    <p>{</p>
+    <p>"id":"",</p>
+    <p>"type":"url",</p>
+    <p>"description":"Link to a public register",</p>
+    <p>"dateType":"string"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-3",</p>
+    <p>"title": "Avg general turnover 2017",</p>
+    <p>"description": "Avg general turnover in 2017",</p>
+    <p>"dataType": "number",</p>
+    <p>"period": {}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-4",</p>
+    <p>"title": "Avg general turnover 2016",</p>
+    <p>"description": "Avg general turnover in 2016",</p>
+    <p>"dataType": "number",</p>
+    <p>"period": {}</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001",</p>
+    <p>"title": "Grounds relating to criminal convictions",</p>
+    <p>"description": "Exclusion grounds",</p>
+    <p>"source": "tenderer",</p>
+    <p>"relatesTo": "tenderer",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "001-1",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "001-1-2",</p>
+    <p>"title": "Corruption",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for corruption, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.2"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-1-3",</p>
+    <p>"title": "Fraud",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for fraud, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.3"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-1-4",</p>
+    <p>"title": "Terrorist offences or offences linked to terrorist activities",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for terrorist offences or offences linked to terrorist activities, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?", </p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.4"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-1-5",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for money laundering or terrorist financing, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.5"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-1-5",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for money laundering or terrorist financing, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.5"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-1-6",</p>
+    <p>"title": "Child labour and other forms of trafficking in human beings",</p>
+    <p>"description": "Has the economic operator itself or any person who is a member of its administrative, management or supervisory body or has powers of representation, decision or control therein been the subject of a conviction by final judgment for child labour and other forms of trafficking in human beings, by a conviction rendered at the most five years ago or in which an exclusion period set out directly in the conviction continues to be applicable?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.1.6"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"title": "Grounds relating to the payment of taxes",</p>
+    <p>"description": "Exclusion grounds",</p>
+    <p>"source": "tenderer",</p>
+    <p>"relatesTo": "tenderer",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "001-2-1",</p>
+    <p>"title": "Payment of taxes",</p>
+    <p>"description": "Has the economic operator breached its obligations relating to the payment of taxes, both in the country in which it is established and in Member State of the procuring entity or contracting entity if other than the country of establishment?", </p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.2.1"</p>
+    <p>}</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "001-2-2",</p>
+    <p>"title": "Payment of social security",</p>
+    <p>"description": "Has the economic operator breached its obligations relating to the payment social security contributions, both in the country in which it is established and in Member State of the procuring entity or contracting entity if other than the country of establishment?",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectedValue": false,</p>
+    <p>"classification": {</p>
+    <p>"scheme": "EU-ESPD-1.0.2",</p>
+    <p>"id": "0.2.2.2"</p>
+    <p>}</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h3>Coefficients for conversion</h3>
+<h4>Background</h4>
+<p>Pre-selection of the candidates and future evaluation of the tenders submitted by invited candidates is a critical part of the procurement process, and for this reason care must be taken to ensure that the outcome is the right one and that it has been decided in a fair and transparent manner.</p>
+<p>The criteria for the awarding of contracts are either the lowest price only or the MEAT. If the MEAT method is used, either the CN itself or the tender documents must detail all criteria to be used . Best practice would be to disclose in the tender notice or tender documents the scoring matrix or weightings being used in addition to the evaluation methodology.</p>
+<h5>Pre-qualification questionnaire (PQQ)</h5>
+<p>If it is the intention to have a shortlist of tenderers, then this must be done by fair and transparent means giving equal treatment to all. Thus, CAs should indicate beforehand in the CN or tender documents a set of minimum requirements, in particular:</p>
+<ul>
+    <li>The minimum requirements which characterise the nature of the procurement (which should not be changed in the negotiations or evaluation);</li>
+    <li>Minimum eligibility and qualification requirements to be fulfilled by any tenderer.</li>
+    <p>along with</p>
+    <li>The values available for each applied requirement;</li>
+    <li>The relative weighting of each option available under each applied requirement.</li>
+</ul>
+<h5>Scoring matrix for evaluation</h5>
+<p>Tender evaluation should:</p>
+<ul>
+    <li>Have award criteria that are weighted to reflect importance/priority and are focused on the requirements of the specification (judging on quality rather than price);</li>
+    <li>Be relevant to the subject matter of the contract;</li>
+    <li>Preferably be based on a model that takes into account a balance between price and quality where price is the dominant criteria in %. Care must be taken to ensure that the price/quality split reflects the requirements of the contract;</li>
+    <li>Have approval for the award criteria and the evaluation model (including weightings of each criterion); and</li>
+    <li>Use an Evaluation Committee made up of appropriate and relevant representation having the necessary experience, technical skills and knowledge.</li>
+</ul>
+<h4>Technical design</h4>
+<p>A separate conversions array is added into tender building block according to a Conversions schema ￼‘Conversions’ is a tool that allows describing used conversions and their applicable coefficients.</p>
+<ul>
+    <li>To describe used conversions and their applicable coefficients, either as a list of precise values or as a mathematical formula for calculation of the value of a particular coefficient in this particular case (depending on the value received within requirementResponse related to a specific requirement) to be applied.</li>
+    <li>To relate each conversion used (together with coefficients) with used criteria or targets (where applicable).</li>
+    <li>To include applicable options to used criteria or observations for targets.</li>
+</ul>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"conversions": [</p>
+    <p>{}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+</div>
+<h5>True/false requirement and its coefficients of conversion</h5>
+<p>This simple criterion that requires only a true/false answer can be used by the CA. For example, if the currently submitting EO is a domestic tenderer, his/her tender will get a ratio that increases the advantage of its price by 20%:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"criteria": [</p>
+    <p>{</p>
+    <p>"id": "001",</p>
+    <p>"title": "Benefits",</p>
+    <p>"description": "Benefits domestic bidders",</p>
+    <p>"source": "tenderer",</p>
+    <p>"relatesTo": "tenderer",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "001-1",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "001-1-1",</p>
+    <p>"title": "Is Economic operator is domestic bidder?",</p>
+    <p>"description": "",</p>
+    <p>"dataType": "boolean"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Using criteria, we can describe this criterion as such. But using conversions, we can also describe applicable coefficients:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"conversions": [</p>
+    <p>{</p>
+    <p>"relatesTo": "requirement",</p>
+    <p>"relatedItem": "001-1-1",</p>
+    <p>"rationale": "Domestic bidders receive a 20% price preference",</p>
+    <p>"coefficients": [</p>
+    <p>{</p>
+    <p>"value": true,</p>
+    <p>"coefficient": 0.8</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"value": false,</p>
+    <p>"coefficient": 1</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Therefore, if the EO responds that his/her company is a domestic tenderer, using cross-reference through requirement.id we can extract an applicable coefficient - 0.8.</p>
+<h5>Requirement with a predefined set of coefficients of conversion for a specific criterion value</h5>
+<p>The criterion that requires a precise answer with digitalisation can be used by the CA. For example, when a minimum product warranty of 1 year is required for all tenders but warranties of 2 years receive a 15% advantage and warranties of 3 years or more receive a 30% advantage:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"criteria": [</p>
+    <p>{</p>
+    <p>"id": "002",</p>
+    <p>"title": "Product warranty",</p>
+    <p>"description": "A minimum product warranty of 1 year is required for all bids. Warranties of 2 years receive a 15% advantage. Warranties of 3 years or more receive a 30% advantage.",</p>
+    <p>"source": "tenderer",</p>
+    <p>"relatesTo": "item",</p>
+    <p>"relatedItem": "1",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "002-1",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "002-1-1",</p>
+    <p>"title": "A minimum product warranty of 1 year is guaranteed",</p>
+    <p>"dataType": "boolean",</p>
+    <p>"expectednValue": true</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "002-1-2",</p>
+    <p>"title": "The number of years for proposed product warranty",</p>
+    <p>"dataType": "integer",</p>
+    <p>"minValue": 1,</p>
+    <p>"maxValue": 3</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Using criteria, we can describe this criterion as such where the EO is required to confirm that s/he guarantees at least 1 year of product warranty (002-1-1) but also to specify a precise number of years for this guarantee for the proposed product (002-1-2). Using conversions, we can also describe applicable coefficients:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"conversions": [</p>
+    <p>{</p>
+    <p>"relatesTo": "requirement",</p>
+    <p>"relatedItem": "002-1-2",</p>
+    <p>"rationale": "Number of years for product guarantee",</p>
+    <p>"coefficients": [</p>
+    <p>{</p>
+    <p>"value": 1,</p>
+    <p>"coefficient": 1</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"value": 2</p>
+    <p>"coefficient": 0.85</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"value": 3</p>
+    <p>"coefficient": 0.7</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+</div>
+<p>Depending on the EO’s response, we will have an applicable coefficient for future conversion.</p>
+<p>Depending on tender.awardCriteria and tender.awardCriteriaDetails, initial automated ranking can or cannot be done:</p>
+<table class="default">
+
+    <tr>
+  
+      <td>awardCriteria</td>
+  
+      <td>awardCriteriaDetails</td>
+  
+      <td>formula</td>
+  
+    </tr>
+  
+    <tr>
+  
+      <td ROWSPAN="2">priceOnly</td>
+  
+      <td>automated</td>
+  
+      <td>manual</td>
+      
+      <td>bid value</td>
+      
+      <td>-</td>
+  
+    </tr>
+
+    <tr>
+  
+    <td>costOnly</td>
+    
+        <td>automated</td>
+  
+        <td>manual</td>
+      
+        <td>bid.requirementResponses * lot.value</td>
+      
+        <td>-</td>
+    
+      </tr>
+     
+      <tr>
+  
+        <td>qualityOnly</td>
+    
+        <td>automated</td>
+  
+        <td>manual</td>
+      
+        <td>bid.requirementResponses * 1</td>
+      
+        <td>-</td>
+    
+      </tr>
+      
+      <tr>
+  
+        <td>ratedCriteria</td>
+    
+        <td>automated</td>
+  
+        <td>manual</td>
+      
+        <td>bid.requirementResponses * bid.value</td>
+      
+        <td>-</td>
+    
+      </tr>
+      
+  
+  </table>
+<P>As shown in the above table, automated ranking can be undertaken automatically using a set of criteria and the relevant conversions applied by the CA for each available value of each applied requirement and published in a CN, on one hand; and the bid.requirementResponses submitted by each EO against published criteria on the other hand. These two data-sets allow the normalised value for each bid based on the same approach to be calculated. </P>
+<h4>Normalised price</h4>
+<p>Where normalised price must be calculated, the following formula is applied for each tender in order to identify which one is most suitable by normalised price:</p>
+<p>Pn = P * C1 * C2 * ... Cn </p>
+<p>where</p>
+<ul>
+    <li>Pn - value of normalised price</li>
+    <li>P - basic price taken from bid.value or lot.value or equal to '1' depending on awardCriteria</li>
+    <li>C1 ... Cn - values of the coefficients to be applied (related with a values of requirements, available for EO and indicated in requirementResponses)</li>
+</ul>
+<h4>Ranking approach</h4>
+<h5>priceOnly</h5>
+<p>Where awardCriteria: priceOnly - only bid.value is compared in order to identify the most suitable tender. Cheapest goes first.</p>
+<h5>costOnly</h5>
+<p>Where awardCriteria: costOnly – the assumption is that all the tenderers have the same bid.value equal to lot.value. It means that the normalised price needs to be calculated for each bid received based on lot.value as a basis. Cheapest goes first.</p>
+<h5>qualityOnly</h5>
+<p>Where awardCriteria: qualityOnly – the assumption is that the price doesn't matter and the only valuable part of the tender is quality - meaning set of values of criteria, selected by the EO while submitting a bid. It means that the normalised price needs to be calculated for each bid received, based on '1'. Most qualified goes first.</p>
+<h5>ratedCriteria</h5>
+<p>Where awardCriteria: ratedCriteria – the assumption is that both price and value matter. It means that the normalised price needs to be calculated for each bid received based on ‘bid.value'. Cheapest goes first. </p>
+<p>Where automated ranking is the case, all the awards are ranked into order for evaluation and the first award (most suitable according to the prescribed evaluation function) will be switched to the next state ‘available for evaluation’ by the CA. </p>
+
+<h3>Conflict of interests - declaration by the CA</h3>
+<p>“Member States shall ensure that contracting authorities take appropriate measures to effectively prevent, identify and remedy conflicts of interest arising in the conduct of procurement procedures so as to avoid any distortion of competition and to ensure equal treatment of all economic operators.</p>
+<p>The concept of conflicts of interest shall at least cover any situation where staff members of the contracting authority or of a procurement service provider acting on behalf of the contracting authority who are involved in the conduct of the procurement procedure or may influence the outcome of that procedure have, directly or indirectly, a financial, economic or other personal interest which might be perceived to compromise their impartiality and independence in the context of the procurement procedure."</p>
+<p>EU24/2014 Article 24. Conflicts of interest</p>
+
+<h4>Types of conflict </h4>
+<ul>
+    <li>"Conflict of interest" means any situation where an individual has an interest that may compromise or be reasonably perceived to compromise the individual’s capacity to act independently and in the public interest when providing advice to the Commission in relation to the subject of the work performed by the expert group or sub-group in question.</li>
+    <li>"Immediate family member" means the individual’s spouse, children and parents.</li>
+    <li>"Spouse" includes a partner with whom the individual has a registered non-marital regime.</li>
+    <li>"Children" means the child(ren) the individual and the spouse have in common, the own child(ren) of the individual and the own child(ren) of the spouse.</li>
+    <li>"Legal entity" means any commercial business, industry association, consultancy, research institution or other enterprise whose funding is significantly derived from commercial sources. It also includes independent own commercial businesses, law offices, consultancies or similar.</li>
+    <li>"Body" means a governmental, international or non-profit organisation.</li>
+    <li>"Meeting" includes a series or cycle of meetings.</li>
+</ul>
+<h4>References</h4>
+<ul>
+    <li>Standard declaration of interests (DI) form for individuals applying to be appointed as members of Scientific Committees' Working Groups in a personal capacity by the European Commission </li>
+    <li>Template declaration of absence of conflict of interest and confidentiality by the European Commission (6.5) </li>
+    <li>Identifying conflicts of interests in public procurement procedures for structural actions  a group of Member States' experts coordinated by OLAF's unit D2- Fraud Prevention of the European Commission </li>
+    <li>Conflicts of Interest under EU procurement law by Public Procurement Analysis (PPA). </li>
+</ul>
+
+<h4>Technical design</h4>
+<p>The issue of considering a "certificate" as a core extension was reviewed  by the OCP helpdesk and the following conclusion was made: "There has been some discussion of approvals and certification in open-contracting/standard#403 and the work in the Requirements Extension can potentially be used to model a requirement that a supplier needs to be certified in a particular way.". Based on this, the following approach could be applied in the system to cover the DoI needs:</p>
+<h5>Request of Declaration</h5>
+<p>Since the declaration is the same for all the members of the evaluation panel (either single procurement officers or all the members), it can be designed as a common requirement under specific criteria, related to the organisation appointed as a CA:</p>
+<div class="sourceCode">
+    <p>{</p>
+    <p>"tender": {</p>
+    <p>"criteria": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"title": "Declaration of absence of conflict of interest",</p>
+    <p>"relatesTo":"procuringEntity",</p>
+    <p>"requirementGroups": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"requirements": [</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"description": "I am aware of Article 24 of Directive 2014/24/EU on public procurement, which states that: 'The concept of conflicts of interest shall at least cover any situation where staff members of the  procuring entity or of a procurement service provider acting on behalf of the procuring entity who are involved in the conduct of the procurement procedure or may influence the outcome of that procedure have, directly or indirectly, a financial, economic or other personal interest which might be perceived to compromise their impartiality and independence in the context of the procurement procedure.'",</p>
+    <p>"dataType": "boolean"</p>
+    <p>},</p>
+    <p>{</p>
+    <p>"id": "",</p>
+    <p>"description": "I confirm that I will keep all matters entrusted to me confidential. I will not communicate outside the project team any confidential information that is revealed to me or that I have discovered. I will not make any adverse use of information given to me.",</p>
+    <p>"dataType": "boolean"</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>]</p>
+    <p>}</p>
+    <p>}</p>
+    <p></p>
+</div>
+<h5>Declaration</h5>
+<p>Now each declared member of the evaluation panel can respond with a confirmation of absence of conflict of interest against each tenderer from each award (in case of a combined evaluation under single-stage procurement) or each candidate from each qualification (in case of a multi-stage procurement with prior qualification) by sending the relevant requirementResponses.</p>
+
+
+
         </div>
         <script>
             var acc = document.getElementsByClassName("accordion");
