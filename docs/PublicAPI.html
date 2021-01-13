@@ -6197,14 +6197,18 @@ permalink: /API/
                 <tr>
 
                     <td ROWSPAN="2">priceOnly</td>
-                    <tr>
-                    <td>automated</td>
-                    <td>bid value</td>
-                    </tr>
-                    <tr>
-                    <td>manual</td>
-                    <td>-</td>
-                    </tr>
+                        <tr>   
+                            <td>automated</td>
+                            
+                            <td>bid value</td>
+                        </tr>
+
+                        <tr>
+                            <td>manual</td>
+                            
+                            <td>-</td>
+                        </tr>
+                 
                      
                 </tr>
 
@@ -6212,13 +6216,15 @@ permalink: /API/
 
                     <td ROWSPAN="2">costOnly</td>
 
-                    <td>automated</td>
+                        <tr>
+                        <td>automated</td>
+                        <td>bid.requirementResponses * lot.value</td>
+                        </tr>
 
-                    <td>manual</td>
-
-                    <td>bid.requirementResponses * lot.value</td>
-
-                    <td>-</td>
+                        <tr>
+                        <td>manual</td>
+                        <td>-</td>
+                        </tr>
 
                 </tr>
 
@@ -6226,27 +6232,30 @@ permalink: /API/
 
                     <td ROWSPAN="2">qualityOnly</td>
 
-                    <td>automated</td>
+                        <tr>
+                        <td>automated</td>
+                        <td>bid.requirementResponses * 1</td>
+                        </tr>
 
-                    <td>manual</td>
-
-                    <td>bid.requirementResponses * 1</td>
-
-                    <td>-</td>
-
+                        <tr>
+                        <td>manual</td>
+                        <td>-</td>
+                        </tr>
                 </tr>
 
                 <tr>
 
                     <td ROWSPAN="2">ratedCriteria</td>
 
+                    <tr>
                     <td>automated</td>
-
-                    <td>manual</td>
-
                     <td>bid.requirementResponses * bid.value</td>
+                    </tr>
 
+                    <tr>
+                    <td>manual</td>
                     <td>-</td>
+                    </tr>
 
                 </tr>
 
